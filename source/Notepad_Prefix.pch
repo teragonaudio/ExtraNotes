@@ -1,0 +1,13 @@
+//
+// Prefix header for all source files of the 'Notepad' target in the 'Notepad' project.
+//
+
+#include <Carbon/Carbon.h>
+
+#define MAC 1
+#define MACX 1
+#define QUARTZ 1
+#define TARGET_API_MAC_CARBON 1
+#define USENAVSERVICES 1
+
+#define USE_PC_AU 1

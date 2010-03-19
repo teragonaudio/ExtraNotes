@@ -178,8 +178,6 @@ void NotepadView::dialogEventHandler(NavEventCallbackMessage message,
             break;
         }
       }
-      default:
-        break;
   }
 }
 
@@ -497,7 +495,7 @@ bool NotepadView::importData() {
 
 bool NotepadView::readData() {
   char *dname = new char[MAX_FILENAME];
-  
+  /*
   if(!getProductDir(DEF_PRODUCT_NAME, dname)) {
 #ifdef DEBUG
     fprintf(stderr, "Could not get product directory\n");
@@ -505,7 +503,7 @@ bool NotepadView::readData() {
     delete [] dname;
     return false;
   }
-  
+  */
   float year, daycount, index;
   AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_YEAR, kAudioUnitScope_Global, 0, &year);
   AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_DAYCOUNT, kAudioUnitScope_Global, 0, &daycount);
@@ -590,7 +588,7 @@ bool NotepadView::readData() {
 
 bool NotepadView::saveData() {
   char *dname = new char[MAX_FILENAME];
-  
+  /*
   if(!getProductDir(DEF_PRODUCT_NAME, dname)) {
 #ifdef DEBUG
     fprintf(stderr, "Could not get product directory\n");
@@ -598,7 +596,7 @@ bool NotepadView::saveData() {
     delete [] dname;
     return false;
   }
-  
+  */
   float year, month, day, daycount, index;
   AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_YEAR, kAudioUnitScope_Global, 0, &year);
   AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_DAY, kAudioUnitScope_Global, 0, &day);

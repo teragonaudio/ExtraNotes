@@ -22,10 +22,6 @@
 #include "defaults.h"
 #endif
 
-#ifndef __productDir_H
-#include "productDir.h"
-#endif
-
 /*
 static CFStringRef PRM_NOTE_YEAR_NAME = CFSTR("Year");
 static CFStringRef PRM_NOTE_DAY_NAME = CFSTR("Day");

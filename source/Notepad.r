@@ -28,7 +28,7 @@
 
 #define VERSION			kNotepadVersion
 #define NAME			"Teragon Audio: Notepad"
-#define DESCRIPTION		"Notepad AU"
+#define DESCRIPTION		"AUNotes"
 #define ENTRY_POINT		"NotepadEntry"
 
 #include "AUResources.r"
@@ -40,8 +40,8 @@
 #define COMP_MANUF		Notepad_COMP_MANF	
 
 #define VERSION			kNotepadVersion
-#define NAME			"Teragon Audio: Notepad"
-#define DESCRIPTION		"Notepad Carbon AU View"
+#define NAME			"Teragon Audio: AUNotes"
+#define DESCRIPTION		"AUNotes Carbon AU View"
 #define ENTRY_POINT		"NotepadViewEntry"
 
 #include "AUResources.r"

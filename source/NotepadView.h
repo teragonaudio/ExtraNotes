@@ -21,10 +21,6 @@
 #include "defaults.h"
 #endif
 
-#ifndef __productDir_H
-#include "productDir.h"
-#endif
-
 static char _STRBUF[MAX_FILENAME];
 static bool _STRSET;
 

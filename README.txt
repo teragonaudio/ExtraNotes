@@ -2,6 +2,8 @@ AUNotes is a basic AudioUnit plugin designed for keeping text notes alongside an
 
 To use, simply instantiate the plugin in the desired channel in your arrangement, and type away.  Your changes will be saved automatically when you save your document.
 
+AUNotes is compatible with Mac OSX 10.5 and up, and should work with any sequencer which supports AudioUnits.
+
 This project is hosted at the following addresses:
 
 Project Page: http://www.teragon.org/p/AUNotes.html

@@ -60,8 +60,8 @@
 		24F111CA0AFE5F1800EE38A1 /* defaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F111C40AFE5F1800EE38A1 /* defaults.h */; };
 		24F111CB0AFE5F1800EE38A1 /* AUNotes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24F111C50AFE5F1800EE38A1 /* AUNotes.cpp */; };
 		24F111CC0AFE5F1800EE38A1 /* AUNotes.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F111C60AFE5F1800EE38A1 /* AUNotes.h */; };
-		24F111CE0AFE5F1800EE38A1 /* NotepadView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24F111C80AFE5F1800EE38A1 /* NotepadView.cpp */; };
-		24F111CF0AFE5F1800EE38A1 /* NotepadView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F111C90AFE5F1800EE38A1 /* NotepadView.h */; };
+		24F111CE0AFE5F1800EE38A1 /* AUNotesView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24F111C80AFE5F1800EE38A1 /* AUNotesView.cpp */; };
+		24F111CF0AFE5F1800EE38A1 /* AUNotesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F111C90AFE5F1800EE38A1 /* AUNotesView.h */; };
 		24F112620AFE6C3500EE38A1 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24F112610AFE6C3500EE38A1 /* ApplicationServices.framework */; };
 		24F112650AFE6C4E00EE38A1 /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24F112640AFE6C4E00EE38A1 /* System.framework */; };
 		8B4119230749635800361ABE /* Notepad.r in Rez */ = {isa = PBXBuildFile; fileRef = 8BA05A680720730100365D66 /* Notepad.r */; };
@@ -151,8 +151,8 @@
 		24F111C40AFE5F1800EE38A1 /* defaults.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = defaults.h; path = source/defaults.h; sourceTree = "<group>"; };
 		24F111C50AFE5F1800EE38A1 /* AUNotes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AUNotes.cpp; path = source/AUNotes.cpp; sourceTree = "<group>"; };
 		24F111C60AFE5F1800EE38A1 /* AUNotes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AUNotes.h; path = source/AUNotes.h; sourceTree = "<group>"; };
-		24F111C80AFE5F1800EE38A1 /* NotepadView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotepadView.cpp; path = source/NotepadView.cpp; sourceTree = "<group>"; };
-		24F111C90AFE5F1800EE38A1 /* NotepadView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NotepadView.h; path = source/NotepadView.h; sourceTree = "<group>"; };
+		24F111C80AFE5F1800EE38A1 /* AUNotesView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AUNotesView.cpp; path = source/AUNotesView.cpp; sourceTree = "<group>"; };
+		24F111C90AFE5F1800EE38A1 /* AUNotesView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AUNotesView.h; path = source/AUNotesView.h; sourceTree = "<group>"; };
 		24F112610AFE6C3500EE38A1 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		24F112640AFE6C4E00EE38A1 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
 		32BAE0B30371A71500C91783 /* Notepad_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notepad_Prefix.pch; path = source/Notepad_Prefix.pch; sourceTree = "<group>"; };
@@ -386,10 +386,10 @@
 			isa = PBXGroup;
 			children = (
 				24F111C50AFE5F1800EE38A1 /* AUNotes.cpp */,
-				24F111C80AFE5F1800EE38A1 /* NotepadView.cpp */,
+				24F111C80AFE5F1800EE38A1 /* AUNotesView.cpp */,
 				24F111C40AFE5F1800EE38A1 /* defaults.h */,
 				24F111C60AFE5F1800EE38A1 /* AUNotes.h */,
-				24F111C90AFE5F1800EE38A1 /* NotepadView.h */,
+				24F111C90AFE5F1800EE38A1 /* AUNotesView.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -404,7 +404,7 @@
 				8D01CCC80486CAD60068D4B7 /* Notepad_Prefix.pch in Headers */,
 				24F111CA0AFE5F1800EE38A1 /* defaults.h in Headers */,
 				24F111CC0AFE5F1800EE38A1 /* AUNotes.h in Headers */,
-				24F111CF0AFE5F1800EE38A1 /* NotepadView.h in Headers */,
+				24F111CF0AFE5F1800EE38A1 /* AUNotesView.h in Headers */,
 				24EA1BA61153A93A00AD032F /* AUBase.h in Headers */,
 				24EA1BA81153A93A00AD032F /* AUDispatch.h in Headers */,
 				24EA1BAA1153A93A00AD032F /* AUInputElement.h in Headers */,
@@ -520,7 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24F111CB0AFE5F1800EE38A1 /* AUNotes.cpp in Sources */,
-				24F111CE0AFE5F1800EE38A1 /* NotepadView.cpp in Sources */,
+				24F111CE0AFE5F1800EE38A1 /* AUNotesView.cpp in Sources */,
 				24EA1BA51153A93A00AD032F /* AUBase.cpp in Sources */,
 				24EA1BA71153A93A00AD032F /* AUDispatch.cpp in Sources */,
 				24EA1BA91153A93A00AD032F /* AUInputElement.cpp in Sources */,

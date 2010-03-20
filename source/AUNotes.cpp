@@ -10,7 +10,7 @@
  */
 
 #ifndef __Notepad_H
-#include "Notepad.h"
+#include "AUNotes.h"
 #endif
 
 COMPONENT_ENTRY(Notepad)

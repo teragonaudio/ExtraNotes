@@ -68,12 +68,18 @@ namespace teragon {
       
       switch(inId) {
         case kNoteReaderPropertyId:
-          this->noteReader = (NoteReader*)inData;
+          this->noteReader = reinterpret_cast<const NoteReader*>(inData);
           result = noErr;
           break;
         case kNoteWriterPropertyId:
-          this->noteWriter = (NoteWriter*)inData;
+        {
+          // The note writer pointer cannot be const, since that interface method
+          // is not const, so first we need to get a pointer to the interface and
+          // then discard the const-ness of the pointer.
+          const NoteWriter *noteWriterPtr = reinterpret_cast<const NoteWriter*>(inData);
+          this->noteWriter = const_cast<NoteWriter*>(noteWriterPtr);
           result = noErr;
+        }
           break;
         default:
         result = AUEffectBase::SetProperty(inId, inScope, inElement, inData, inDataSize);
@@ -85,23 +91,33 @@ namespace teragon {
     
     ComponentResult AUNotes::SaveState(CFPropertyListRef *outData) {
       ComponentResult err = AUBase::SaveState(outData);
-      // FIXME: Read text here
+      
+      if(this->noteReader != NULL) {
+        CFStringRef noteText = this->noteReader->getNote();
+        outData = (const void**)&noteText;
+      }
+      
       return err;
     }
     
-    ComponentResult AUNotes::RestoreState(CFPropertyListRef plist) {
-      ComponentResult err = AUBase::RestoreState(plist);
-      // FIXME: Set text here
+    ComponentResult AUNotes::RestoreState(CFPropertyListRef inData) {
+      ComponentResult err = AUBase::RestoreState(inData);
+      
+      if(this->noteWriter != NULL) {
+        const CFStringRef noteText = (CFStringRef)inData;
+        this->noteWriter->setNote(noteText);
+      }
+      
       return err;
     }
     
     // NoteReader interface
-    const char* AUNotes::getNote() const {
+    const CFStringRef AUNotes::getNote() const {
       return NULL;
     }
     
     // NoteWriter interface
-    void AUNotes::setNote(const char* note) {
+    void AUNotes::setNote(const CFStringRef note) {
     }
   }
 }

@@ -17,7 +17,7 @@ namespace teragon {
       NoteWriter() {};
       virtual ~NoteWriter() {};
       
-      virtual void setNote(const char* note) = 0;
+      virtual void setNote(const CFStringRef note) = 0;
     };
   }
 }

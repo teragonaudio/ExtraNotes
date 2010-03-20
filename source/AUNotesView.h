@@ -48,8 +48,8 @@ namespace teragon {
       bool saveData();
       
       // Note reader & writer interfaces
-      const char* getNote() const;
-      void setNote(const char* note);
+      const CFStringRef getNote() const;
+      void setNote(const CFStringRef note);
       
     private:
       bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);

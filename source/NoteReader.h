@@ -17,7 +17,7 @@ namespace teragon {
       NoteReader() {};
       virtual ~NoteReader() {};
       
-      virtual const char* getNote() const = 0;
+      virtual const CFStringRef getNote() const = 0;
     };
   }
 }

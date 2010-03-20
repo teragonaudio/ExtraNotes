@@ -55,8 +55,8 @@ namespace teragon {
       ComponentResult RestoreState(CFPropertyListRef plist);
       
       // Note reader & writer interfaces
-      const char* getNote() const;
-      void setNote(const char* note);
+      const CFStringRef getNote() const;
+      void setNote(const CFStringRef note);
       
     private:
       class AUNotesKernel : public AUKernelBase	{
@@ -71,7 +71,7 @@ namespace teragon {
         }
       };
       
-      NoteReader* noteReader;
+      const NoteReader* noteReader;
       NoteWriter* noteWriter;
     };
   }

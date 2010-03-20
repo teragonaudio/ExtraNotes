@@ -47,8 +47,8 @@ namespace teragon {
       Update(true);
       
       // Push address to reader and writer to the underlying plugin
-      setPluginInterfaceProperty(kNoteReaderPropertyId, this);
-      setPluginInterfaceProperty(kNoteWriterPropertyId, this);
+      setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
+      setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
       
       return noErr;
     }
@@ -116,12 +116,13 @@ namespace teragon {
     }
     
     // NoteReader interface
-    const char* AUNotesView::getNote() const {
-      return NULL;
+    const CFStringRef AUNotesView::getNote() const {
+      const CFStringRef foo = CFSTR("testing");
+      return foo;
     }
     
     // NoteWriter interface
-    void AUNotesView::setNote(const char* note) {
+    void AUNotesView::setNote(const CFStringRef note) {
     }
   }
 }

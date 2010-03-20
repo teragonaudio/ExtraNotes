@@ -1,5 +1,5 @@
 /*
- *	File:		NotepadView.h
+ *	File:		AUNotesView.h
  *	
  *	Version:	1.0
  * 
@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef __NotepadView_H
-#define __NotepadView_H
+#ifndef __AUNotesView_H
+#define __AUNotesView_H
 
 #include <Quicktime/Quicktime.h>
 
@@ -24,10 +24,10 @@
 static char _STRBUF[MAX_FILENAME];
 static bool _STRSET;
 
-class NotepadView : public AUCarbonViewBase {
+class AUNotesView : public AUCarbonViewBase {
 public:
-	NotepadView(AudioUnitCarbonView auv);
-	~NotepadView();
+	AUNotesView(AudioUnitCarbonView auv);
+	~AUNotesView();
   
   pascal ControlKeyFilterResult	StdKeyFilterCallback(ControlRef theControl, 
                                                      SInt16 *keyCode, SInt16 *charCode, 

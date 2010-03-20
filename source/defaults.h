@@ -1,6 +1,6 @@
 /*
  *  defaults.h
- *  Notepad
+ *  AUNotes
  *
  *  Created by Nik Reiman on 23.12.05.
  *  Copyright 2005 Teragon Audio. All rights reserved.
@@ -16,7 +16,7 @@
 #define DEF_TEXT_HEIGHT 300
 #define DEF_TEXT_WIDTH 450
 #define DEF_OFFSET 10
-#define DEF_PRODUCT_NAME "Notepad"
+#define DEF_PRODUCT_NAME "AUNotes"
 
 // GUI Control references
 #define CTL_TEXT 1000
@@ -40,12 +40,12 @@ enum
 #define MAX_FILENAME 512
 
 #ifdef DEBUG
-#define kNotepadVersion 0xFFFFFFFF
+#define kAUNotesVersion 0xFFFFFFFF
 #else
-#define kNotepadVersion 0x00010000	
+#define kAUNotesVersion 0x00010000	
 #endif
 
-#define Notepad_COMP_SUBTYPE 'Pass'
-#define Notepad_COMP_MANF 'Tera'
+#define AUNotes_COMP_SUBTYPE 'Pass'
+#define AUNotes_COMP_MANF 'Tera'
 
 #endif

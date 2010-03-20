@@ -1,5 +1,5 @@
 /*
- *	File:		Notepad.cpp
+ *	File:		AUNotes.cpp
  *	
  *	Version:	1.0
  * 
@@ -9,27 +9,27 @@
  *
  */
 
-#ifndef __Notepad_H
+#ifndef __AUNotes_H
 #include "AUNotes.h"
 #endif
 
-COMPONENT_ENTRY(Notepad)
+COMPONENT_ENTRY(AUNotes)
 
-Notepad::Notepad(AudioUnit component)	: AUEffectBase(component) {
+AUNotes::AUNotes(AudioUnit component)	: AUEffectBase(component) {
 	CreateElements();
 	Globals()->UseIndexedParameters(NUM_PARAMS);
 }
 
-Notepad::~Notepad() {
+AUNotes::~AUNotes() {
 }
 
-ComponentResult Notepad::GetParameterValueStrings(AudioUnitScope inScope,
+ComponentResult AUNotes::GetParameterValueStrings(AudioUnitScope inScope,
                                                   AudioUnitParameterID inParameterID,
                                                   CFArrayRef *outStrings) {
   return AUEffectBase::GetParameterValueStrings(inScope, inParameterID, outStrings);
 }
 
-ComponentResult Notepad::GetParameterInfo(AudioUnitScope inScope,
+ComponentResult AUNotes::GetParameterInfo(AudioUnitScope inScope,
                                           AudioUnitParameterID inParameterID,
                                           AudioUnitParameterInfo &outParameterInfo) {
 	ComponentResult result = noErr;
@@ -88,7 +88,7 @@ ComponentResult Notepad::GetParameterInfo(AudioUnitScope inScope,
 	return result;
 }
 
-ComponentResult Notepad::GetPropertyInfo(AudioUnitPropertyID inID,
+ComponentResult AUNotes::GetPropertyInfo(AudioUnitPropertyID inID,
                                          AudioUnitScope inScope,
                                          AudioUnitElement inElement,
                                          UInt32 &outDataSize,
@@ -96,29 +96,29 @@ ComponentResult Notepad::GetPropertyInfo(AudioUnitPropertyID inID,
 	return AUEffectBase::GetPropertyInfo(inID, inScope, inElement, outDataSize, outWritable);
 }
 
-ComponentResult Notepad::SaveState(CFPropertyListRef *outData) {
+ComponentResult AUNotes::SaveState(CFPropertyListRef *outData) {
   ComponentResult err = AUBase::SaveState(outData);
   
   return err;
 }
 
-ComponentResult Notepad::RestoreState(CFPropertyListRef plist) {
+ComponentResult AUNotes::RestoreState(CFPropertyListRef plist) {
   ComponentResult err = AUBase::RestoreState(plist);
   
   return err;
 }
 
-ComponentResult Notepad::GetProperty(AudioUnitPropertyID inID,
+ComponentResult AUNotes::GetProperty(AudioUnitPropertyID inID,
                                      AudioUnitScope inScope,
                                      AudioUnitElement inElement,
                                      void *outData) {
 	return AUEffectBase::GetProperty(inID, inScope, inElement, outData);
 }
 
-void Notepad::NotepadKernel::Reset() {
+void AUNotes::AUNotesKernel::Reset() {
 }
 
-void Notepad::NotepadKernel::Process(const Float32 *inSourceP,
+void AUNotes::AUNotesKernel::Process(const Float32 *inSourceP,
                                      Float32 *inDestP,
                                      UInt32 inFramesToProcess,
                                      UInt32 inNumChannels,

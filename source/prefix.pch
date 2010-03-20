@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Notepad' target in the 'Notepad' project.
+// Prefix header for all source files of the 'AUNotes' target in the 'AUNotes' project.
 //
 
 #include <Carbon/Carbon.h>

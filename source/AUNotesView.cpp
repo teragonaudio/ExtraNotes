@@ -1,5 +1,5 @@
 /*
- *	File:		NotepadView.cpp
+ *	File:		AUNotesView.cpp
  *	
  *	Version:	1.0
  * 
@@ -9,34 +9,34 @@
  * 
  */
 
-#ifndef __NotepadView_H
+#ifndef __AUNotesView_H
 #include "AUNotesView.h"
 #endif
 
-COMPONENT_ENTRY(NotepadView)
+COMPONENT_ENTRY(AUNotesView)
 
-NotepadView::NotepadView(AudioUnitCarbonView auv) : AUCarbonViewBase(auv) {
+AUNotesView::AUNotesView(AudioUnitCarbonView auv) : AUCarbonViewBase(auv) {
   m_orig_text = NULL;
   m_orig_len = 0;
   memset(_STRBUF, 0x0, sizeof(char) * MAX_FILENAME);
   _STRSET = false;
 }
 
-NotepadView::~NotepadView() {
+AUNotesView::~AUNotesView() {
   if(m_orig_text) {
     delete [] m_orig_text;
   }
 }
 
-OSStatus NotepadView::CreateUI(Float32 xoffset, Float32 yoffset) {
+OSStatus AUNotesView::CreateUI(Float32 xoffset, Float32 yoffset) {
   IBNibRef nib;
-  CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFSTR("org.teragon.Notepad.AU"));
-  OSStatus err = CreateNibReferenceWithCFBundle(bundle, CFSTR("MainWindow"), &nib);
+  CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFSTR("org.teragon.AUNotes"));
+  OSStatus err = CreateNibReferenceWithCFBundle(bundle, CFSTR("AUNotes"), &nib);
   ControlRef rootContainer;
   GetRootControl(mCarbonWindow, &rootContainer);
   
   WindowRef nibWindow;
-  err = CreateWindowFromNib(nib, CFSTR("Notepad"), &nibWindow);
+  err = CreateWindowFromNib(nib, CFSTR("AUNotes"), &nibWindow);
   ControlRef nibContainer;
   GetRootControl(nibWindow, &nibContainer);
 
@@ -128,7 +128,7 @@ OSStatus NotepadView::CreateUI(Float32 xoffset, Float32 yoffset) {
   return noErr;
 }
 
-void NotepadView::dialogEventHandler(NavEventCallbackMessage message,
+void AUNotesView::dialogEventHandler(NavEventCallbackMessage message,
                                      NavCBRecPtr parms, NavCallBackUserData data) {
   NavReplyRecord navreply;
   NavUserAction useraction;
@@ -182,7 +182,7 @@ void NotepadView::dialogEventHandler(NavEventCallbackMessage message,
 }
 
 /*
-bool NotepadView::HandleEvent(EventRef event) {
+bool AUNotesView::HandleEvent(EventRef event) {
   UInt32 eclass = GetEventClass(event);
 	UInt32 ekind = GetEventKind(event);
   ControlRef control;
@@ -356,7 +356,7 @@ bool NotepadView::HandleEvent(EventRef event) {
 }
  */
 
-bool NotepadView::exportData() {
+bool AUNotesView::exportData() {
   if(!_STRSET) {
     return false;
   }
@@ -409,7 +409,7 @@ bool NotepadView::exportData() {
   return true;
 }
 
-bool NotepadView::importData() {
+bool AUNotesView::importData() {
   if(!_STRSET) {
     return false;
   }
@@ -493,7 +493,7 @@ bool NotepadView::importData() {
   return true;
 }
 
-bool NotepadView::readData() {
+bool AUNotesView::readData() {
   char *dname = new char[MAX_FILENAME];
   /*
   if(!getProductDir(DEF_PRODUCT_NAME, dname)) {
@@ -586,7 +586,7 @@ bool NotepadView::readData() {
   return true;
 }
 
-bool NotepadView::saveData() {
+bool AUNotesView::saveData() {
   char *dname = new char[MAX_FILENAME];
   /*
   if(!getProductDir(DEF_PRODUCT_NAME, dname)) {

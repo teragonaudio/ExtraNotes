@@ -1,5 +1,5 @@
 /*
-*	File:		Notepad.r
+*	File:		AUNotes.r
 *	
 *	Version:	1.0
 * 
@@ -16,32 +16,32 @@
 #endif
 
 // Note that resource IDs must be spaced 2 apart for the 'STR ' name and description
-#define kAudioUnitResID_Notepad 1000
-#define kAudioUnitResID_NotepadView 2000
+#define kAudioUnitResID_AUNotes 1000
+#define kAudioUnitResID_AUNotesView 2000
 
-//~~~~~~~~~~~~~~~~~~~ Notepad ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~ AUNotes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#define RES_ID			kAudioUnitResID_Notepad
+#define RES_ID			kAudioUnitResID_AUNotes
 #define COMP_TYPE		kAudioUnitType_Effect
-#define COMP_SUBTYPE	Notepad_COMP_SUBTYPE
-#define COMP_MANUF		Notepad_COMP_MANF
+#define COMP_SUBTYPE	AUNotes_COMP_SUBTYPE
+#define COMP_MANUF		AUNotes_COMP_MANF
 
-#define VERSION			kNotepadVersion
-#define NAME			"Teragon Audio: Notepad"
+#define VERSION			kAUNotesVersion
+#define NAME			"Teragon Audio: AUNotes"
 #define DESCRIPTION		"AUNotes"
-#define ENTRY_POINT		"NotepadEntry"
+#define ENTRY_POINT		"AUNotesEntry"
 
 #include "AUResources.r"
 
-//~~~~~~~~~~~~~~~~~~ Notepad View ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#define RES_ID			kAudioUnitResID_NotepadView
+//~~~~~~~~~~~~~~~~~~ AUNotes View ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#define RES_ID			kAudioUnitResID_AUNotesView
 #define COMP_TYPE		kAudioUnitCarbonViewComponentType
-#define COMP_SUBTYPE	Notepad_COMP_SUBTYPE
-#define COMP_MANUF		Notepad_COMP_MANF	
+#define COMP_SUBTYPE	AUNotes_COMP_SUBTYPE
+#define COMP_MANUF		AUNotes_COMP_MANF	
 
-#define VERSION			kNotepadVersion
+#define VERSION			kAUNotesVersion
 #define NAME			"Teragon Audio: AUNotes"
 #define DESCRIPTION		"AUNotes Carbon AU View"
-#define ENTRY_POINT		"NotepadViewEntry"
+#define ENTRY_POINT		"AUNotesViewEntry"
 
 #include "AUResources.r"

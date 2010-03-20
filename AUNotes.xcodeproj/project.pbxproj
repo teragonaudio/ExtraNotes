@@ -74,7 +74,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		089C167EFE841241C02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = source/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167EFE841241C02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		242B7CC511550B73007BF7FA /* AUNotes.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AUNotes.xib; path = resources/AUNotes.xib; sourceTree = "<group>"; };
 		24E2BAFF095FC2990033FD40 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
@@ -555,6 +555,7 @@
 				089C167EFE841241C02AAC07 /* InfoPlist.strings */,
 			);
 			name = InfoPlist.strings;
+			path = resources/English.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

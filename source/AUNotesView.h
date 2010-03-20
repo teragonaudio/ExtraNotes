@@ -18,6 +18,14 @@
 #include "AUCarbonViewBase.h"
 #include "AUControlGroup.h"
 
+#ifndef __NoteReader_h__
+#include "NoteReader.h"
+#endif
+
+#ifndef __NoteWriter_h__
+#include "NoteWriter.h"
+#endif
+
 #ifndef __defaults_H
 #include "defaults.h"
 #endif
@@ -27,7 +35,7 @@
 
 namespace teragon {
   namespace AUNotes {
-    class AUNotesView : public AUCarbonViewBase {
+    class AUNotesView : public AUCarbonViewBase, public NoteReader, public NoteWriter {
     public:
       AUNotesView(AudioUnitCarbonView auv);
       ~AUNotesView();
@@ -38,6 +46,11 @@ namespace teragon {
       bool importData();
       bool readData();
       bool saveData();
+      
+      // NoteReader interface
+      const char* getNote() const;
+      // NoteWriter interface
+      void setNote(const char* note);
       
     private:
     };

@@ -13,13 +13,21 @@
 #include <AudioUnit/AudioUnitCarbonView.h>
 #include "AUEffectBase.h"
 
+#ifndef __NoteReader_h__
+#include "NoteReader.h"
+#endif
+
+#ifndef __NoteWriter_h__
+#include "NoteWriter.h"
+#endif
+
 #ifndef __defaults_H
 #include "defaults.h"
 #endif
 
 namespace teragon {
   namespace AUNotes {
-    class AUNotes : public AUEffectBase {
+    class AUNotes : public AUEffectBase, public NoteReader, public NoteWriter {
     public:
       AUNotes(AudioUnit component);
       ~AUNotes();
@@ -35,16 +43,21 @@ namespace teragon {
       ComponentResult SaveState(CFPropertyListRef *outData);
       ComponentResult RestoreState(CFPropertyListRef plist);
       
+      // NoteReader interface
+      const char* getNote() const;
+      // NoteWriter interface
+      void setNote(const char* note);
+      
       class AUNotesKernel : public AUKernelBase	{
       public:
         AUNotesKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit) { }
-        
-        virtual void Process(const Float32 	*inSourceP,
-                             Float32 *inDestP,
-                             UInt32 inFramesToProcess,
-                             UInt32 inNumChannels,
-                             bool &ioSilence);
-        virtual void Reset();
+        // Pass the signal through
+        void Process(const Float32 *inputs, Float32 *outputs,
+                     UInt32 frames, UInt32 channels, bool &ioSilence) {
+          for(unsigned int i = 0; i < frames; ++i) {
+            outputs[i] = inputs[i];
+          }          
+        }
       };
     };
   }

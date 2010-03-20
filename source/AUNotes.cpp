@@ -45,14 +45,13 @@ namespace teragon {
       return err;
     }
     
-    void AUNotes::AUNotesKernel::Reset() {
+    // NoteReader interface
+    const char* AUNotes::getNote() const {
+      return NULL;
     }
     
-    void AUNotes::AUNotesKernel::Process(const Float32 *inputs, Float32 *outputs,
-                                         UInt32 frames, UInt32 channels, bool &ioSilence) {
-      for(unsigned int i = 0; i < frames; ++i) {
-        outputs[i] = inputs[i];
-      }
+    // NoteWriter interface
+    void AUNotes::setNote(const char* note) {
     }
   }
 }

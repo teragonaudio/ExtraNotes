@@ -17,7 +17,11 @@ namespace teragon {
   namespace AUNotes {
     COMPONENT_ENTRY(AUNotesView)
     
-    AUNotesView::AUNotesView(AudioUnitCarbonView auv) : AUCarbonViewBase(auv) {
+    AUNotesView::AUNotesView(AudioUnitCarbonView view) :
+    AUCarbonViewBase(view),
+    NoteReader(),
+    NoteWriter()
+    {
     }
     
     AUNotesView::~AUNotesView() {
@@ -94,6 +98,15 @@ namespace teragon {
        }
        */
       return true;
+    }
+    
+    // NoteReader interface
+    const char* AUNotesView::getNote() const {
+      return NULL;
+    }
+    
+    // NoteWriter interface
+    void AUNotesView::setNote(const char* note) {
     }
   }
 }

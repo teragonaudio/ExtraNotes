@@ -46,9 +46,24 @@ namespace teragon {
       SizeControl(mCarbonPane, r.right - r.left, r.bottom - r.top);
       Update(true);
       
+      // Push address to reader and writer to the underlying plugin
+      setPluginInterfaceProperty(kNoteReaderPropertyId, this);
+      setPluginInterfaceProperty(kNoteWriterPropertyId, this);
+      
       return noErr;
     }
     
+    bool AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {
+      bool result = false;
+      
+      AudioUnit audioUnit = GetEditAudioUnit();
+      if(audioUnit != NULL) {
+        result = (AudioUnitSetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, inData, sizeof(inData)) == noErr);
+      }
+      
+      return result;
+    }
+        
     bool AUNotesView::exportData() {
       /*
        Size s_in, s_out;

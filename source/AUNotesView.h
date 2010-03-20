@@ -47,12 +47,12 @@ namespace teragon {
       bool readData();
       bool saveData();
       
-      // NoteReader interface
+      // Note reader & writer interfaces
       const char* getNote() const;
-      // NoteWriter interface
       void setNote(const char* note);
       
     private:
+      bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
     };
   }
 }

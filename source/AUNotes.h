@@ -40,14 +40,25 @@ namespace teragon {
       int GetNumCustomUIComponents() { return 1; };
       void GetUIComponentDescs(ComponentDescription* inDescArray);
       
+      ComponentResult GetPropertyInfo(AudioUnitPropertyID inID,
+                                      AudioUnitScope inScope,
+                                      AudioUnitElement inElement,
+                                      UInt32& outDataSize,
+                                      Boolean& outWritable);
+      ComponentResult SetProperty(AudioUnitPropertyID inID,
+                                  AudioUnitScope inScope,
+                                  AudioUnitElement inElement,
+                                  const void *inData,
+                                  UInt32 inDataSize);
+      
       ComponentResult SaveState(CFPropertyListRef *outData);
       ComponentResult RestoreState(CFPropertyListRef plist);
       
-      // NoteReader interface
+      // Note reader & writer interfaces
       const char* getNote() const;
-      // NoteWriter interface
       void setNote(const char* note);
       
+    private:
       class AUNotesKernel : public AUKernelBase	{
       public:
         AUNotesKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit) { }
@@ -59,6 +70,9 @@ namespace teragon {
           }          
         }
       };
+      
+      NoteReader* noteReader;
+      NoteWriter* noteWriter;
     };
   }
 }

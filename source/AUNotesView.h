@@ -42,17 +42,17 @@ namespace teragon {
       
       virtual OSStatus CreateUI(Float32 inXOffset, Float32 inYOffset);
       
-      bool exportData();
-      bool importData();
-      bool readData();
-      bool saveData();
-      
       // Note reader & writer interfaces
       const CFStringRef getNote() const;
       void setNote(const CFStringRef note);
       
     private:
+      bool getPluginInterfaceProperty(AudioUnitPropertyID propertyId, void *outData);
       bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
+            
+      HIWindowRef mainWindow;
+      NoteReader* noteReader;
+      NoteWriter* noteWriter;
     };
   }
 }

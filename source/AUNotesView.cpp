@@ -28,29 +28,46 @@ namespace teragon {
     }
     
     OSStatus AUNotesView::CreateUI(Float32 xoffset, Float32 yoffset) {
+      OSStatus result = noErr;
+      
       IBNibRef nib;
       CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFSTR(kViewBundleName));
-      OSStatus err = CreateNibReferenceWithCFBundle(bundle, CFSTR(kViewMainWindow), &nib);
-      ControlRef rootContainer;
-      GetRootControl(mCarbonWindow, &rootContainer);
+      result = CreateNibReferenceWithCFBundle(bundle, CFSTR(kViewMainWindow), &nib);
       
-      WindowRef nibWindow;
-      err = CreateWindowFromNib(nib, CFSTR(kViewMainWindow), &nibWindow);
+      //ControlRef rootContainer;
+      //GetRootControl(mCarbonWindow, &rootContainer);
+      result = CreateWindowFromNib(nib, CFSTR(kViewMainWindow), &(this->mainWindow));
       ControlRef nibContainer;
-      GetRootControl(nibWindow, &nibContainer);
+      GetRootControl(this->mainWindow, &nibContainer);
       
-      err = ::EmbedControl(nibContainer, mCarbonPane);
+      result = ::EmbedControl(nibContainer, mCarbonPane);
       
       Rect r;
       GetControlBounds(nibContainer, &r);
-      SizeControl(mCarbonPane, r.right - r.left, r.bottom - r.top);
+      SizeControl(mCarbonPane, r.right - r.left, r.bottom);
       Update(true);
       
+      // Get address of plugin
+      getPluginInterfaceProperty(kNoteReaderPropertyId, this->noteReader);
+      getPluginInterfaceProperty(kNoteWriterPropertyId, this->noteWriter);
+
       // Push address to reader and writer to the underlying plugin
       setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
       setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
       
-      return noErr;
+      return result;
+    }
+    
+    bool AUNotesView::getPluginInterfaceProperty(AudioUnitPropertyID propertyId, void *outData) {
+      bool result = false;
+      
+      AudioUnit audioUnit = GetEditAudioUnit();
+      if(audioUnit != NULL) {
+        UInt32 outDataSize;
+        result = (AudioUnitGetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, outData, &outDataSize) == noErr);
+      }
+      
+      return result;
     }
     
     bool AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {
@@ -63,66 +80,42 @@ namespace teragon {
       
       return result;
     }
-        
-    bool AUNotesView::exportData() {
-      /*
-       Size s_in, s_out;
-       if(GetControlDataSize(m_text, kControlEditTextPart, kControlEditTextTextTag, &s_in) != noErr) {
-       fprintf(stderr, "Couldn't get size elements from control\n");
-       }
-       char *body = new char[(int)s_in + 1];
-       if(GetControlData(m_text, kControlEditTextPart, kControlEditTextTextTag, s_in, body, &s_out) != noErr) {
-       fprintf(stderr, "No data in control\n");
-       return false;
-       }
-       else {
-       body[(int)s_in] = '\0';
-       }
-       
-       delete [] body;
-       */
-      return true;
-    }
-    
-    bool AUNotesView::importData() {
-      /*
-       OSStatus err = SetControlData(m_text, kControlEditTextPart, kControlEditTextTextTag,
-       m_orig_len, m_orig_text);
-       if(err != noErr) {
-       fprintf(stderr, "Could not set text from file\n");
-       }
-       DrawOneControl(m_text);
-       */
-      return true;
-    }
-    
-    bool AUNotesView::saveData() {
-      /*
-       Size s_in, s_out;
-       if(GetControlDataSize(m_text, kControlEditTextPart, kControlEditTextTextTag, &s_in) != noErr) {
-       fprintf(stderr, "Couldn't get size elements from control\n");
-       }
-       char *body = new char[(int)s_in + 1];
-       if(GetControlData(m_text, kControlEditTextPart, kControlEditTextTextTag, s_in, body, &s_out) != noErr) {
-       fprintf(stderr, "No data in control\n");
-       delete [] dname;
-       return false;
-       }
-       else {
-       body[(int)s_in] = '\0';
-       }
-       */
-      return true;
-    }
     
     // NoteReader interface
     const CFStringRef AUNotesView::getNote() const {
-      const CFStringRef foo = CFSTR("testing");
-      return foo;
+      CFStringRef result = CFSTR("");
+      OSStatus status = noErr;
+      
+      // Find the control
+      HIViewRef noteTextViewRef = NULL;
+      const HIViewID noteTextViewId = {'NOTE', 128};
+      ControlRef rootControl;
+      GetRootControl(this->mainWindow, &rootControl);
+      status = HIViewFindByID(rootControl, noteTextViewId, &noteTextViewRef);
+      verify_noerr(status);
+      
+      CFStringRef noteTextRef = NULL;
+      status = GetControlData(noteTextViewRef, 0, kControlStaticTextCFStringTag, sizeof(noteTextRef), &noteTextRef, NULL);
+      verify_noerr(status);
+      
+      result = noteTextRef;
+      return result;
     }
     
     // NoteWriter interface
     void AUNotesView::setNote(const CFStringRef note) {
+      OSStatus status = noErr;
+      
+      // Find the control
+      HIViewRef noteTextViewRef = NULL;
+      const HIViewID noteTextViewId = {'NOTE', 128};
+      ControlRef rootControl;
+      GetRootControl(this->mainWindow, &rootControl);
+      status = HIViewFindByID(rootControl, noteTextViewId, &noteTextViewRef);
+      verify_noerr(status);
+      
+      status = SetControlData(noteTextViewRef, 0, kControlStaticTextCFStringTag, sizeof(note), &note);
+      verify_noerr(status);      
     }
   }
 }

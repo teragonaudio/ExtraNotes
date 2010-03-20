@@ -68,7 +68,7 @@
 		8BA05AFC072074E100365D66 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA05AF9072074E100365D66 /* AudioToolbox.framework */; };
 		8BA05AFD072074E100365D66 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA05AFA072074E100365D66 /* AudioUnit.framework */; };
 		8BA05B02072074F900365D66 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA05B01072074F900365D66 /* CoreServices.framework */; };
-		8D01CCC80486CAD60068D4B7 /* Notepad_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B30371A71500C91783 /* Notepad_Prefix.pch */; };
+		8D01CCC80486CAD60068D4B7 /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B30371A71500C91783 /* prefix.pch */; };
 		8D01CCCA0486CAD60068D4B7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
 /* End PBXBuildFile section */
@@ -155,7 +155,7 @@
 		24F111C90AFE5F1800EE38A1 /* AUNotesView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AUNotesView.h; path = source/AUNotesView.h; sourceTree = "<group>"; };
 		24F112610AFE6C3500EE38A1 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		24F112640AFE6C4E00EE38A1 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
-		32BAE0B30371A71500C91783 /* Notepad_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notepad_Prefix.pch; path = source/Notepad_Prefix.pch; sourceTree = "<group>"; };
+		32BAE0B30371A71500C91783 /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefix.pch; path = source/prefix.pch; sourceTree = "<group>"; };
 		8B5C7F83076FB26000A15F61 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8BA05A670720730100365D66 /* AUNotes.exp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.exports; name = AUNotes.exp; path = resources/AUNotes.exp; sourceTree = "<group>"; };
 		8BA05A680720730100365D66 /* AUNotes.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; name = AUNotes.r; path = source/AUNotes.r; sourceTree = "<group>"; };
@@ -216,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				8BA05A670720730100365D66 /* AUNotes.exp */,
-				32BAE0B30371A71500C91783 /* Notepad_Prefix.pch */,
 				8D01CCD10486CAD60068D4B7 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				242B7CC511550B73007BF7FA /* AUNotes.xib */,
@@ -389,6 +388,7 @@
 				24F111C60AFE5F1800EE38A1 /* AUNotes.h */,
 				24F111C90AFE5F1800EE38A1 /* AUNotesView.h */,
 				24F111C40AFE5F1800EE38A1 /* defaults.h */,
+				32BAE0B30371A71500C91783 /* prefix.pch */,
 				8BA05A680720730100365D66 /* AUNotes.r */,
 			);
 			name = Source;
@@ -401,7 +401,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D01CCC80486CAD60068D4B7 /* Notepad_Prefix.pch in Headers */,
+				8D01CCC80486CAD60068D4B7 /* prefix.pch in Headers */,
 				24F111CA0AFE5F1800EE38A1 /* defaults.h in Headers */,
 				24F111CC0AFE5F1800EE38A1 /* AUNotes.h in Headers */,
 				24F111CF0AFE5F1800EE38A1 /* AUNotesView.h in Headers */,
@@ -575,7 +575,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ./source/Notepad_Prefix.pch;
+				GCC_PREFIX_HEADER = ./source/prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
@@ -622,7 +622,7 @@
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ./source/Notepad_Prefix.pch;
+				GCC_PREFIX_HEADER = ./source/prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;

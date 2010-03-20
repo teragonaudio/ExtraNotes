@@ -25,19 +25,22 @@
 #define kViewBundleName "org.teragon.AUNotes"
 #define kViewMainWindow "MainWindow"
 
-class AUNotesView : public AUCarbonViewBase {
-public:
-	AUNotesView(AudioUnitCarbonView auv);
-	~AUNotesView();
-    
-	virtual OSStatus CreateUI(Float32 inXOffset, Float32 inYOffset);
-
-  bool exportData();
-  bool importData();
-  bool readData();
-  bool saveData();
-
-private:
-};
-
+namespace teragon {
+  namespace AUNotes {
+    class AUNotesView : public AUCarbonViewBase {
+    public:
+      AUNotesView(AudioUnitCarbonView auv);
+      ~AUNotesView();
+      
+      virtual OSStatus CreateUI(Float32 inXOffset, Float32 inYOffset);
+      
+      bool exportData();
+      bool importData();
+      bool readData();
+      bool saveData();
+      
+    private:
+    };
+  }
+}
 #endif

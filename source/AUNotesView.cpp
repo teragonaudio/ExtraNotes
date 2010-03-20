@@ -18,8 +18,6 @@ COMPONENT_ENTRY(AUNotesView)
 AUNotesView::AUNotesView(AudioUnitCarbonView auv) : AUCarbonViewBase(auv) {
   m_orig_text = NULL;
   m_orig_len = 0;
-  memset(_STRBUF, 0x0, sizeof(char) * MAX_FILENAME);
-  _STRSET = false;
 }
 
 AUNotesView::~AUNotesView() {
@@ -47,138 +45,7 @@ OSStatus AUNotesView::CreateUI(Float32 xoffset, Float32 yoffset) {
   SizeControl(mCarbonPane, r.right - r.left, r.bottom - r.top);
   Update(true);
   
-  /*
-  int xoff = (int)xoffset;
-  int yoff = (int)yoffset;
-  
-  ControlFontStyleRec fontStyle;
-  fontStyle.flags = kControlUseFontMask | kControlUseJustMask;
-  fontStyle.font = kControlFontSmallSystemFont;
-  fontStyle.just = teFlushRight;
-  
-  Rect r;
-  OSStatus err = noErr;
-  
-  // Text editor box
-  r.top = DEF_OFFSET + yoff;
-  r.bottom = r.top + DEF_TEXT_HEIGHT;
-  r.left = DEF_OFFSET + xoff;
-  r.right = r.left + DEF_TEXT_WIDTH;
-  err = CreateEditUnicodeTextControl(mCarbonWindow, &r, NULL, false, NULL, &m_text);
-  SetControlReference(m_text, CTL_TEXT);
-  ControlFontStyleRec font;
-  font.flags = kControlUseFontMask;
-  font.font = kControlFontViewSystemFont;  
-  SetControlFontStyle(m_text, &font);
-  err = EmbedControl(m_text);
-  if(readData()) {
-    err = SetControlData(m_text, kControlEditTextPart, kControlEditTextTextTag, m_orig_len, m_orig_text);
-    if(err != noErr) {
-#ifdef DEBUG
-      fprintf(stderr, "Could not set text from file\n");
-#endif
-    }
-  }
-  EventTypeSpec events[] = {
-    { kEventClassControl, kEventControlSetFocusPart },
-    { kEventClassControl, kEventControlClick }
-  };
-  WantEventTypes(GetControlEventTarget(m_text), GetEventTypeCount(events), events); 
- // ControlKeyFilterUPP proc = StdKeyFilterCallback;
- // SetControlData(m_text, 0, kControlEditTextKeyFilterTag, sizeof(proc), &proc);
-
-  // Import button
-  r.top = (DEF_OFFSET * 2) + DEF_TEXT_HEIGHT + yoff;
-  r.bottom = r.top + DEF_BUTTON_HEIGHT;
-  r.left = xoff + DEF_OFFSET;
-  r.right = r.left + DEF_BUTTON_WIDTH;
-  err = CreatePushButtonControl(mCarbonWindow, &r, CFSTR("Import"), &m_import_button);
-  SetControlReference(m_import_button, CTL_IMPORT);
-  err = EmbedControl(m_import_button);
-	WantEventTypes(GetControlEventTarget(m_import_button), GetEventTypeCount(events), events);
-  
-  // Export button
-  r.left = r.right + DEF_OFFSET;
-  r.right = r.left + DEF_BUTTON_WIDTH;
-  err = CreatePushButtonControl(mCarbonWindow, &r, CFSTR("Export"), &m_export_button);
-  SetControlReference(m_export_button, CTL_EXPORT);
-  err = EmbedControl(m_export_button);
-  WantEventTypes(GetControlEventTarget(m_export_button), GetEventTypeCount(events), events);
-
-  // Save button
-  r.right = mBottomRight.h;
-  r.left = r.right - DEF_BUTTON_WIDTH;
-  err = CreatePushButtonControl(mCarbonWindow, &r, CFSTR("Save"), &m_save_button);
-  SetControlReference(m_save_button, CTL_SAVE);
-  err = EmbedControl(m_save_button);
-  WantEventTypes(GetControlEventTarget(m_save_button), GetEventTypeCount(events), events);
-  
-  // Cancel button
-  r.right = r.left - DEF_OFFSET;
-  r.left = r.right - DEF_BUTTON_WIDTH;
-  err = CreatePushButtonControl(mCarbonWindow, &r, CFSTR("Cancel"), &m_cancel_button);
-  SetControlReference(m_cancel_button, CTL_CANCEL);
-  err = EmbedControl(m_cancel_button);
-  WantEventTypes(GetControlEventTarget(m_cancel_button), GetEventTypeCount(events), events);
-  
-  // Set size of overall pane
-  SizeControl(mCarbonPane, mBottomRight.h + DEF_OFFSET, mBottomRight.v + DEF_OFFSET);
-  Update(true);
-*/
   return noErr;
-}
-
-void AUNotesView::dialogEventHandler(NavEventCallbackMessage message,
-                                     NavCBRecPtr parms, NavCallBackUserData data) {
-  NavReplyRecord navreply;
-  NavUserAction useraction;
-  
-  switch(message) {
-    case kNavCBUserAction:
-      OSStatus err = NavDialogGetReply(parms->context, &navreply);
-      if(err == noErr && navreply.validRecord) {
-        useraction = NavDialogGetUserAction(parms->context);
-        switch(useraction) {
-          AEDesc aeDesc;
-          case kNavUserActionSaveAs:
-            if(AECoerceDesc(&navreply.selection, typeFSRef, &aeDesc) == noErr) {
-              Size dataSize = AEGetDescDataSize(&aeDesc);
-              if(dataSize > 0) {
-                FSRef fsRefParent;                
-                if(AEGetDescData(&aeDesc, &fsRefParent, sizeof(FSRef)) == noErr) {
-                  char *dir = new char[MAX_FILENAME];
-                  FSRefMakePath(&fsRefParent, (UInt8*)dir, MAX_FILENAME);
-                  char *file = new char[MAX_FILENAME];
-                  CFStringGetCString(navreply.saveFileName, file, (CFIndex)MAX_FILENAME,
-                                     kCFStringEncodingMacRoman);
-                  snprintf(_STRBUF, MAX_FILENAME, "%s/%s", dir, file);
-                  _STRSET = true;
-                  
-                  delete [] dir;
-                  delete [] file;
-                }
-              }
-            }
-            break;
-          case kNavUserActionOpen:
-            AEKeyword keyword;
-            DescType actualtype;
-            FSSpec filespec;
-            Size actualsize;
-            
-            if(AEGetNthPtr(&navreply.selection, 1, typeFSS, &keyword, &actualtype,
-                           &filespec, sizeof(FSSpec), &actualsize) == noErr) {
-              FSRef fileref;
-              FSpMakeFSRef(&filespec, &fileref);
-              FSRefMakePath(&fileref, (UInt8*)&_STRBUF, MAX_FILENAME);
-              _STRSET = true;
-            }
-              break;
-          default:
-            break;
-        }
-      }
-  }
 }
 
 /*
@@ -357,16 +224,8 @@ bool AUNotesView::HandleEvent(EventRef event) {
  */
 
 bool AUNotesView::exportData() {
-  if(!_STRSET) {
-    return false;
-  }
-  
-#ifdef DEBUG
-  fprintf(stderr, "Writing data to '%s'\n", _STRBUF);
-#endif
-  FILE *fp = fopen(_STRBUF, "w");
+  FILE *fp = NULL;
   if(fp == NULL) {
-    _STRSET = false;
     return false;
   }
   
@@ -386,41 +245,14 @@ bool AUNotesView::exportData() {
   else {
     body[(int)s_in] = '\0';
   }
-  
-  float year, month, day;
-  AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_YEAR, kAudioUnitScope_Global, 0, &year);
-  AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_DAY, kAudioUnitScope_Global, 0, &day);
-  AudioUnitGetParameter(GetEditAudioUnit(), PRM_NOTE_MONTH, kAudioUnitScope_Global, 0, &month);
-  
-  // Format: YYYYMMDD:USERNAME
-  char header[48];
-  snprintf(header, 48, "%04d%02d%02d:%s", (int)year, (int)month, (int)day, getenv("USER"));
-  
-  // Format: AABBBB:HEADER:ENTRY\n
-  // Where AA is the number of characters in the header, and BBBB is the number
-  // of characters in the entry body
-  fprintf(fp, "%02d%04d%s%s\n", (int)strlen(header), (int)s_in, header, body);
-  fflush(fp);
-  fclose(fp);
-  
+    
   delete [] body;
-  
-  _STRSET = false;
   return true;
 }
 
-bool AUNotesView::importData() {
-  if(!_STRSET) {
-    return false;
-  }
-  
-#ifdef DEBUG
-  fprintf(stderr, "Reading data from '%s'\n", _STRBUF);
-#endif
-  
-  FILE *fp = fopen(_STRBUF, "r");
+bool AUNotesView::importData() {  
+  FILE *fp = NULL;
   if(fp == NULL) {
-    _STRSET = false;
     return false;
   }
   

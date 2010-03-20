@@ -12,6 +12,7 @@
 #ifndef __AUNotesView_H
 #define __AUNotesView_H
 
+#include <Carbon/Carbon.h>
 #include <Quicktime/Quicktime.h>
 
 #include "AUCarbonViewBase.h"
@@ -20,6 +21,9 @@
 #ifndef __defaults_H
 #include "defaults.h"
 #endif
+
+#define kViewBundleName "org.teragon.AUNotes"
+#define kViewMainWindow "MainWindow"
 
 class AUNotesView : public AUCarbonViewBase {
 public:

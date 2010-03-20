@@ -302,7 +302,7 @@
 							<reference ref="180531292"/>
 						</object>
 						<reference key="parent" ref="0"/>
-						<string key="objectName">AUNotes</string>
+						<string key="objectName">MainWindow</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
@@ -387,7 +387,7 @@
 			<integer value="3000" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../Notepad.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../AUNotes.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>

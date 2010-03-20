@@ -29,7 +29,7 @@ AUNotesView::~AUNotesView() {
 OSStatus AUNotesView::CreateUI(Float32 xoffset, Float32 yoffset) {
   IBNibRef nib;
   CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFSTR("org.teragon.AUNotes"));
-  OSStatus err = CreateNibReferenceWithCFBundle(bundle, CFSTR("AUNotes"), &nib);
+  OSStatus err = CreateNibReferenceWithCFBundle(bundle, CFSTR("MainWindow"), &nib);
   ControlRef rootContainer;
   GetRootControl(mCarbonWindow, &rootContainer);
   

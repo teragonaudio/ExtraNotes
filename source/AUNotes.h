@@ -40,6 +40,10 @@ namespace teragon {
       int GetNumCustomUIComponents() { return 1; };
       void GetUIComponentDescs(ComponentDescription* inDescArray);
       
+      ComponentResult GetProperty(AudioUnitPropertyID inId,
+                                  AudioUnitScope inScope,
+                                  AudioUnitElement inElement,
+                                  void* outData);
       ComponentResult GetPropertyInfo(AudioUnitPropertyID inID,
                                       AudioUnitScope inScope,
                                       AudioUnitElement inElement,

@@ -47,12 +47,11 @@ namespace teragon {
       void setNote(const CFStringRef note);
       
     private:
-      bool getPluginInterfaceProperty(AudioUnitPropertyID propertyId, void *outData);
+      void* getPluginInterfaceProperty(AudioUnitPropertyID propertyId);
       bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
             
       HIWindowRef mainWindow;
       NoteReader* noteReader;
-      NoteWriter* noteWriter;
     };
   }
 }

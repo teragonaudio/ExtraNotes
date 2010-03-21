@@ -48,9 +48,12 @@ namespace teragon {
       Update(true);
       
       // Get address of plugin
-      getPluginInterfaceProperty(kNoteReaderPropertyId, this->noteReader);
-      getPluginInterfaceProperty(kNoteWriterPropertyId, this->noteWriter);
-
+      this->noteReader = reinterpret_cast<NoteReader*>(getPluginInterfaceProperty(kNoteReaderPropertyId));
+      if(this->noteReader != NULL) {
+        // After link to plugin has been established, get the saved text
+        setNote(this->noteReader->getNote());
+      }
+      
       // Push address to reader and writer to the underlying plugin
       setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
       setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
@@ -58,16 +61,20 @@ namespace teragon {
       return result;
     }
     
-    bool AUNotesView::getPluginInterfaceProperty(AudioUnitPropertyID propertyId, void *outData) {
-      bool result = false;
+    void* AUNotesView::getPluginInterfaceProperty(AudioUnitPropertyID propertyId) {
+      void* outData = NULL;
       
       AudioUnit audioUnit = GetEditAudioUnit();
       if(audioUnit != NULL) {
+        OSStatus status = noErr;
         UInt32 outDataSize;
-        result = (AudioUnitGetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, outData, &outDataSize) == noErr);
+        status = AudioUnitGetPropertyInfo(audioUnit, propertyId, kAudioUnitScope_Global, 0, &outDataSize, NULL);
+        verify_noerr(status);
+        status = AudioUnitGetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, outData, &outDataSize);
+        verify_noerr(status);
       }
       
-      return result;
+      return outData;
     }
     
     bool AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {

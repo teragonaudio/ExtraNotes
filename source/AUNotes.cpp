@@ -36,6 +36,25 @@ namespace teragon {
       inDescArray[0].componentFlagsMask = 0;
     };
     
+    ComponentResult AUNotes::GetProperty(AudioUnitPropertyID inId,
+                                         AudioUnitScope inScope,
+                                         AudioUnitElement inElement,
+                                         void* outData) {
+      ComponentResult result;
+      
+      switch(inId) {
+        case kNoteReaderPropertyId:
+          outData = dynamic_cast<NoteReader*>(this);
+          result = noErr;
+          break;
+        default:
+          result = AUEffectBase::GetProperty(inId, inScope, inElement, outData);
+          break;
+      }
+      
+      return result;
+    }
+    
     ComponentResult AUNotes::GetPropertyInfo(AudioUnitPropertyID inId,
                                              AudioUnitScope inScope,
                                              AudioUnitElement inElement,
@@ -82,7 +101,7 @@ namespace teragon {
         }
           break;
         default:
-        result = AUEffectBase::SetProperty(inId, inScope, inElement, inData, inDataSize);
+          result = AUEffectBase::SetProperty(inId, inScope, inElement, inData, inDataSize);
           break;
       }
       

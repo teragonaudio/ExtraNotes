@@ -27,7 +27,7 @@
 
 namespace teragon {
   namespace AUNotes {
-    class AUNotes : public AUEffectBase, public NoteReader, public NoteWriter {
+    class AUNotes : public AUEffectBase {
     public:
       AUNotes(AudioUnit component);
       ~AUNotes();
@@ -40,20 +40,16 @@ namespace teragon {
       int GetNumCustomUIComponents() { return 1; };
       void GetUIComponentDescs(ComponentDescription* inDescArray);
       
-      ComponentResult GetProperty(AudioUnitPropertyID inId,
-                                  AudioUnitScope inScope,
-                                  AudioUnitElement inElement,
-                                  void* outData);
-      ComponentResult GetPropertyInfo(AudioUnitPropertyID inID,
-                                      AudioUnitScope inScope,
-                                      AudioUnitElement inElement,
-                                      UInt32& outDataSize,
-                                      Boolean& outWritable);
-      ComponentResult SetProperty(AudioUnitPropertyID inID,
-                                  AudioUnitScope inScope,
-                                  AudioUnitElement inElement,
-                                  const void *inData,
-                                  UInt32 inDataSize);
+      OSStatus GetPropertyInfo(AudioUnitPropertyID inID,
+                               AudioUnitScope inScope,
+                               AudioUnitElement inElement,
+                               UInt32& outDataSize,
+                               Boolean& outWritable);
+      OSStatus SetProperty(AudioUnitPropertyID inID,
+                           AudioUnitScope inScope,
+                           AudioUnitElement inElement,
+                           const void* inData,
+                           UInt32 inDataSize);
       
       ComponentResult SaveState(CFPropertyListRef *outData);
       ComponentResult RestoreState(CFPropertyListRef plist);
@@ -75,6 +71,9 @@ namespace teragon {
         }
       };
       
+      void setViewNoteText(CFStringRef noteText);
+      
+      CFStringRef savedNote;
       const NoteReader* noteReader;
       NoteWriter* noteWriter;
     };

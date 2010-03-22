@@ -48,12 +48,13 @@ namespace teragon {
       Update(true);
       
       // Get address of plugin
+      /*
       this->noteReader = reinterpret_cast<NoteReader*>(getPluginInterfaceProperty(kNoteReaderPropertyId));
       if(this->noteReader != NULL) {
         // After link to plugin has been established, get the saved text
         setNote(this->noteReader->getNote());
       }
-      
+      */
       // Push address to reader and writer to the underlying plugin
       setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
       setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
@@ -62,7 +63,7 @@ namespace teragon {
     }
     
     void* AUNotesView::getPluginInterfaceProperty(AudioUnitPropertyID propertyId) {
-      void* outData = NULL;
+      void* outData = (void*)0xdeadbeef;
       
       AudioUnit audioUnit = GetEditAudioUnit();
       if(audioUnit != NULL) {

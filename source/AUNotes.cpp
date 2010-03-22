@@ -21,6 +21,7 @@ namespace teragon {
       CreateElements();
       Globals()->UseIndexedParameters(0);
       
+      this->savedNote = CFSTR("");
       this->noteReader = NULL;
       this->noteWriter = NULL;
     }
@@ -36,31 +37,12 @@ namespace teragon {
       inDescArray[0].componentFlagsMask = 0;
     };
     
-    ComponentResult AUNotes::GetProperty(AudioUnitPropertyID inId,
-                                         AudioUnitScope inScope,
-                                         AudioUnitElement inElement,
-                                         void* outData) {
-      ComponentResult result;
-      
-      switch(inId) {
-        case kNoteReaderPropertyId:
-          outData = dynamic_cast<NoteReader*>(this);
-          result = noErr;
-          break;
-        default:
-          result = AUEffectBase::GetProperty(inId, inScope, inElement, outData);
-          break;
-      }
-      
-      return result;
-    }
-    
-    ComponentResult AUNotes::GetPropertyInfo(AudioUnitPropertyID inId,
-                                             AudioUnitScope inScope,
-                                             AudioUnitElement inElement,
-                                             UInt32& outDataSize,
-                                             Boolean& outWritable) {
-      ComponentResult result;
+    OSStatus AUNotes::GetPropertyInfo(AudioUnitPropertyID inId,
+                                      AudioUnitScope inScope,
+                                      AudioUnitElement inElement,
+                                      UInt32& outDataSize,
+                                      Boolean& outWritable) {
+      OSStatus result;
       
       switch(inId) {
         case kNoteReaderPropertyId:
@@ -78,12 +60,12 @@ namespace teragon {
       return result;
     }
     
-    ComponentResult AUNotes::SetProperty(AudioUnitPropertyID inId,
-                                         AudioUnitScope inScope,
-                                         AudioUnitElement inElement,
-                                         const void *inData,
-                                         UInt32 inDataSize) {
-      ComponentResult result;
+    OSStatus AUNotes::SetProperty(AudioUnitPropertyID inId,
+                                  AudioUnitScope inScope,
+                                  AudioUnitElement inElement,
+                                  const void* inData,
+                                  UInt32 inDataSize) {
+      OSStatus result;
       
       switch(inId) {
         case kNoteReaderPropertyId:
@@ -97,6 +79,7 @@ namespace teragon {
           // then discard the const-ness of the pointer.
           const NoteWriter *noteWriterPtr = reinterpret_cast<const NoteWriter*>(inData);
           this->noteWriter = const_cast<NoteWriter*>(noteWriterPtr);
+          setViewNoteText(this->savedNote);
           result = noErr;
         }
           break;
@@ -112,8 +95,8 @@ namespace teragon {
       ComponentResult err = AUBase::SaveState(outData);
       
       if(this->noteReader != NULL) {
-        CFStringRef noteText = this->noteReader->getNote();
-        outData = (const void**)&noteText;
+        this->savedNote = this->noteReader->getNote();
+        *outData = this->savedNote;
       }
       
       return err;
@@ -122,21 +105,21 @@ namespace teragon {
     ComponentResult AUNotes::RestoreState(CFPropertyListRef inData) {
       ComponentResult err = AUBase::RestoreState(inData);
       
+      if(inData != NULL) {
+        this->savedNote = reinterpret_cast<CFStringRef>(inData);
+      }
+      
       if(this->noteWriter != NULL) {
-        const CFStringRef noteText = (CFStringRef)inData;
-        this->noteWriter->setNote(noteText);
+        setViewNoteText(this->savedNote);
       }
       
       return err;
     }
     
-    // NoteReader interface
-    const CFStringRef AUNotes::getNote() const {
-      return NULL;
-    }
-    
-    // NoteWriter interface
-    void AUNotes::setNote(const CFStringRef note) {
+    void AUNotes::setViewNoteText(CFStringRef noteText) {
+      if(this->noteWriter != NULL && noteText != NULL) {
+        this->noteWriter->setNote(noteText);
+      }
     }
   }
 }

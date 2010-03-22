@@ -12,6 +12,7 @@
 
 namespace teragon {
   namespace AUNotes {
+    /** Interface to allow reading the note text from a given object */
     class NoteReader {
     public:
       NoteReader() {};

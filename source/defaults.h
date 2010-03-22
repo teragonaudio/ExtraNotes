@@ -16,10 +16,13 @@
 #define kAUNotesVersion 0x00010000	
 #endif
 
+/** Property to set NoteReader interface pointer */
 #define kNoteReaderPropertyId 64000
+/** Property to set NoteWriter interface pointer */
 #define kNoteWriterPropertyId 64001
-
+/** Plugin subtype of AudioUnit */
 #define AUNotes_COMP_SUBTYPE 'note'
+/** Plugin manufacturer of AudioUnit */
 #define AUNotes_COMP_MANF 'Tera'
 
 #endif

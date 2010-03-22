@@ -84,10 +84,14 @@ namespace teragon {
       return result;
     }
     
+    /**
+     * NoteReader interface implementation to return value of current note in view's editor
+     * \return CFStringRef containing user's note
+     */
     const CFStringRef AUNotesView::getNote() const {
       OSStatus status = noErr;
       
-      // Find the control
+      // Find the control from the root control
       HIViewRef noteTextViewRef = NULL;
       const HIViewID noteTextViewId = {'NOTE', 128};
       ControlRef rootControl;
@@ -97,6 +101,7 @@ namespace teragon {
       status = HIViewFindByID(rootControl, noteTextViewId, &noteTextViewRef);
       verify_noerr(status);
       
+      // Extract data from the control and return this reference
       CFStringRef noteText = NULL;
       status = GetControlData(noteTextViewRef, 0, kControlStaticTextCFStringTag, sizeof(noteText), &noteText, NULL);
       verify_noerr(status);
@@ -104,10 +109,14 @@ namespace teragon {
       return noteText;
     }
     
+    /**
+     * NoteWriter interface implementation to set note text within the user interface's editor
+     * \param noteText Note text to set
+     */
     void AUNotesView::setNote(const CFStringRef noteText) {
       OSStatus status = noErr;
       
-      // Find the control
+      // Find the control from the root control
       HIViewRef noteTextViewRef = NULL;
       const HIViewID noteTextViewId = {'NOTE', 128};
       ControlRef rootControl;

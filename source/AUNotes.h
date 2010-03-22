@@ -27,6 +27,12 @@
 
 namespace teragon {
   namespace AUNotes {
+    /**
+     * This class is the entry point for the AudioUnit and interfaces directly with the
+     * host.  Since this plugin doesn't require so much special functionality, this class
+     * simply inherits from the AUEffectBase class, which we let do most of the work except
+     * when necessary.
+     */
     class AUNotes : public AUEffectBase {
     public:
       AUNotes(AudioUnit component);
@@ -34,9 +40,13 @@ namespace teragon {
       
       OSStatus Initialize();
       
+      // Must be set, or else auval will crash
       bool SupportsTail() { return false; };
+      
+      // Return plugin version number
       ComponentResult	Version() { return kAUNotesVersion; };
       
+      // Must be set to 1 for our custom view
       int GetNumCustomUIComponents() { return 1; };
       void GetUIComponentDescs(ComponentDescription* inDescArray);
       

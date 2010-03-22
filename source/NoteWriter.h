@@ -12,6 +12,7 @@
 
 namespace teragon {
   namespace AUNotes {
+    /** Interface to allow a client to set the note text in a given object */
     class NoteWriter {
     public:
       NoteWriter() {};

@@ -97,7 +97,6 @@ namespace teragon {
     
     // NoteReader interface
     const CFStringRef AUNotesView::getNote() const {
-      CFStringRef result = CFSTR("");
       OSStatus status = noErr;
       
       // Find the control
@@ -110,12 +109,11 @@ namespace teragon {
       status = HIViewFindByID(rootControl, noteTextViewId, &noteTextViewRef);
       verify_noerr(status);
       
-      CFStringRef noteTextRef = NULL;
-      status = GetControlData(noteTextViewRef, 0, kControlStaticTextCFStringTag, sizeof(noteTextRef), &noteTextRef, NULL);
+      CFStringRef noteText = NULL;
+      status = GetControlData(noteTextViewRef, 0, kControlStaticTextCFStringTag, sizeof(noteText), &noteText, NULL);
       verify_noerr(status);
       
-      result = noteTextRef;
-      return result;
+      return noteText;
     }
     
     // NoteWriter interface

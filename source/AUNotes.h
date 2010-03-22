@@ -34,8 +34,6 @@ namespace teragon {
       
       OSStatus Initialize();
       
-      AUKernelBase *NewKernel() { return new AUNotesKernel(this); };
-      
       bool SupportsTail() { return false; };
       ComponentResult	Version() { return kAUNotesVersion; };
       
@@ -61,18 +59,6 @@ namespace teragon {
       void setNote(const CFStringRef note);
       
     private:
-      class AUNotesKernel : public AUKernelBase	{
-      public:
-        AUNotesKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit) { }
-        // Pass the signal through
-        void Process(const Float32 *inputs, Float32 *outputs,
-                     UInt32 frames, UInt32 channels, bool &ioSilence) {
-          for(unsigned int i = 0; i < frames; ++i) {
-            outputs[i] = inputs[i];
-          }          
-        }
-      };
-      
       void setViewNoteText(CFStringRef noteText);
       
       CFStringRef savedNote;

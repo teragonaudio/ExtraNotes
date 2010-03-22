@@ -44,7 +44,7 @@ namespace teragon {
       
       // Note reader & writer interfaces
       const CFStringRef getNote() const;
-      void setNote(const CFStringRef note);
+      void setNote(const CFStringRef noteText);
       
     private:
       void* getPluginInterfaceProperty(AudioUnitPropertyID propertyId);

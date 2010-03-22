@@ -71,7 +71,8 @@ namespace teragon {
       
       Rect r;
       GetControlBounds(nibContainer, &r);
-      SizeControl(mCarbonPane, r.right - r.left, r.bottom);
+      SizeControl(mCarbonPane, r.right, r.bottom);
+      MoveControl(mCarbonPane, 0, 0);
       Update(true);
       
       // Push address to reader and writer to the underlying plugin

@@ -15,11 +15,11 @@
 
 namespace teragon {
   namespace AUNotes {
+    // Entry point for audio unit component
     COMPONENT_ENTRY(AUNotes)
     
     AUNotes::AUNotes(AudioUnit component)	: AUEffectBase(component) {
       CreateElements();
-      Globals()->UseIndexedParameters(0);
     }
     
     AUNotes::~AUNotes() {

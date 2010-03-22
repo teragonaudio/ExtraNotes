@@ -35,6 +35,10 @@
 
 namespace teragon {
   namespace AUNotes {
+    /**
+     * This class provides a custom carbon view which is used by the AudioUnit to display
+     * and edit the user's note.
+     */
     class AUNotesView : public AUCarbonViewBase, public NoteReader, public NoteWriter {
     public:
       AUNotesView(AudioUnitCarbonView auv);
@@ -47,7 +51,6 @@ namespace teragon {
       void setNote(const CFStringRef noteText);
       
     private:
-      void* getPluginInterfaceProperty(AudioUnitPropertyID propertyId);
       bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
             
       HIWindowRef mainWindow;

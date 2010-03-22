@@ -27,6 +27,12 @@ namespace teragon {
     AUNotesView::~AUNotesView() {
     }
     
+    /**
+     * Called by the host when the user opens the plugin's window.
+     * \param xoffset X-coordinate offset
+     * \param yoffset Y-corrdinate offset
+     * \return noErr on success, mac error code on failure
+     */
     OSStatus AUNotesView::CreateUI(Float32 xoffset, Float32 yoffset) {
       OSStatus result = noErr;
       
@@ -50,37 +56,11 @@ namespace teragon {
       SizeControl(mCarbonPane, r.right - r.left, r.bottom);
       Update(true);
       
-      // Get address of plugin
-      /* TODO: Does not seem to work properly...
-      this->noteReader = reinterpret_cast<NoteReader*>(getPluginInterfaceProperty(kNoteReaderPropertyId));
-      if(this->noteReader != NULL) {
-        // After link to plugin has been established, get the saved text
-        setNote(this->noteReader->getNote());
-      }
-      */
-      
       // Push address to reader and writer to the underlying plugin
       setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
       setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
       
       return result;
-    }
-    
-    void* AUNotesView::getPluginInterfaceProperty(AudioUnitPropertyID propertyId) {
-      OSStatus status = noErr;
-      // TODO: If initialized to NULL, then the GetProperty() override does not seem to be properly called
-      void* outData = (void*)0xdeadbeef;
-      
-      AudioUnit audioUnit = GetEditAudioUnit();
-      if(audioUnit != NULL) {
-        UInt32 outDataSize;
-        status = AudioUnitGetPropertyInfo(audioUnit, propertyId, kAudioUnitScope_Global, 0, &outDataSize, NULL);
-        verify_noerr(status);
-        status = AudioUnitGetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, outData, &outDataSize);
-        verify_noerr(status);
-      }
-      
-      return outData;
     }
     
     bool AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {
@@ -95,7 +75,6 @@ namespace teragon {
       return (status == noErr);
     }
     
-    // NoteReader interface
     const CFStringRef AUNotesView::getNote() const {
       OSStatus status = noErr;
       
@@ -116,7 +95,6 @@ namespace teragon {
       return noteText;
     }
     
-    // NoteWriter interface
     void AUNotesView::setNote(const CFStringRef noteText) {
       OSStatus status = noErr;
       

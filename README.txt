@@ -6,6 +6,6 @@ AUNotes is compatible with Mac OSX 10.5 and up, and should work with any sequenc
 
 This project is hosted at the following addresses:
 
-Project Page: http://www.teragon.org/p/AUNotes.html
+Project Page: http://www.teragon.org/p/aunotes.html
 Source Code: http://www.github.com/teragonaudio/AUNotes
 Issue Tracker: http://teragonaudio.lighthouseapp.com/projects/48823-aunotes

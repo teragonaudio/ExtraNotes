@@ -19,7 +19,7 @@
 #define kNoteReaderPropertyId 64000
 #define kNoteWriterPropertyId 64001
 
-#define AUNotes_COMP_SUBTYPE 'Pass'
+#define AUNotes_COMP_SUBTYPE 'note'
 #define AUNotes_COMP_MANF 'Tera'
 
 #endif

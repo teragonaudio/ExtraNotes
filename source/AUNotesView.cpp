@@ -57,22 +57,31 @@ namespace teragon {
       Update(true);
       
       // Push address to reader and writer to the underlying plugin
-      setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
-      setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
+      result = setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
+      verify_noerr(result);
+      result = setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
+      verify_noerr(result);
       
       return result;
     }
     
-    bool AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {
-      OSStatus status = noErr;
+    /**
+     * Sets a property value in the underlying AudioUnit plugin.  This method is used to push a
+     * pointer to the note reader/writer interface to the plugin, allowing communication between
+     * the plugin and the view.
+     * \param propertyId AudioUnit property ID (scope is assumed to be global)
+     * \param inData Pointer to data to set for property
+     * \return 
+     */
+    OSStatus AUNotesView::setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData) {
+      OSStatus result = noErr;
       
       AudioUnit audioUnit = GetEditAudioUnit();
       if(audioUnit != NULL) {
-        status = AudioUnitSetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, inData, sizeof(inData));
-        verify_noerr(status);
+        result = AudioUnitSetProperty(audioUnit, propertyId, kAudioUnitScope_Global, 0, inData, sizeof(inData));
       }
       
-      return (status == noErr);
+      return result;
     }
     
     const CFStringRef AUNotesView::getNote() const {

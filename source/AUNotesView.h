@@ -51,7 +51,7 @@ namespace teragon {
       void setNote(const CFStringRef noteText);
       
     private:
-      bool setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
+      OSStatus setPluginInterfaceProperty(AudioUnitPropertyID propertyId, const void* inData);
             
       HIWindowRef mainWindow;
       NoteReader* noteReader;

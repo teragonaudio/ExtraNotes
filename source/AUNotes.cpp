@@ -20,13 +20,17 @@ namespace teragon {
     AUNotes::AUNotes(AudioUnit component)	: AUEffectBase(component) {
       CreateElements();
       Globals()->UseIndexedParameters(0);
-      
-      this->savedNote = CFSTR("");
-      this->noteReader = NULL;
-      this->noteWriter = NULL;
     }
     
     AUNotes::~AUNotes() {
+      CFRelease(this->savedNote);
+    }
+    
+    OSStatus AUNotes::Initialize() {
+      this->savedNote = CFSTR("");
+      this->noteReader = NULL;
+      this->noteWriter = NULL;
+      return noErr;
     }
     
     void AUNotes::GetUIComponentDescs(ComponentDescription* inDescArray) {
@@ -95,7 +99,7 @@ namespace teragon {
       ComponentResult err = AUBase::SaveState(outData);
       
       if(this->noteReader != NULL) {
-        this->savedNote = this->noteReader->getNote();
+        this->savedNote = CFStringCreateCopy(kCFAllocatorDefault, this->noteReader->getNote());
         *outData = this->savedNote;
       }
       
@@ -106,7 +110,7 @@ namespace teragon {
       ComponentResult err = AUBase::RestoreState(inData);
       
       if(inData != NULL) {
-        this->savedNote = reinterpret_cast<CFStringRef>(inData);
+        this->savedNote = CFStringCreateCopy(kCFAllocatorDefault, reinterpret_cast<CFStringRef>(inData));
       }
       
       if(this->noteWriter != NULL) {

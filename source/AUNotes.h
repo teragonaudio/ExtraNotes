@@ -32,6 +32,8 @@ namespace teragon {
       AUNotes(AudioUnit component);
       ~AUNotes();
       
+      OSStatus Initialize();
+      
       AUKernelBase *NewKernel() { return new AUNotesKernel(this); };
       
       bool SupportsTail() { return false; };

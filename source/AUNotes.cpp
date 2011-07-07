@@ -38,10 +38,15 @@ namespace teragon {
     
     AUNotes::AUNotes(AudioUnit component)	: AUEffectBase(component) {
       CreateElements();
+      this->savedNote = NULL;
+      this->noteReader = NULL;
+      this->noteWriter = NULL;
     }
     
     AUNotes::~AUNotes() {
-      CFRelease(this->savedNote);
+      if(this->savedNote) {
+        CFRelease(this->savedNote);
+      }
     }
     
     /**

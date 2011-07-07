@@ -120,7 +120,7 @@ namespace teragon {
       
       switch(inId) {
         case kNoteReaderPropertyId:
-          this->noteReader = reinterpret_cast<const NoteReader*>(inData);
+          this->noteReader = (const NoteReader*)inData;
           result = noErr;
           break;
         case kNoteWriterPropertyId:
@@ -128,7 +128,7 @@ namespace teragon {
           // The note writer pointer cannot be const, since that interface method
           // is not const, so first we need to get a pointer to the interface and
           // then discard the const-ness of the pointer.
-          const NoteWriter *noteWriterPtr = reinterpret_cast<const NoteWriter*>(inData);
+          const NoteWriter *noteWriterPtr = (NoteWriter*)inData;
           this->noteWriter = const_cast<NoteWriter*>(noteWriterPtr);
           // After the view sets this property, we push the current value of the
           // note back up to it so that it can display this text in the window.

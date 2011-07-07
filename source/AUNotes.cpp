@@ -53,9 +53,6 @@ namespace teragon {
      * Called when the audio unit is being initialized by the host
      */
     OSStatus AUNotes::Initialize() {
-      this->savedNote = CFSTR("");
-      this->noteReader = NULL;
-      this->noteWriter = NULL;
       return noErr;
     }
     

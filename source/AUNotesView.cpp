@@ -76,9 +76,9 @@ namespace teragon {
       Update(true);
       
       // Push address to reader and writer to the underlying plugin
-      result = setPluginInterfaceProperty(kNoteReaderPropertyId, dynamic_cast<NoteReader*>(this));
+      result = setPluginInterfaceProperty(kNoteReaderPropertyId, (NoteReader*)this);
       verify_noerr(result);
-      result = setPluginInterfaceProperty(kNoteWriterPropertyId, dynamic_cast<NoteWriter*>(this));
+      result = setPluginInterfaceProperty(kNoteWriterPropertyId, (NoteWriter*)this);
       verify_noerr(result);
       
       return result;

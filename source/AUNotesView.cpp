@@ -33,7 +33,7 @@
 
 namespace teragon {
   namespace AUNotes {
-    COMPONENT_ENTRY(AUNotesView)
+    AUDIOCOMPONENT_ENTRY(AUNotesView)
     
     AUNotesView::AUNotesView(AudioUnitCarbonView view) :
     AUCarbonViewBase(view),

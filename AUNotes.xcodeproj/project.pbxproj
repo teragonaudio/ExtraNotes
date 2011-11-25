@@ -56,8 +56,6 @@
 		24EA1C361153AB1900AD032F /* AUBaseHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 24EA1B9C1153A93A00AD032F /* AUBaseHelper.h */; };
 		24EA1C371153AB1900AD032F /* AUBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24EA1B9D1153A93A00AD032F /* AUBuffer.cpp */; };
 		24EA1C381153AB1900AD032F /* AUBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 24EA1B9E1153A93A00AD032F /* AUBuffer.h */; };
-		24EA1C391153AB1900AD032F /* AUDebugDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24EA1B9F1153A93A00AD032F /* AUDebugDispatcher.cpp */; };
-		24EA1C3A1153AB1900AD032F /* AUDebugDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 24EA1BA01153A93A00AD032F /* AUDebugDispatcher.h */; };
 		24EA1C3B1153AB1900AD032F /* AUInputFormatConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 24EA1BA11153A93A00AD032F /* AUInputFormatConverter.h */; };
 		24EA1C3C1153AB1900AD032F /* AUSilentTimeout.h in Headers */ = {isa = PBXBuildFile; fileRef = 24EA1BA21153A93A00AD032F /* AUSilentTimeout.h */; };
 		24F111CA0AFE5F1800EE38A1 /* defaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F111C40AFE5F1800EE38A1 /* defaults.h */; };
@@ -133,8 +131,6 @@
 		24EA1B9C1153A93A00AD032F /* AUBaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUBaseHelper.h; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUBaseHelper.h; sourceTree = DEVELOPER_DIR; };
 		24EA1B9D1153A93A00AD032F /* AUBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUBuffer.cpp; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.cpp; sourceTree = DEVELOPER_DIR; };
 		24EA1B9E1153A93A00AD032F /* AUBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUBuffer.h; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.h; sourceTree = DEVELOPER_DIR; };
-		24EA1B9F1153A93A00AD032F /* AUDebugDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUDebugDispatcher.cpp; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUDebugDispatcher.cpp; sourceTree = DEVELOPER_DIR; };
-		24EA1BA01153A93A00AD032F /* AUDebugDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUDebugDispatcher.h; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUDebugDispatcher.h; sourceTree = DEVELOPER_DIR; };
 		24EA1BA11153A93A00AD032F /* AUInputFormatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUInputFormatConverter.h; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUInputFormatConverter.h; sourceTree = DEVELOPER_DIR; };
 		24EA1BA21153A93A00AD032F /* AUSilentTimeout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUSilentTimeout.h; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUSilentTimeout.h; sourceTree = DEVELOPER_DIR; };
 		24EA1BA31153A93A00AD032F /* AUTimestampGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUTimestampGenerator.cpp; path = Extras/CoreAudio/AudioUnits/AUPublic/Utility/AUTimestampGenerator.cpp; sourceTree = DEVELOPER_DIR; };
@@ -354,8 +350,6 @@
 				24EA1B9C1153A93A00AD032F /* AUBaseHelper.h */,
 				24EA1B9D1153A93A00AD032F /* AUBuffer.cpp */,
 				24EA1B9E1153A93A00AD032F /* AUBuffer.h */,
-				24EA1B9F1153A93A00AD032F /* AUDebugDispatcher.cpp */,
-				24EA1BA01153A93A00AD032F /* AUDebugDispatcher.h */,
 				24EA1BA11153A93A00AD032F /* AUInputFormatConverter.h */,
 				24EA1BA21153A93A00AD032F /* AUSilentTimeout.h */,
 				24EA1BA31153A93A00AD032F /* AUTimestampGenerator.cpp */,
@@ -437,7 +431,6 @@
 				24EA1C241153AA3C00AD032F /* CAVectorUnit.h in Headers */,
 				24EA1C361153AB1900AD032F /* AUBaseHelper.h in Headers */,
 				24EA1C381153AB1900AD032F /* AUBuffer.h in Headers */,
-				24EA1C3A1153AB1900AD032F /* AUDebugDispatcher.h in Headers */,
 				24EA1C3B1153AB1900AD032F /* AUInputFormatConverter.h in Headers */,
 				24EA1C3C1153AB1900AD032F /* AUSilentTimeout.h in Headers */,
 				242B7DA01155333D007BF7FA /* NoteReader.h in Headers */,
@@ -561,7 +554,6 @@
 				24EA1C231153AA3C00AD032F /* CAVectorUnit.cpp in Sources */,
 				24EA1C351153AB1900AD032F /* AUBaseHelper.cpp in Sources */,
 				24EA1C371153AB1900AD032F /* AUBuffer.cpp in Sources */,
-				24EA1C391153AB1900AD032F /* AUDebugDispatcher.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

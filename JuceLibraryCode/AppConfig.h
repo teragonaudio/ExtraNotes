@@ -152,7 +152,7 @@
  #define JucePlugin_SilenceInProducesSilenceOut  1
 #endif
 #ifndef  JucePlugin_EditorRequiresKeyboardFocus
- #define JucePlugin_EditorRequiresKeyboardFocus  0
+ #define JucePlugin_EditorRequiresKeyboardFocus  1
 #endif
 #ifndef  JucePlugin_Version
  #define JucePlugin_Version                3.0.0
@@ -186,9 +186,6 @@
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
  #define JucePlugin_CFBundleIdentifier     com.teragonaudio.ExtraNotes
-#endif
-#ifndef  JucePlugin_AUCocoaViewClassName
- #define JucePlugin_AUCocoaViewClassName   ExtraNotesAU_V1
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_None

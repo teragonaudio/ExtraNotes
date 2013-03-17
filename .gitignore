@@ -6,6 +6,7 @@
 
 # Build products
 Builds/Linux/build
+Builds/MacOSX/build
 
 # Stuff from various IDE's
 *.perspectivev3

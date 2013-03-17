@@ -54,5 +54,14 @@
                        isDebug="0" optimisation="2" targetName="ExtraNotes"/>
       </CONFIGURATIONS>
     </XCODE_MAC>
+    <VS2012 targetFolder="Builds/VisualStudio2012" libraryType="1" juceFolder="../../sdk/juce/modules"
+            vstFolder="Third-Party\vstsdk2.4">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ExtraNotes"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ExtraNotes"/>
+      </CONFIGURATIONS>
+    </VS2012>
   </EXPORTFORMATS>
 </JUCERPROJECT>

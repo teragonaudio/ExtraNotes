@@ -5,7 +5,7 @@
 *.so
 
 # Build products
-# TODO
+Builds/Linux/build
 
 # Stuff from various IDE's
 *.perspectivev3

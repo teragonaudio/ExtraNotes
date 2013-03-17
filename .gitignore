@@ -7,6 +7,8 @@
 # Build products
 Builds/Linux/build
 Builds/MacOSX/build
+Builds/VisualStudio2012/Debug
+Builds/VisualStudio2012/Release
 
 # Stuff from various IDE's
 *.perspectivev3

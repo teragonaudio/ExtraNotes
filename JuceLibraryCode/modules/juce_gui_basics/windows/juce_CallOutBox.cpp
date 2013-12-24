@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -49,8 +48,11 @@ CallOutBox::~CallOutBox()
 {
 }
 
+enum { callOutBoxDismissCommandId = 0x4f83a04b };
+
 //==============================================================================
-class CallOutBoxCallback  : public ModalComponentManager::Callback
+class CallOutBoxCallback  : public ModalComponentManager::Callback,
+                            private Timer
 {
 public:
     CallOutBoxCallback (Component* c, const Rectangle<int>& area, Component* parent)
@@ -58,9 +60,16 @@ public:
     {
         callout.setVisible (true);
         callout.enterModalState (true, this);
+        startTimer (200);
     }
 
-    void modalStateFinished (int) {}
+    void modalStateFinished (int) override {}
+
+    void timerCallback() override
+    {
+        if (! Process::isForegroundProcess())
+            callout.postCommandMessage (callOutBoxDismissCommandId);
+    }
 
     ScopedPointer<Component> content;
     CallOutBox callout;
@@ -68,9 +77,7 @@ public:
     JUCE_DECLARE_NON_COPYABLE (CallOutBoxCallback)
 };
 
-CallOutBox& CallOutBox::launchAsynchronously (Component* content,
-                                              const Rectangle<int>& area,
-                                              Component* parent)
+CallOutBox& CallOutBox::launchAsynchronously (Component* content, const Rectangle<int>& area, Component* parent)
 {
     jassert (content != nullptr); // must be a valid content component!
 
@@ -110,8 +117,6 @@ bool CallOutBox::hitTest (int x, int y)
 {
     return outline.contains ((float) x, (float) y);
 }
-
-enum { callOutBoxDismissCommandId = 0x4f83a04b };
 
 void CallOutBox::inputAttemptWhenModal()
 {
@@ -163,8 +168,8 @@ void CallOutBox::updatePosition (const Rectangle<int>& newAreaToPointTo, const R
 
     const int hw = newBounds.getWidth() / 2;
     const int hh = newBounds.getHeight() / 2;
-    const float hwReduced = (float) (hw - borderSpace * 3);
-    const float hhReduced = (float) (hh - borderSpace * 3);
+    const float hwReduced = (float) (hw - borderSpace * 2);
+    const float hhReduced = (float) (hh - borderSpace * 2);
     const float arrowIndent = borderSpace - arrowSize;
 
     Point<float> targets[4] = { Point<float> ((float) targetArea.getCentreX(), (float) targetArea.getBottom()),
@@ -190,7 +195,7 @@ void CallOutBox::updatePosition (const Rectangle<int>& newAreaToPointTo, const R
         const Point<float> centre (constrainedLine.findNearestPointTo (targetCentre));
         float distanceFromCentre = centre.getDistanceFrom (targets[i]);
 
-        if (! (centrePointArea.contains (lines[i].getStart()) || centrePointArea.contains (lines[i].getEnd())))
+        if (! centrePointArea.intersects (lines[i]))
             distanceFromCentre += 1000.0f;
 
         if (distanceFromCentre < nearest)

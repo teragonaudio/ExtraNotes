@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -61,7 +60,7 @@ struct TextAtom
 class TextEditor::UniformTextSection
 {
 public:
-    UniformTextSection (const String& text, const Font& f, const Colour& col, const juce_wchar passwordChar)
+    UniformTextSection (const String& text, const Font& f, const Colour col, const juce_wchar passwordChar)
         : font (f), colour (col)
     {
         initialiseAtoms (text, passwordChar);
@@ -175,7 +174,7 @@ public:
             mo << atoms.getUnchecked(i)->atomText;
     }
 
-    void appendSubstring (MemoryOutputStream& mo, const Range<int>& range) const
+    void appendSubstring (MemoryOutputStream& mo, const Range<int> range) const
     {
         int index = 0;
         for (int i = 0; i < atoms.size(); ++i)
@@ -557,18 +556,15 @@ public:
         }
     }
 
-    void drawSelection (Graphics& g, const Range<int>& selected) const
+    void addSelection (RectangleList<float>& area, const Range<int> selected) const
     {
-        const int startX = roundToInt (indexToX (selected.getStart()));
-        const int endX   = roundToInt (indexToX (selected.getEnd()));
+        const float startX = indexToX (selected.getStart());
+        const float endX   = indexToX (selected.getEnd());
 
-        const int y = roundToInt (lineY);
-        const int nextY = roundToInt (lineY + lineHeight);
-
-        g.fillRect (startX, y, endX - startX, nextY - y);
+        area.add (startX, lineY, endX - startX, lineHeight);
     }
 
-    void drawUnderline (Graphics& g, const Range<int>& underline, const Colour& colour) const
+    void drawUnderline (Graphics& g, const Range<int> underline, const Colour colour) const
     {
         const int startX    = roundToInt (indexToX (underline.getStart()));
         const int endX      = roundToInt (indexToX (underline.getEnd()));
@@ -580,8 +576,8 @@ public:
     }
 
     void drawSelectedText (Graphics& g,
-                           const Range<int>& selected,
-                           const Colour& selectedTextColour) const
+                           const Range<int> selected,
+                           const Colour selectedTextColour) const
     {
         if (passwordCharacter != 0 || ! atom->isWhitespace())
         {
@@ -728,7 +724,7 @@ public:
                   const String& newText,
                   const int insertPos,
                   const Font& newFont,
-                  const Colour& newColour,
+                  const Colour newColour,
                   const int oldCaret,
                   const int newCaret)
         : owner (ed),
@@ -845,7 +841,7 @@ public:
         owner.getTextValue().removeListener (this);
     }
 
-    void paint (Graphics& g)
+    void paint (Graphics& g) override
     {
         owner.drawContent (g);
     }
@@ -855,12 +851,12 @@ public:
         startTimer (350);
     }
 
-    void timerCallback()
+    void timerCallback() override
     {
         owner.timerCallbackInt();
     }
 
-    void valueChanged (Value&)
+    void valueChanged (Value&) override
     {
         owner.textWasChangedByValue();
     }
@@ -880,7 +876,7 @@ public:
     {
     }
 
-    void visibleAreaChanged (const Rectangle<int>&)
+    void visibleAreaChanged (const Rectangle<int>&) override
     {
         if (! rentrant) // it's rare, but possible to get into a feedback loop as the viewport's scrollbars
                         // appear and disappear, causing the wrap width to change.
@@ -1113,6 +1109,7 @@ void TextEditor::lookAndFeelChanged()
     {
         setCaretVisible (false);
         setCaretVisible (true);
+        updateCaretPosition();
     }
 }
 
@@ -1163,7 +1160,7 @@ void TextEditor::setInputRestrictions (const int maxLen,
     setInputFilter (new LengthAndCharacterRestriction (maxLen, chars), true);
 }
 
-void TextEditor::setTextToShowWhenEmpty (const String& text, const Colour& colourToUse)
+void TextEditor::setTextToShowWhenEmpty (const String& text, Colour colourToUse)
 {
     textToShowWhenEmpty = text;
     colourForTextWhenEmpty = colourToUse;
@@ -1281,7 +1278,7 @@ void TextEditor::timerCallbackInt()
         newTransaction();
 }
 
-void TextEditor::repaintText (const Range<int>& range)
+void TextEditor::repaintText (const Range<int> range)
 {
     if (! range.isEmpty())
     {
@@ -1617,20 +1614,23 @@ void TextEditor::drawContent (Graphics& g)
 
         if (! selection.isEmpty())
         {
-            g.setColour (findColour (highlightColourId).withMultipliedAlpha (hasKeyboardFocus (true) ? 1.0f : 0.5f));
-
-            selectedTextColour = findColour (highlightedTextColourId);
-
             Iterator i2 (i);
+
+            RectangleList<float> selectionArea;
 
             while (i2.next() && i2.lineY < clip.getBottom())
             {
                 if (i2.lineY + i2.lineHeight >= clip.getY()
                      && selection.intersects (Range<int> (i2.indexInText, i2.indexInText + i2.atom->numChars)))
                 {
-                    i2.drawSelection (g, selection);
+                    i2.addSelection (selectionArea, selection);
                 }
             }
+
+            g.setColour (findColour (highlightColourId).withMultipliedAlpha (hasKeyboardFocus (true) ? 1.0f : 0.5f));
+            g.fillRectList (selectionArea);
+
+            selectedTextColour = findColour (highlightedTextColourId);
         }
 
         const UniformTextSection* lastSection = nullptr;
@@ -1653,7 +1653,7 @@ void TextEditor::drawContent (Graphics& g)
 
         for (int j = underlinedSections.size(); --j >= 0;)
         {
-            const Range<int>& underlinedSection = underlinedSections.getReference (j);
+            const Range<int> underlinedSection = underlinedSections.getReference (j);
 
             Iterator i2 (sections, wordWrapWidth, passwordCharacter);
 
@@ -1787,11 +1787,10 @@ void TextEditor::mouseUp (const MouseEvent& e)
 void TextEditor::mouseDoubleClick (const MouseEvent& e)
 {
     int tokenEnd = getTextIndexAt (e.x, e.y);
-    int tokenStart = tokenEnd;
+    int tokenStart = 0;
 
     if (e.getNumberOfClicks() > 3)
     {
-        tokenStart = 0;
         tokenEnd = getTotalNumChars();
     }
     else
@@ -2094,7 +2093,7 @@ void TextEditor::focusGained (FocusChangeType)
 
     if (ComponentPeer* const peer = getPeer())
         if (! isReadOnly())
-            peer->textInputRequired (getScreenPosition() - peer->getScreenPosition());
+            peer->textInputRequired (peer->globalToLocal (getScreenPosition()));
 }
 
 void TextEditor::focusLost (FocusChangeType)
@@ -2183,7 +2182,7 @@ void TextEditor::clearInternal (UndoManager* const um)
 void TextEditor::insert (const String& text,
                          const int insertIndex,
                          const Font& font,
-                         const Colour& colour,
+                         const Colour colour,
                          UndoManager* const um,
                          const int caretPositionToMoveTo)
 {
@@ -2280,7 +2279,7 @@ void TextEditor::reinsert (const int insertIndex,
     valueTextNeedsUpdating = true;
 }
 
-void TextEditor::remove (const Range<int>& range,
+void TextEditor::remove (Range<int> range,
                          UndoManager* const um,
                          const int caretPositionToMoveTo)
 {
@@ -2386,7 +2385,7 @@ String TextEditor::getText() const
     for (int i = 0; i < sections.size(); ++i)
         sections.getUnchecked (i)->appendAllText (mo);
 
-    return mo.toString();
+    return mo.toUTF8();
 }
 
 String TextEditor::getTextInRange (const Range<int>& range) const
@@ -2415,7 +2414,7 @@ String TextEditor::getTextInRange (const Range<int>& range) const
         index = nextIndex;
     }
 
-    return mo.toString();
+    return mo.toUTF8();
 }
 
 String TextEditor::getHighlightedText() const

@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -39,6 +38,8 @@ extern "C"
     const CGSize* CTRunGetAdvancesPtr (CTRunRef);
 }
 #endif
+
+static CTFontRef getCTFontFromTypeface (const Font& f);
 
 namespace CoreTextTypeLayout
 {
@@ -188,6 +189,30 @@ namespace CoreTextTypeLayout
         HeapBlock<CGPoint> local;
     };
 
+    struct LineInfo
+    {
+        LineInfo (CTFrameRef frame, CTLineRef line, CFIndex lineIndex)
+        {
+            CTFrameGetLineOrigins (frame, CFRangeMake (lineIndex, 1), &origin);
+            CTLineGetTypographicBounds (line, &ascent,  &descent, &leading);
+        }
+
+        CGPoint origin;
+        CGFloat ascent, descent, leading;
+    };
+
+    static CTFontRef getOrCreateFont (const Font& f)
+    {
+        if (CTFontRef ctf = getCTFontFromTypeface (f))
+        {
+            CFRetain (ctf);
+            return ctf;
+        }
+
+        CGAffineTransform transform;
+        return createCTFont (f, referenceFontSize, transform);
+    }
+
     //==============================================================================
     static CFAttributedStringRef createCFAttributedString (const AttributedString& text)
     {
@@ -204,26 +229,27 @@ namespace CoreTextTypeLayout
 
         for (int i = 0; i < numCharacterAttributes; ++i)
         {
-            const AttributedString::Attribute* const attr = text.getAttribute (i);
+            const AttributedString::Attribute& attr = *text.getAttribute (i);
 
-            if (attr->range.getStart() > CFAttributedStringGetLength (attribString))
+            if (attr.range.getStart() > CFAttributedStringGetLength (attribString))
                 continue;
 
-            Range<int> range (attr->range);
+            Range<int> range (attr.range);
             range.setEnd (jmin (range.getEnd(), (int) CFAttributedStringGetLength (attribString)));
 
-            if (const Font* const f = attr->getFont())
+            if (const Font* const f = attr.getFont())
             {
-                CGAffineTransform transform;
-                CTFontRef ctFontRef = createCTFont (*f, referenceFontSize, transform);
-                ctFontRef = getFontWithPointSize (ctFontRef, f->getHeight() * getHeightToPointsFactor (ctFontRef));
+                if (CTFontRef ctFontRef = getOrCreateFont (*f))
+                {
+                    ctFontRef = getFontWithPointSize (ctFontRef, f->getHeight() * getHeightToPointsFactor (ctFontRef));
 
-                CFAttributedStringSetAttribute (attribString, CFRangeMake (range.getStart(), range.getLength()),
-                                                kCTFontAttributeName, ctFontRef);
-                CFRelease (ctFontRef);
+                    CFAttributedStringSetAttribute (attribString, CFRangeMake (range.getStart(), range.getLength()),
+                                                    kCTFontAttributeName, ctFontRef);
+                    CFRelease (ctFontRef);
+                }
             }
 
-            if (const Colour* const col = attr->getColour())
+            if (const Colour* const col = attr.getColour())
             {
                #if JUCE_IOS
                 const CGFloat components[] = { col->getFloatRed(),
@@ -279,7 +305,7 @@ namespace CoreTextTypeLayout
            #endif
         };
 
-        CTParagraphStyleRef ctParagraphStyleRef = CTParagraphStyleCreate (settings, numElementsInArray (settings));
+        CTParagraphStyleRef ctParagraphStyleRef = CTParagraphStyleCreate (settings, (size_t) numElementsInArray (settings));
         CFAttributedStringSetAttribute (attribString, CFRangeMake (0, CFAttributedStringGetLength (attribString)),
                                         kCTParagraphStyleAttributeName, ctParagraphStyleRef);
         CFRelease (ctParagraphStyleRef);
@@ -289,44 +315,83 @@ namespace CoreTextTypeLayout
         return attribString;
     }
 
-    static void drawToCGContext (const AttributedString& text, const Rectangle<float>& area,
-                                 const CGContextRef& context, const float flipHeight)
+    static CTFrameRef createCTFrame (const AttributedString& text, CGRect bounds)
     {
-        CFAttributedStringRef attribString = CoreTextTypeLayout::createCFAttributedString (text);
+        CFAttributedStringRef attribString = createCFAttributedString (text);
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString (attribString);
         CFRelease (attribString);
 
         CGMutablePathRef path = CGPathCreateMutable();
-        CGRect bounds = CGRectMake ((CGFloat) area.getX(), flipHeight - (CGFloat) area.getBottom(),
-                                    (CGFloat) area.getWidth(), (CGFloat) area.getHeight());
         CGPathAddRect (path, nullptr, bounds);
 
         CTFrameRef frame = CTFramesetterCreateFrame (framesetter, CFRangeMake (0, 0), path, nullptr);
         CFRelease (framesetter);
         CGPathRelease (path);
 
-        CTFrameDraw (frame, context);
+        return frame;
+    }
+
+    static Range<float> getLineVerticalRange (CTFrameRef frame, CFArrayRef lines, int lineIndex)
+    {
+        LineInfo info (frame, (CTLineRef) CFArrayGetValueAtIndex (lines, lineIndex), lineIndex);
+        return Range<float> ((float) (info.origin.y - info.descent),
+                             (float) (info.origin.y + info.ascent));
+    }
+
+    static float findCTFrameHeight (CTFrameRef frame)
+    {
+        CFArrayRef lines = CTFrameGetLines (frame);
+        const CFIndex numLines = CFArrayGetCount (lines);
+
+        if (numLines == 0)
+            return 0;
+
+        Range<float> range (getLineVerticalRange (frame, lines, 0));
+
+        if (numLines > 1)
+            range = range.getUnionWith (getLineVerticalRange (frame, lines, (int) numLines - 1));
+
+        return range.getLength();
+    }
+
+    static void drawToCGContext (const AttributedString& text, const Rectangle<float>& area,
+                                 const CGContextRef& context, const float flipHeight)
+    {
+        CTFrameRef frame = createCTFrame (text, CGRectMake ((CGFloat) area.getX(), flipHeight - (CGFloat) area.getBottom(),
+                                                            (CGFloat) area.getWidth(), (CGFloat) area.getHeight()));
+
+        const int verticalJustification = text.getJustification().getOnlyVerticalFlags();
+
+        if (verticalJustification == Justification::verticallyCentred
+             || verticalJustification == Justification::bottom)
+        {
+            float adjust = area.getHeight() - findCTFrameHeight (frame);
+
+            if (verticalJustification == Justification::verticallyCentred)
+                adjust *= 0.5f;
+
+            CGContextSaveGState (context);
+            CGContextTranslateCTM (context, 0, -adjust);
+            CTFrameDraw (frame, context);
+            CGContextRestoreGState (context);
+        }
+        else
+        {
+            CTFrameDraw (frame, context);
+        }
+
         CFRelease (frame);
     }
 
     static void createLayout (TextLayout& glyphLayout, const AttributedString& text)
     {
-        CFAttributedStringRef attribString = CoreTextTypeLayout::createCFAttributedString (text);
-        CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString (attribString);
-        CFRelease (attribString);
-
-        CGMutablePathRef path = CGPathCreateMutable();
-        const CGRect bounds = CGRectMake (0, 0, glyphLayout.getWidth(), 1.0e6f);
-        CGPathAddRect (path, nullptr, bounds);
-
-        CTFrameRef frame = CTFramesetterCreateFrame (framesetter, CFRangeMake(0, 0), path, nullptr);
-        CFRelease (framesetter);
-        CGPathRelease (path);
+        const CGFloat boundsHeight = 1.0e6f;
+        CTFrameRef frame = createCTFrame (text, CGRectMake (0, 0, glyphLayout.getWidth(), boundsHeight));
 
         CFArrayRef lines = CTFrameGetLines (frame);
         const CFIndex numLines = CFArrayGetCount (lines);
 
-        glyphLayout.ensureStorageAllocated (numLines);
+        glyphLayout.ensureStorageAllocated ((int) numLines);
 
         for (CFIndex i = 0; i < numLines; ++i)
         {
@@ -339,16 +404,14 @@ namespace CoreTextTypeLayout
             const CFIndex lineStringEnd = cfrlineStringRange.location + cfrlineStringRange.length - 1;
             const Range<int> lineStringRange ((int) cfrlineStringRange.location, (int) lineStringEnd);
 
-            CGPoint cgpLineOrigin;
-            CTFrameGetLineOrigins (frame, CFRangeMake(i, 1), &cgpLineOrigin);
+            LineInfo lineInfo (frame, line, i);
 
-            Point<float> lineOrigin ((float) cgpLineOrigin.x, bounds.size.height - (float) cgpLineOrigin.y);
-
-            CGFloat ascent, descent, leading;
-            CTLineGetTypographicBounds (line, &ascent,  &descent, &leading);
-
-            TextLayout::Line* const glyphLine = new TextLayout::Line (lineStringRange, lineOrigin,
-                                                                      (float) ascent, (float) descent, (float) leading,
+            TextLayout::Line* const glyphLine = new TextLayout::Line (lineStringRange,
+                                                                      Point<float> ((float) lineInfo.origin.x,
+                                                                                    (float) (boundsHeight - lineInfo.origin.y)),
+                                                                      (float) lineInfo.ascent,
+                                                                      (float) lineInfo.descent,
+                                                                      (float) lineInfo.leading,
                                                                       (int) numRuns);
             glyphLayout.addLine (glyphLine);
 
@@ -380,7 +443,7 @@ namespace CoreTextTypeLayout
 
                     glyphRun->font = Font (String::fromCFString (cfsFontFamily),
                                            String::fromCFString (cfsFontStyle),
-                                           CTFontGetSize (ctRunFont) / fontHeightToPointsFactor);
+                                           (float) (CTFontGetSize (ctRunFont) / fontHeightToPointsFactor));
 
                     CFRelease (cfsFontStyle);
                     CFRelease (cfsFontFamily);
@@ -392,17 +455,20 @@ namespace CoreTextTypeLayout
                 {
                     const CGFloat* const components = CGColorGetComponents (cgRunColor);
 
-                    glyphRun->colour = Colour::fromFloatRGBA (components[0], components[1], components[2], components[3]);
+                    glyphRun->colour = Colour::fromFloatRGBA ((float) components[0],
+                                                              (float) components[1],
+                                                              (float) components[2],
+                                                              (float) components[3]);
                 }
 
-                const CoreTextTypeLayout::Glyphs glyphs (run, (size_t) numGlyphs);
-                const CoreTextTypeLayout::Advances advances (run, numGlyphs);
-                const CoreTextTypeLayout::Positions positions (run, (size_t) numGlyphs);
+                const Glyphs glyphs (run, (size_t) numGlyphs);
+                const Advances advances (run, numGlyphs);
+                const Positions positions (run, (size_t) numGlyphs);
 
                 for (CFIndex k = 0; k < numGlyphs; ++k)
-                    glyphRun->glyphs.add (TextLayout::Glyph (glyphs.glyphs[k], Point<float> (positions.points[k].x,
-                                                                                             positions.points[k].y),
-                                                             advances.advances[k].width));
+                    glyphRun->glyphs.add (TextLayout::Glyph (glyphs.glyphs[k], Point<float> ((float) positions.points[k].x,
+                                                                                             (float) positions.points[k].y),
+                                                             (float) advances.advances[k].width));
             }
         }
 
@@ -417,11 +483,11 @@ class OSXTypeface  : public Typeface
 public:
     OSXTypeface (const Font& font)
         : Typeface (font.getTypefaceName(),
-          font.getTypefaceStyle()),
+                    font.getTypefaceStyle()),
           fontRef (nullptr),
+          ctFontRef (nullptr),
           fontHeightToPointsFactor (1.0f),
           renderingTransform (CGAffineTransformIdentity),
-          ctFontRef (nullptr),
           attributedStringAtts (nullptr),
           ascent (0.0f),
           unitsToHeightScaleFactor (0.0f)
@@ -567,12 +633,12 @@ public:
 
     //==============================================================================
     CGFontRef fontRef;
+    CTFontRef ctFontRef;
 
     float fontHeightToPointsFactor;
     CGAffineTransform renderingTransform;
 
 private:
-    CTFontRef ctFontRef;
     CFDictionaryRef attributedStringAtts;
     float ascent, unitsToHeightScaleFactor;
     AffineTransform pathTransform;
@@ -598,6 +664,15 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OSXTypeface)
 };
+
+CTFontRef getCTFontFromTypeface (const Font& f)
+{
+    if (OSXTypeface* tf = dynamic_cast <OSXTypeface*> (f.getTypeface()))
+        return tf->ctFontRef;
+
+    return 0;
+}
+
 
 StringArray Font::findAllTypefaceNames()
 {
@@ -713,59 +788,46 @@ public:
         : Typeface (font.getTypefaceName(), font.getTypefaceStyle())
     {
         JUCE_AUTORELEASEPOOL
-        renderingTransform = CGAffineTransformIdentity;
-
-        NSDictionary* nsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   juceStringToNS (name), NSFontFamilyAttribute,
-                                   juceStringToNS (style), NSFontFaceAttribute, nil];
-
-        NSFontDescriptor* nsFontDesc = [NSFontDescriptor fontDescriptorWithFontAttributes: nsDict];
-        nsFont = [NSFont fontWithDescriptor: nsFontDesc size: referenceFontSize];
-
-        [nsFont retain];
-
-        ascent = std::abs ((float) [nsFont ascender]);
-        float totalSize = ascent + std::abs ((float) [nsFont descender]);
-        ascent /= totalSize;
-
-        pathTransform = AffineTransform::identity.scale (1.0f / totalSize);
-
-      #if SUPPORT_ONLY_10_4_FONTS
-        ATSFontRef atsFont = ATSFontFindFromName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
-
-        if (atsFont == 0)
-            atsFont = ATSFontFindFromPostScriptName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
-
-        fontRef = CGFontCreateWithPlatformFont (&atsFont);
-
-        const float totalHeight = std::abs ([nsFont ascender]) + std::abs ([nsFont descender]);
-        unitsToHeightScaleFactor = 1.0f / totalHeight;
-        fontHeightToPointsFactor = referenceFontSize / totalHeight;
-      #else
-       #if SUPPORT_10_4_FONTS
-        if (NEW_CGFONT_FUNCTIONS_UNAVAILABLE)
         {
-            ATSFontRef atsFont = ATSFontFindFromName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
+            renderingTransform = CGAffineTransformIdentity;
 
-            if (atsFont == 0)
-                atsFont = ATSFontFindFromPostScriptName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
+            NSDictionary* nsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       juceStringToNS (name), NSFontFamilyAttribute,
+                                       juceStringToNS (style), NSFontFaceAttribute, nil];
 
-            fontRef = CGFontCreateWithPlatformFont (&atsFont);
+            NSFontDescriptor* nsFontDesc = [NSFontDescriptor fontDescriptorWithFontAttributes: nsDict];
+            nsFont = [NSFont fontWithDescriptor: nsFontDesc size: referenceFontSize];
 
-            const float totalHeight = std::abs ([nsFont ascender]) + std::abs ([nsFont descender]);
-            unitsToHeightScaleFactor = 1.0f / totalHeight;
-            fontHeightToPointsFactor = referenceFontSize / totalHeight;
+            [nsFont retain];
+
+          #if SUPPORT_ONLY_10_4_FONTS
+            initWithATSFont();
+          #else
+           #if SUPPORT_10_4_FONTS
+            if (NEW_CGFONT_FUNCTIONS_UNAVAILABLE)
+            {
+                initWithATSFont();
+            }
+            else
+           #endif
+            {
+                fontRef = CGFontCreateWithFontName ((CFStringRef) [nsFont fontName]);
+
+                const float absAscent = std::abs ((float) CGFontGetAscent (fontRef));
+                const float totalHeight = absAscent + std::abs ((float) CGFontGetDescent (fontRef));
+
+                ascent = absAscent / totalHeight;
+                unitsToHeightScaleFactor = 1.0f / totalHeight;
+
+                const float nsFontAscent  = std::abs ([nsFont ascender]);
+                const float nsFontDescent = std::abs ([nsFont descender]);
+
+                fontHeightToPointsFactor = referenceFontSize / (nsFontAscent + nsFontDescent);
+           }
+          #endif
+
+            pathTransform = AffineTransform::identity.scale (unitsToHeightScaleFactor);
         }
-        else
-       #endif
-        {
-            fontRef = CGFontCreateWithFontName ((CFStringRef) [nsFont fontName]);
-
-            const float totalHeight = std::abs ((float) CGFontGetAscent (fontRef)) + std::abs ((float) CGFontGetDescent (fontRef));
-            unitsToHeightScaleFactor = 1.0f / totalHeight;
-            fontHeightToPointsFactor = referenceFontSize / totalHeight;
-        }
-      #endif
     }
 
     ~OSXTypeface()
@@ -777,6 +839,27 @@ public:
         if (fontRef != 0)
             CGFontRelease (fontRef);
     }
+
+   #if SUPPORT_10_4_FONTS
+    void initWithATSFont()
+    {
+        ATSFontRef atsFont = ATSFontFindFromName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
+
+        if (atsFont == 0)
+            atsFont = ATSFontFindFromPostScriptName ((CFStringRef) [nsFont fontName], kATSOptionFlagsDefault);
+
+        fontRef = CGFontCreateWithPlatformFont (&atsFont);
+
+        const float absAscent = std::abs ([nsFont ascender]);
+        const float absDescent = std::abs ([nsFont descender]);
+        const float totalHeight = absAscent + absDescent;
+
+        unitsToHeightScaleFactor = 1.0f / totalHeight;
+        fontHeightToPointsFactor = referenceFontSize / totalHeight;
+        ascent = absAscent / totalHeight;
+    }
+   #endif
+
 
     float getAscent() const                 { return ascent; }
     float getDescent() const                { return 1.0f - ascent; }
@@ -904,28 +987,29 @@ public:
         jassert (path.isEmpty());
 
         JUCE_AUTORELEASEPOOL
-
-        NSBezierPath* bez = [NSBezierPath bezierPath];
-        [bez moveToPoint: NSMakePoint (0, 0)];
-        [bez appendBezierPathWithGlyph: (NSGlyph) glyphNumber
-                                inFont: nsFont];
-
-        for (int i = 0; i < [bez elementCount]; ++i)
         {
-            NSPoint p[3];
-            switch ([bez elementAtIndex: i associatedPoints: p])
-            {
-                case NSMoveToBezierPathElement:     path.startNewSubPath ((float) p[0].x, (float) -p[0].y); break;
-                case NSLineToBezierPathElement:     path.lineTo  ((float) p[0].x, (float) -p[0].y); break;
-                case NSCurveToBezierPathElement:    path.cubicTo ((float) p[0].x, (float) -p[0].y,
-                                                                  (float) p[1].x, (float) -p[1].y,
-                                                                  (float) p[2].x, (float) -p[2].y); break;
-                case NSClosePathBezierPathElement:  path.closeSubPath(); break;
-                default:                            jassertfalse; break;
-            }
-        }
+            NSBezierPath* bez = [NSBezierPath bezierPath];
+            [bez moveToPoint: NSMakePoint (0, 0)];
+            [bez appendBezierPathWithGlyph: (NSGlyph) glyphNumber
+                                    inFont: nsFont];
 
-        path.applyTransform (pathTransform);
+            for (int i = 0; i < [bez elementCount]; ++i)
+            {
+                NSPoint p[3];
+                switch ([bez elementAtIndex: i associatedPoints: p])
+                {
+                    case NSMoveToBezierPathElement:     path.startNewSubPath ((float) p[0].x, (float) -p[0].y); break;
+                    case NSLineToBezierPathElement:     path.lineTo  ((float) p[0].x, (float) -p[0].y); break;
+                    case NSCurveToBezierPathElement:    path.cubicTo ((float) p[0].x, (float) -p[0].y,
+                                                                      (float) p[1].x, (float) -p[1].y,
+                                                                      (float) p[2].x, (float) -p[2].y); break;
+                    case NSClosePathBezierPathElement:  path.closeSubPath(); break;
+                    default:                            jassertfalse; break;
+                }
+            }
+
+            path.applyTransform (pathTransform);
+        }
         return true;
        #endif
     }
@@ -976,11 +1060,11 @@ private:
     class CharToGlyphMapper
     {
     public:
-        CharToGlyphMapper (CGFontRef fontRef)
+        CharToGlyphMapper (CGFontRef cgFontRef)
             : segCount (0), endCode (0), startCode (0), idDelta (0),
               idRangeOffset (0), glyphIndexes (0)
         {
-            CFDataRef cmapTable = CGFontCopyTableForTag (fontRef, 'cmap');
+            CFDataRef cmapTable = CGFontCopyTableForTag (cgFontRef, 'cmap');
 
             if (cmapTable != 0)
             {
@@ -1078,18 +1162,19 @@ private:
 StringArray Font::findAllTypefaceNames()
 {
     StringArray names;
+
     JUCE_AUTORELEASEPOOL
+    {
+       #if JUCE_IOS
+        for (NSString* name in [UIFont familyNames])
+       #else
+        for (NSString* name in [[NSFontManager sharedFontManager] availableFontFamilies])
+       #endif
+            names.add (nsStringToJuce (name));
 
-   #if JUCE_IOS
-    NSArray* fonts = [UIFont familyNames];
-   #else
-    NSArray* fonts = [[NSFontManager sharedFontManager] availableFontFamilies];
-   #endif
+        names.sort (true);
+    }
 
-    for (unsigned int i = 0; i < [fonts count]; ++i)
-        names.add (nsStringToJuce ((NSString*) [fonts objectAtIndex: i]));
-
-    names.sort (true);
     return names;
 }
 
@@ -1099,14 +1184,11 @@ StringArray Font::findAllTypefaceStyles (const String& family)
         return findAllTypefaceStyles (FontStyleHelpers::getConcreteFamilyNameFromPlaceholder (family));
 
     StringArray results;
+
     JUCE_AUTORELEASEPOOL
-
-    NSArray* styles = [[NSFontManager sharedFontManager] availableMembersOfFontFamily: juceStringToNS (family)];
-
-    for (unsigned int i = 0; i < [styles count]; ++i)
     {
-        NSArray* style = [styles objectAtIndex: i];
-        results.add (nsStringToJuce ((NSString*) [style objectAtIndex: 1]));
+        for (NSArray* style in [[NSFontManager sharedFontManager] availableMembersOfFontFamily: juceStringToNS (family)])
+            results.add (nsStringToJuce ((NSString*) [style objectAtIndex: 1]));
     }
 
     return results;
@@ -1118,6 +1200,11 @@ StringArray Font::findAllTypefaceStyles (const String& family)
 Typeface::Ptr Typeface::createSystemTypefaceFor (const Font& font)
 {
     return new OSXTypeface (font);
+}
+
+void Typeface::scanFolderForFonts (const File&)
+{
+    jassertfalse; // not implemented on this platform
 }
 
 struct DefaultFontNames

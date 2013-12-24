@@ -1069,6 +1069,7 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\FloatParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\FrequencyParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\IntegerParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ParameterLabel.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameters.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameterSet.h"/>

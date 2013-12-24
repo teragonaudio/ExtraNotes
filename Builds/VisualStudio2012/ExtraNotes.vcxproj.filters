@@ -1353,6 +1353,9 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\IntegerParameter.h">
       <Filter>ExtraNotes\Components\PluginParameters\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ParameterLabel.h">
+      <Filter>ExtraNotes\Components\PluginParameters\include</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameter.h">
       <Filter>ExtraNotes\Components\PluginParameters\include</Filter>
     </ClInclude>

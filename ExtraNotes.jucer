@@ -39,6 +39,8 @@
                 file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FrequencyParameter.h"/>
           <FILE id="aXYMkZ" name="IntegerParameter.h" compile="0" resource="0"
                 file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/IntegerParameter.h"/>
+          <FILE id="jhI9Mb" name="ParameterLabel.h" compile="0" resource="0"
+                file="Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.h"/>
           <FILE id="sVMGN5" name="PluginParameter.h" compile="0" resource="0"
                 file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameter.h"/>
           <FILE id="YJRalB" name="PluginParameters.h" compile="0" resource="0"

@@ -190,6 +190,7 @@
 		24F6704D57B2250152A82882 /* juce_module_info */ = {isa = PBXFileReference; lastKnownFileType = file; name = juce_module_info; path = ../../JuceLibraryCode/modules/juce_gui_basics/juce_module_info; sourceTree = SOURCE_ROOT; };
 		253A30E9A272C19E9E2EC17A /* juce_ToggleButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ToggleButton.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/buttons/juce_ToggleButton.cpp; sourceTree = SOURCE_ROOT; };
 		25AAC0498C27AFA81B4A403B /* juce_ResizableEdgeComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ResizableEdgeComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_ResizableEdgeComponent.h; sourceTree = SOURCE_ROOT; };
+		25EA3F041D130C624E112EC6 /* ParameterLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ParameterLabel.h; path = "../../Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.h"; sourceTree = SOURCE_ROOT; };
 		263744039A94F7205727684C /* IndicatorLight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IndicatorLight.h; path = "../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h"; sourceTree = SOURCE_ROOT; };
 		26527D9FFA50B80D64518CD8 /* juce_BufferedInputStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BufferedInputStream.cpp; path = ../../JuceLibraryCode/modules/juce_core/streams/juce_BufferedInputStream.cpp; sourceTree = SOURCE_ROOT; };
 		265AD31659067E3F6CAC172E /* juce_TooltipWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_TooltipWindow.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/windows/juce_TooltipWindow.h; sourceTree = SOURCE_ROOT; };
@@ -1091,6 +1092,7 @@
 				31056A0BCE2D274244482E2E /* FloatParameter.h */,
 				435A1AAF5C97EA08FC673ED1 /* FrequencyParameter.h */,
 				60AC1BEBA6F4850FF16B87A8 /* IntegerParameter.h */,
+				25EA3F041D130C624E112EC6 /* ParameterLabel.h */,
 				7FFF9D5B3D346311A0AE6E2E /* PluginParameter.h */,
 				0650F22CD55D7F380CCBF9FA /* PluginParameters.h */,
 				8C81367C9921193DE699678A /* PluginParameterSet.h */,

@@ -14,57 +14,49 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
-//==============================================================================
-/**
-*/
-class ExtraNotesAudioProcessor : public AudioProcessor, public TextEditor::Listener
-{
+class ExtraNotesAudioProcessor : public AudioProcessor, public TextEditor::Listener {
 public:
-    //==============================================================================
-    ExtraNotesAudioProcessor() {}
+    ExtraNotesAudioProcessor();
     ~ExtraNotesAudioProcessor() {}
 
-    //==============================================================================
-    void prepareToPlay (double sampleRate, int samplesPerBlock) {}
+    // Playback
+    void prepareToPlay(double sampleRate, int samplesPerBlock) {}
     void releaseResources() {}
+    void processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages);
 
-    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
-
-    //==============================================================================
-    AudioProcessorEditor* createEditor();
+    // Editor
+    AudioProcessorEditor *createEditor();
     bool hasEditor() const { return true; }
-    virtual void textEditorTextChanged (TextEditor &textEditor) { editorText = textEditor.getText(); }
+    virtual void textEditorTextChanged(TextEditor &textEditor);
 
-    //==============================================================================
+    // Plugin configuration and information
     const String getName() const { return JucePlugin_Name; }
-
-    int getNumParameters() { return 0; }
-    float getParameter (int index) { return 0.0; }
-    void setParameter (int index, float newValue) {}
-
-    const String getParameterName (int index) { return String::empty; }
-    const String getParameterText (int index) { return String::empty; }
-
-    const String getInputChannelName (int channelIndex) const { return String(channelIndex + 1); }
-    const String getOutputChannelName (int channelIndex) const { return String(channelIndex + 1); }
-    bool isInputChannelStereoPair (int index) const { return true; }
-    bool isOutputChannelStereoPair (int index) const { return true; }
-
+    const String getInputChannelName(int channelIndex) const { return String(channelIndex + 1); }
+    const String getOutputChannelName(int channelIndex) const { return String(channelIndex + 1); }
+    bool isInputChannelStereoPair(int index) const { return true; }
+    bool isOutputChannelStereoPair(int index) const { return true; }
     bool acceptsMidi() const { return false; }
     bool producesMidi() const { return false; }
     bool silenceInProducesSilenceOut() const { return true; }
     double getTailLengthSeconds() const { return 0.0; }
 
-    //==============================================================================
+    // Parameter handling
+    float getParameter(int index);
+    int getNumParameters();
+    void setParameter(int index, float newValue);
+    const String getParameterName(int index);
+    const String getParameterText(int index);
+
+    // Program handling (not used by this plugin)
     int getNumPrograms() { return 0; }
     int getCurrentProgram() { return 0; }
-    void setCurrentProgram (int index) {}
-    const String getProgramName (int index) { return String::empty; }
-    void changeProgramName (int index, const String& newName) {}
+    void setCurrentProgram(int index) {}
+    const String getProgramName(int index) { return String::empty; }
+    void changeProgramName(int index, const String &newName) {}
 
-    //==============================================================================
-    void getStateInformation (MemoryBlock& destData);
-    void setStateInformation (const void* data, int sizeInBytes);
+    // State save/restore
+    void getStateInformation(MemoryBlock &destData);
+    void setStateInformation(const void *data, int sizeInBytes);
 
 private:
     String editorText;

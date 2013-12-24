@@ -2294,6 +2294,129 @@
     <content url="file://$MODULE_DIR$/../../Source/PluginProcessor.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/PluginProcessor.h" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/DecibelParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/DecibelParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/Event.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/Event.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/EventDispatcher.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/EventDispatcher.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FloatParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FloatParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FrequencyParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FrequencyParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/IntegerParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/IntegerParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameterSet.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameterSet.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameters.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameters.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/StringParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/StringParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/ThreadsafePluginParameterSet.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/ThreadsafePluginParameterSet.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/VoidParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/VoidParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/atomicops.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/atomicops.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/readerwriterqueue.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/readerwriterqueue.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/fast_mutex.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/fast_mutex.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/AnimationConstants.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/AnimationConstants.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/EllipsizedLabel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/EllipsizedLabel.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnobLarge.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnobLarge.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnobSmall.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnobSmall.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PushButton.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PushButton.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PushButton.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PushButton.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/Resources.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/Resources.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/Resources.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/Resources.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/StatusBar.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/StatusBar.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/StatusBar.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/StatusBar.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/TeragonGuiComponents.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/TeragonGuiComponents.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ThinButton.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ThinButton.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ThinButton.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ThinButton.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ToggleButton.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ToggleButton.h" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

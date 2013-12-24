@@ -10,14 +10,24 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Resources.h"
 
 static const char *kEditorTextAttributeName = "EditorText";
 
-ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() {
+ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
+AudioProcessor(), TextEditor::Listener(), PluginParameterObserver() {
+    editorText = new StringParameter("Text", "Click here to start a new note");
+    editorText->addObserver(this);
+    parameters.add(editorText);
 
+    ParameterString version = ProjectInfo::projectName;
+    version.append(" version ").append(ProjectInfo::versionString);
+    parameters.add(new StringParameter("Version", version));
 }
 
 void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
+    parameters.processRealtimeEvents();
+
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -27,39 +37,43 @@ void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffe
 }
 
 AudioProcessorEditor *ExtraNotesAudioProcessor::createEditor() {
-    ExtraNotesAudioProcessorEditor *editor = new ExtraNotesAudioProcessorEditor (this);
+    ExtraNotesAudioProcessorEditor *editor = new ExtraNotesAudioProcessorEditor(this, parameters, Resources::getCache());
     editor->setEditorListener(this);
-    editor->setEditorText(editorText);
+    editor->setEditorText(editorText->getDisplayText());
     return editor;
 }
 
 void ExtraNotesAudioProcessor::textEditorTextChanged(TextEditor &textEditor) {
-    editorText = textEditor.getText();
+    parameters.set(editorText, textEditor.getText().getCharPointer().getAddress(), this);
 }
 
 float ExtraNotesAudioProcessor::getParameter(int index) {
-    return 0;
+    return (float)parameters[index]->getScaledValue();
 }
 
 int ExtraNotesAudioProcessor::getNumParameters() {
-    return 0;
+    return parameters.size();
 }
 
 void ExtraNotesAudioProcessor::setParameter(int index, float newValue) {
-
+    parameters.setScaled(index, newValue);
 }
 
 const String ExtraNotesAudioProcessor::getParameterName(int index) {
-    return juce::String();
+    return parameters[index]->getName();
 }
 
 const String ExtraNotesAudioProcessor::getParameterText(int index) {
-    return juce::String();
+    return parameters[index]->getDisplayText();
+}
+
+void ExtraNotesAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
+    printf("Parameter updated?\n");
 }
 
 void ExtraNotesAudioProcessor::getStateInformation(MemoryBlock &destData) {
     XmlElement xml(getName());
-    xml.setAttribute(kEditorTextAttributeName, editorText);
+    xml.setAttribute(kEditorTextAttributeName, editorText->getDisplayText());
     copyXmlToBinary(xml, destData);
 }
 
@@ -67,7 +81,9 @@ void ExtraNotesAudioProcessor::setStateInformation(const void *data, int sizeInB
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if(xmlState != 0 && xmlState->hasTagName(getName())) {
         if(xmlState->hasAttribute(kEditorTextAttributeName)) {
-            editorText = xmlState->getStringAttribute(kEditorTextAttributeName);
+            juce::String value = xmlState->getStringAttribute(kEditorTextAttributeName);
+            parameters.set(editorText, value.getCharPointer().getAddress());
+            parameters.processRealtimeEvents();
         }
     }
 }

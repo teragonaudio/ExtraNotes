@@ -12,9 +12,12 @@
 #define __PLUGINPROCESSOR_H_FA874118__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "PluginParameters.h"
 
+using namespace teragon;
 
-class ExtraNotesAudioProcessor : public AudioProcessor, public TextEditor::Listener {
+class ExtraNotesAudioProcessor : public AudioProcessor, public TextEditor::Listener,
+public PluginParameterObserver {
 public:
     ExtraNotesAudioProcessor();
     ~ExtraNotesAudioProcessor() {}
@@ -58,8 +61,13 @@ public:
     void getStateInformation(MemoryBlock &destData);
     void setStateInformation(const void *data, int sizeInBytes);
 
+    // PluginParameterObserver methods
+    virtual bool isRealtimePriority() const { return true; }
+    virtual void onParameterUpdated(const PluginParameter *parameter);
+
 private:
-    String editorText;
+    ThreadsafePluginParameterSet parameters;
+    StringParameter *editorText;
 
 private:
     //==============================================================================

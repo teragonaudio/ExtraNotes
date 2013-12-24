@@ -1,20 +1,18 @@
 /*
   ==============================================================================
 
-  This is an automatically generated file created by the Jucer!
-
-  Creation date:  17 Mar 2013 5:26:25pm
+  This is an automatically generated GUI class created by the Introjucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.12
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
-  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-6 by Raw Material Software ltd.
+  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright 2004-13 by Raw Material Software Ltd.
 
   ==============================================================================
 */
@@ -29,9 +27,8 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (ExtraNotesAudioProcessor *ownerFilter)
-    : AudioProcessorEditor(ownerFilter),
-      textEditor (0)
+ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *ownerFilter, teragon::ThreadsafePluginParameterSet &p, teragon::ResourceCache *r)
+    : AudioProcessorEditor(ownerFilter), parameters(p), resources(r)
 {
     addAndMakeVisible (textEditor = new TextEditor ("Text Editor"));
     textEditor->setMultiLine (true);
@@ -40,6 +37,9 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (ExtraNotesAudioP
     textEditor->setScrollbarsShown (true);
     textEditor->setCaretVisible (true);
     textEditor->setPopupMenuEnabled (true);
+    textEditor->setColour (TextEditor::backgroundColourId, Colours::white);
+    textEditor->setColour (TextEditor::highlightColourId, Colour (0x40e66363));
+    textEditor->setColour (TextEditor::shadowColourId, Colour (0x38cb0d0d));
     textEditor->setText (String::empty);
 
 
@@ -50,6 +50,11 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (ExtraNotesAudioP
 
 
     //[Constructor] You can add your own custom stuff here..
+
+    // Disable that godawful light blue/purple color that Juce draws on this component's border
+    textEditor->setColour(TextEditor::outlineColourId, Colours::transparentBlack);
+    textEditor->setColour(TextEditor::focusedOutlineColourId, Colours::transparentBlack);
+    textEditor->setColour(TextEditor::shadowColourId, Colours::transparentBlack);
     //[/Constructor]
 }
 
@@ -58,10 +63,11 @@ ExtraNotesAudioProcessorEditor::~ExtraNotesAudioProcessorEditor()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    deleteAndZero (textEditor);
+    textEditor = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
+    delete resources;
     //[/Destructor]
 }
 
@@ -71,7 +77,7 @@ void ExtraNotesAudioProcessorEditor::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colours::white);
+    g.fillAll (Colour (0xfdffffff));
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -79,8 +85,9 @@ void ExtraNotesAudioProcessorEditor::paint (Graphics& g)
 
 void ExtraNotesAudioProcessorEditor::resized()
 {
-    textEditor->setBounds (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
+    textEditor->setBounds (24, 16, proportionOfWidth (0.9200f), proportionOfHeight (0.9200f));
     //[UserResized] Add your own custom resize handling here..
+    textEditor.get()->grabKeyboardFocus();
     //[/UserResized]
 }
 
@@ -92,28 +99,29 @@ void ExtraNotesAudioProcessorEditor::resized()
 
 //==============================================================================
 #if 0
-/*  -- Jucer information section --
+/*  -- Introjucer information section --
 
-    This is where the Jucer puts all of its metadata, so don't change anything in here!
+    This is where the Introjucer stores the metadata that describe this GUI layout, so
+    make changes in here at your peril!
 
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ExtraNotesAudioProcessorEditor"
                  componentName="" parentClasses="public AudioProcessorEditor"
-                 constructorParams="ExtraNotesAudioProcessor *ownerFilter" variableInitialisers="AudioProcessorEditor(ownerFilter)"
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330000013"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ffffffff"/>
+                 constructorParams="AudioProcessor *ownerFilter, teragon::ThreadsafePluginParameterSet &amp;p, teragon::ResourceCache *r"
+                 variableInitialisers="AudioProcessorEditor(ownerFilter), parameters(p), resources(r)"
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="1" initialWidth="600" initialHeight="400">
+  <BACKGROUND backgroundColour="fdffffff"/>
   <TEXTEDITOR name="Text Editor" id="ad4098c5c892dabd" memberName="textEditor"
-              virtualName="" explicitFocusOrder="0" pos="0 0 100% 100%" initialText=""
-              multiline="1" retKeyStartsLine="1" readonly="0" scrollbars="1"
-              caret="1" popupmenu="1"/>
+              virtualName="" explicitFocusOrder="0" pos="24 16 92% 92%" bkgcol="ffffffff"
+              hilitecol="40e66363" shadowcol="38cb0d0d" initialText="" multiline="1"
+              retKeyStartsLine="1" readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
 */
 #endif
-
 
 
 //[EndFile] You can add extra defines here...

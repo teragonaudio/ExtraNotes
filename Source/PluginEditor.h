@@ -1,30 +1,28 @@
 /*
   ==============================================================================
 
-  This is an automatically generated file created by the Jucer!
-
-  Creation date:  17 Mar 2013 5:26:25pm
+  This is an automatically generated GUI class created by the Introjucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.12
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
-  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-6 by Raw Material Software ltd.
+  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright 2004-13 by Raw Material Software Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_EXTRANOTESAUDIOPROCESSOREDITOR_PLUGINEDITOR_7580BDA__
-#define __JUCER_HEADER_EXTRANOTESAUDIOPROCESSOREDITOR_PLUGINEDITOR_7580BDA__
+#ifndef __JUCE_HEADER_173BA1F56A32FA20__
+#define __JUCE_HEADER_173BA1F56A32FA20__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginProcessor.h"
+#include "TeragonGuiComponents.h"
 //[/Headers]
 
 
@@ -41,7 +39,7 @@ class ExtraNotesAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     //==============================================================================
-    ExtraNotesAudioProcessorEditor (ExtraNotesAudioProcessor *ownerFilter);
+    ExtraNotesAudioProcessorEditor (AudioProcessor *ownerFilter, teragon::ThreadsafePluginParameterSet &p, teragon::ResourceCache *r);
     ~ExtraNotesAudioProcessorEditor();
 
     //==============================================================================
@@ -58,10 +56,12 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    teragon::ThreadsafePluginParameterSet &parameters;
+    teragon::ResourceCache *resources;
     //[/UserVariables]
 
     //==============================================================================
-    TextEditor* textEditor;
+    ScopedPointer<TextEditor> textEditor;
 
 
     //==============================================================================
@@ -71,4 +71,4 @@ private:
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_EXTRANOTESAUDIOPROCESSOREDITOR_PLUGINEDITOR_7580BDA__
+#endif   // __JUCE_HEADER_173BA1F56A32FA20__

@@ -21,10 +21,17 @@ AudioProcessor(), TextEditor::Listener(), PluginParameterObserver() {
     parameters.add(editorText);
 
     parameters.add(new BooleanParameter("Modified"));
-    parameters.add(new BooleanParameter("Edit Text", true));
-    parameters.add(new BooleanParameter("Edit Image", false));
-    parameters.add(new VoidParameter("Load Image"));
-    parameters.add(new VoidParameter("Clear Image"));
+
+    editText = new BooleanParameter("Edit Text", true);
+    editText->addObserver(this);
+    parameters.add(editText);
+
+    editImage = new BooleanParameter("Edit Image", false);
+    editImage->addObserver(this);
+    parameters.add(editImage);
+
+    parameters.add(new VoidParameter("Load Item"));
+    parameters.add(new VoidParameter("Clear Item"));
 
     ParameterString version = ProjectInfo::projectName;
     version.append(" version ").append(ProjectInfo::versionString);
@@ -74,7 +81,14 @@ const String ExtraNotesAudioProcessor::getParameterText(int index) {
 }
 
 void ExtraNotesAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
-    printf("Parameter updated?\n");
+    if(parameter->getName() == "Text") {
+    }
+    else if(parameter->getName() == "Edit Text") {
+        parameters.set("Edit Image", !parameter->getValue(), this);
+    }
+    else if(parameter->getName() == "Edit Image") {
+        parameters.set("Edit Text", !parameter->getValue(), this);
+    }
 }
 
 void ExtraNotesAudioProcessor::getStateInformation(MemoryBlock &destData) {

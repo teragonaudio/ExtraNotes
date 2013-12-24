@@ -35,7 +35,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class ExtraNotesAudioProcessorEditor  : public AudioProcessorEditor
+class ExtraNotesAudioProcessorEditor  : public AudioProcessorEditor,
+                                        public teragon::PluginParameterObserver
 {
 public:
     //==============================================================================
@@ -47,6 +48,9 @@ public:
     String getEditorText() const { return textEditor->getText(); }
     void setEditorText(const String& text) { textEditor->setText(text); }
     void setEditorListener(TextEditor::Listener *listener) { textEditor->addListener(listener); }
+
+    virtual bool isRealtimePriority() const { return false; }
+    virtual void onParameterUpdated(const teragon::PluginParameter *parameter);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -68,10 +72,11 @@ private:
     ScopedPointer<teragon::IndicatorLight> modifiedLight;
     ScopedPointer<teragon::PushButton> editTextButton;
     ScopedPointer<teragon::PushButton> editImageButton;
-    ScopedPointer<teragon::ToggleButton> loadImageButton;
-    ScopedPointer<teragon::ToggleButton> clearImageButton;
+    ScopedPointer<teragon::ToggleButton> loadItemButton;
+    ScopedPointer<teragon::ToggleButton> clearItemButton;
     ScopedPointer<teragon::StatusBar> statusBar;
     ScopedPointer<teragon::ParameterLabel> versionLabel;
+    ScopedPointer<ImageComponent> imageViewer;
     Image cachedImage_background_png;
 
 

@@ -68,6 +68,8 @@ public:
 private:
     ThreadsafePluginParameterSet parameters;
     StringParameter *editorText;
+    BooleanParameter *editText;
+    BooleanParameter *editImage;
 
 private:
     //==============================================================================

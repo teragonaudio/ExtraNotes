@@ -20,6 +20,12 @@ AudioProcessor(), TextEditor::Listener(), PluginParameterObserver() {
     editorText->addObserver(this);
     parameters.add(editorText);
 
+    parameters.add(new BooleanParameter("Modified"));
+    parameters.add(new BooleanParameter("Edit Text", true));
+    parameters.add(new BooleanParameter("Edit Image", false));
+    parameters.add(new VoidParameter("Load Image"));
+    parameters.add(new VoidParameter("Clear Image"));
+
     ParameterString version = ProjectInfo::projectName;
     version.append(" version ").append(ProjectInfo::versionString);
     parameters.add(new StringParameter("Version", version));

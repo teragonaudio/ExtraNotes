@@ -52,6 +52,9 @@ public:
     void paint (Graphics& g);
     void resized();
 
+    // Binary resources:
+    static const char* background_png;
+    static const int background_pngSize;
 
 
 private:
@@ -62,6 +65,14 @@ private:
 
     //==============================================================================
     ScopedPointer<TextEditor> textEditor;
+    ScopedPointer<teragon::IndicatorLight> modifiedLight;
+    ScopedPointer<teragon::PushButton> editTextButton;
+    ScopedPointer<teragon::PushButton> editImageButton;
+    ScopedPointer<teragon::ToggleButton> loadImageButton;
+    ScopedPointer<teragon::ToggleButton> clearImageButton;
+    ScopedPointer<teragon::StatusBar> statusBar;
+    ScopedPointer<teragon::ParameterLabel> versionLabel;
+    Image cachedImage_background_png;
 
 
     //==============================================================================

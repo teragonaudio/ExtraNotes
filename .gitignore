@@ -18,6 +18,7 @@ Builds/VisualStudio2012/Release
 *.opensdf
 *.suo
 cscope.out
+Builds/MacOSX/.idea/workspace.xml
 
 # Third-party libraries
 Third-Party/vstsdk2.4/*

@@ -1335,6 +1335,9 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\tinythread.h">
       <Filter>ExtraNotes\Components\PluginParameters\include\tinythread\source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\BlobParameter.h">
+      <Filter>ExtraNotes\Components\PluginParameters\include</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\BooleanParameter.h">
       <Filter>ExtraNotes\Components\PluginParameters\include</Filter>
     </ClInclude>

@@ -2282,6 +2282,12 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Source/ButtonlessLookAndFeel.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/ButtonlessLookAndFeel.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/ButtonlessLookAndFeel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/ButtonlessLookAndFeel.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.cpp" isTestSource="false" />
     </content>
@@ -2305,6 +2311,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../Source/TextEditorParameter.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/TextEditorParameter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BlobParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BlobParameter.h" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h" isTestSource="false" />

@@ -517,6 +517,7 @@
 		8985241E6F2557D5E5573D5C /* juce_android_Fonts.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Fonts.cpp; path = ../../JuceLibraryCode/modules/juce_graphics/native/juce_android_Fonts.cpp; sourceTree = SOURCE_ROOT; };
 		89DF5F4279378A0143809381 /* juce_ReverbAudioSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ReverbAudioSource.cpp; path = ../../JuceLibraryCode/modules/juce_audio_basics/sources/juce_ReverbAudioSource.cpp; sourceTree = SOURCE_ROOT; };
 		89E29A5AEEBDC0C72CFDDC0A /* juce_BooleanPropertyComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BooleanPropertyComponent.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.cpp; sourceTree = SOURCE_ROOT; };
+		89F19A0968D760D5859F39AE /* BlobParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BlobParameter.h; path = "../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BlobParameter.h"; sourceTree = SOURCE_ROOT; };
 		89F9D3CA551DEB63733A9EAA /* juce_StringArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_StringArray.h; path = ../../JuceLibraryCode/modules/juce_core/text/juce_StringArray.h; sourceTree = SOURCE_ROOT; };
 		8A529F897F6CF5C5D3680CBB /* juce_SliderPropertyComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_SliderPropertyComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/properties/juce_SliderPropertyComponent.h; sourceTree = SOURCE_ROOT; };
 		8A63C9126474C944F5097A01 /* juce_FileListComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileListComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/filebrowser/juce_FileListComponent.h; sourceTree = SOURCE_ROOT; };
@@ -1089,6 +1090,7 @@
 			children = (
 				5039B18B3441E32FE9E2F7F5 /* readerwriterqueue */,
 				75C65938AC5071AC039BA0B0 /* tinythread */,
+				89F19A0968D760D5859F39AE /* BlobParameter.h */,
 				DD4DCD7AB33035EB039A18AE /* BooleanParameter.h */,
 				1F3F15D366B607B519933F68 /* DecibelParameter.h */,
 				6A4488198D71B700D87F5035 /* Event.h */,

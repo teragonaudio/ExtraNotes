@@ -1063,6 +1063,7 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\readerwriterqueue\readerwriterqueue.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\fast_mutex.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\tinythread.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\BlobParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\BooleanParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\DecibelParameter.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\Event.h"/>

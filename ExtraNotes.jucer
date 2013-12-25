@@ -26,6 +26,7 @@
               <FILE id="LG1cwN" name="tinythread.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.h"/>
             </GROUP>
           </GROUP>
+          <FILE id="uUlIqN" name="BlobParameter.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BlobParameter.h"/>
           <FILE id="C4fUaL" name="BooleanParameter.h" compile="0" resource="0"
                 file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h"/>
           <FILE id="nQivU7" name="DecibelParameter.h" compile="0" resource="0"

@@ -301,10 +301,13 @@
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.cpp">
       <Filter>ExtraNotes\Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
+    <ClCompile Include="..\..\Source\ConfirmClearDialog.cpp">
       <Filter>ExtraNotes\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginEditor.cpp">
+      <Filter>ExtraNotes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>ExtraNotes\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1419,10 +1422,16 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ToggleButton.h">
       <Filter>ExtraNotes\Components\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\PluginProcessor.h">
+    <ClInclude Include="..\..\Source\ConfirmClearDialog.h">
       <Filter>ExtraNotes\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginEditor.h">
+      <Filter>ExtraNotes\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PluginProcessor.h">
+      <Filter>ExtraNotes\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TextEditorParameter.h">
       <Filter>ExtraNotes\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">

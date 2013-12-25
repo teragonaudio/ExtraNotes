@@ -58,8 +58,9 @@ OBJECTS := \
   $(OBJDIR)/Resources_244c186a.o \
   $(OBJDIR)/StatusBar_62e48306.o \
   $(OBJDIR)/ThinButton_20dde050.o \
-  $(OBJDIR)/PluginProcessor_a059e380.o \
+  $(OBJDIR)/ConfirmClearDialog_e997ea1e.o \
   $(OBJDIR)/PluginEditor_94d4fb09.o \
+  $(OBJDIR)/PluginProcessor_a059e380.o \
   $(OBJDIR)/juce_audio_basics_2442e4ea.o \
   $(OBJDIR)/juce_audio_processors_44a134a2.o \
   $(OBJDIR)/juce_core_aff681cc.o \
@@ -135,14 +136,19 @@ $(OBJDIR)/ThinButton_20dde050.o: ../../Third-Party/TeragonGuiComponents/Componen
 	@echo "Compiling ThinButton.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/PluginProcessor_a059e380.o: ../../Source/PluginProcessor.cpp
+$(OBJDIR)/ConfirmClearDialog_e997ea1e.o: ../../Source/ConfirmClearDialog.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling PluginProcessor.cpp"
+	@echo "Compiling ConfirmClearDialog.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PluginEditor_94d4fb09.o: ../../Source/PluginEditor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PluginEditor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/PluginProcessor_a059e380.o: ../../Source/PluginProcessor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PluginProcessor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_2442e4ea.o: ../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp

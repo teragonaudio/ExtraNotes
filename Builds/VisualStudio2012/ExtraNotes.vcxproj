@@ -140,8 +140,9 @@
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\Resources.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\StatusBar.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.cpp"/>
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
+    <ClCompile Include="..\..\Source\ConfirmClearDialog.cpp"/>
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
+    <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1091,8 +1092,10 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\TeragonGuiComponents.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ToggleButton.h"/>
-    <ClInclude Include="..\..\Source\PluginProcessor.h"/>
+    <ClInclude Include="..\..\Source\ConfirmClearDialog.h"/>
     <ClInclude Include="..\..\Source\PluginEditor.h"/>
+    <ClInclude Include="..\..\Source\PluginProcessor.h"/>
+    <ClInclude Include="..\..\Source\TextEditorParameter.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

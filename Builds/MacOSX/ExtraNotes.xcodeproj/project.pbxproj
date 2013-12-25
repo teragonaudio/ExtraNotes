@@ -62,6 +62,7 @@
 		CA595E69CED10C7D7A52EFF9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA0B14973082AF45202B8E5 /* QuartzCore.framework */; };
 		DD1F43F024D89C0AEAE85C21 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8BE71DA6B20CC34B113153 /* CoreAudioKit.framework */; };
 		E0CD4C7E8B55BB19A6396EC2 /* CAAudioChannelLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E2F03A65C1F6821FC5C9011 /* CAAudioChannelLayout.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		E4E22B3534664B9CCB3C90D7 /* ConfirmClearDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28F38ECB25BA8C1383E7587F /* ConfirmClearDialog.cpp */; };
 		EA06F4019369D785BF9A7D69 /* ImageKnob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0FF3C7272A2C8D976AAA9EB9 /* ImageKnob.cpp */; };
 		EA0CF86204276EAFCC015078 /* AUMIDIBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59D0C9BED5FF78269387D4C9 /* AUMIDIBase.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		EA7FFDDD74AAA76E262FD008 /* CarbonEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4923167E957C7330A1D5006 /* CarbonEventHandler.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -200,6 +201,7 @@
 		285458854006A0D495AA3F8D /* juce_freetype_Fonts.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_freetype_Fonts.cpp; path = ../../JuceLibraryCode/modules/juce_graphics/native/juce_freetype_Fonts.cpp; sourceTree = SOURCE_ROOT; };
 		28868AE5A9A1828CBF15E857 /* juce_BigInteger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BigInteger.cpp; path = ../../JuceLibraryCode/modules/juce_core/maths/juce_BigInteger.cpp; sourceTree = SOURCE_ROOT; };
 		28AAA5398889DEEB45FE3DBD /* juce_SystemStats.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_SystemStats.cpp; path = ../../JuceLibraryCode/modules/juce_core/system/juce_SystemStats.cpp; sourceTree = SOURCE_ROOT; };
+		28F38ECB25BA8C1383E7587F /* ConfirmClearDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConfirmClearDialog.cpp; path = ../../Source/ConfirmClearDialog.cpp; sourceTree = SOURCE_ROOT; };
 		2967BAD2957F5B11A7080926 /* juce_win32_Messaging.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_win32_Messaging.cpp; path = ../../JuceLibraryCode/modules/juce_events/native/juce_win32_Messaging.cpp; sourceTree = SOURCE_ROOT; };
 		2ABAA662AA925B45936AAFBD /* juce_ReadWriteLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ReadWriteLock.h; path = ../../JuceLibraryCode/modules/juce_core/threads/juce_ReadWriteLock.h; sourceTree = SOURCE_ROOT; };
 		2AD092560E0368778939E4DD /* juce_OutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OutputStream.h; path = ../../JuceLibraryCode/modules/juce_core/streams/juce_OutputStream.h; sourceTree = SOURCE_ROOT; };
@@ -265,6 +267,7 @@
 		3E24C3AF810E1AF1EDB489E4 /* ImageKnobLarge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageKnobLarge.h; path = "../../Third-Party/TeragonGuiComponents/Components/Source/ImageKnobLarge.h"; sourceTree = SOURCE_ROOT; };
 		3E531EB9B1794F3EB6633882 /* juce_MidiFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MidiFile.cpp; path = ../../JuceLibraryCode/modules/juce_audio_basics/midi/juce_MidiFile.cpp; sourceTree = SOURCE_ROOT; };
 		3E91E5DFE02BD4A18BE4D2E5 /* juce_Viewport.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Viewport.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_Viewport.cpp; sourceTree = SOURCE_ROOT; };
+		3F3814001D535B0729351E57 /* ConfirmClearDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConfirmClearDialog.h; path = ../../Source/ConfirmClearDialog.h; sourceTree = SOURCE_ROOT; };
 		3F4BFB6182F1233D3F5CD7CA /* juce_ApplicationCommandInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ApplicationCommandInfo.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/commands/juce_ApplicationCommandInfo.cpp; sourceTree = SOURCE_ROOT; };
 		3F515F17F5577D0CAE0D088F /* juce_Label.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Label.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_Label.h; sourceTree = SOURCE_ROOT; };
 		3F6710B0AAC80A0B3A21CF1A /* juce_LookAndFeel_V2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LookAndFeel_V2.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/lookandfeel/juce_LookAndFeel_V2.h; sourceTree = SOURCE_ROOT; };
@@ -487,6 +490,7 @@
 		80C903640C8B044776846C21 /* juce_DrawableRectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DrawableRectangle.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/drawables/juce_DrawableRectangle.h; sourceTree = SOURCE_ROOT; };
 		812FAEA3E830ED7BFDA02B30 /* juce_Font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Font.h; path = ../../JuceLibraryCode/modules/juce_graphics/fonts/juce_Font.h; sourceTree = SOURCE_ROOT; };
 		81A45A7841F777A4E4F09D68 /* juce_StretchableObjectResizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_StretchableObjectResizer.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_StretchableObjectResizer.h; sourceTree = SOURCE_ROOT; };
+		82457E142594F4CBED9C7CC6 /* TextEditorParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextEditorParameter.h; path = ../../Source/TextEditorParameter.h; sourceTree = SOURCE_ROOT; };
 		82CF0E137606FA846893A890 /* juce_android_Misc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Misc.cpp; path = ../../JuceLibraryCode/modules/juce_core/native/juce_android_Misc.cpp; sourceTree = SOURCE_ROOT; };
 		83293DD3398912EC1145AA84 /* juce_DrawableImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_DrawableImage.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/drawables/juce_DrawableImage.cpp; sourceTree = SOURCE_ROOT; };
 		83332E18F5A48AF7B874BCF6 /* juce_FileFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileFilter.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/filebrowser/juce_FileFilter.h; sourceTree = SOURCE_ROOT; };
@@ -1106,10 +1110,13 @@
 		0E817360F4517D6F39E48354 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1800A0CC54D103A83B988DC6 /* PluginProcessor.cpp */,
-				79D6146BC68DDBD5E9680344 /* PluginProcessor.h */,
+				28F38ECB25BA8C1383E7587F /* ConfirmClearDialog.cpp */,
+				3F3814001D535B0729351E57 /* ConfirmClearDialog.h */,
 				1EB513EEA8063EB7B262EB4D /* PluginEditor.cpp */,
 				B1D57F8140F55ED4A08EDA41 /* PluginEditor.h */,
+				1800A0CC54D103A83B988DC6 /* PluginProcessor.cpp */,
+				79D6146BC68DDBD5E9680344 /* PluginProcessor.h */,
+				82457E142594F4CBED9C7CC6 /* TextEditorParameter.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -2626,8 +2633,9 @@
 				68DB7092B29951F174E6D544 /* Resources.cpp in Sources */,
 				42761E986FAE30E05E8924AE /* StatusBar.cpp in Sources */,
 				F6CEB6B4CF64E3B5111F043F /* ThinButton.cpp in Sources */,
-				4AEA6E1B4FB3DB3FCB939957 /* PluginProcessor.cpp in Sources */,
+				E4E22B3534664B9CCB3C90D7 /* ConfirmClearDialog.cpp in Sources */,
 				7D14BFA51AA3E2AC062947F5 /* PluginEditor.cpp in Sources */,
+				4AEA6E1B4FB3DB3FCB939957 /* PluginProcessor.cpp in Sources */,
 				071B7EF41502084CF83F4938 /* AUBase.cpp in Sources */,
 				A0CE77F5FE9BC868B11D2762 /* AUBuffer.cpp in Sources */,
 				BF68CE83286CECA20F337521 /* AUCarbonViewBase.cpp in Sources */,

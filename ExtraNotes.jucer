@@ -90,13 +90,19 @@
       </GROUP>
     </GROUP>
     <GROUP id="{D9441501-6072-5039-B02C-85D2C2E3DDFF}" name="Source">
+      <FILE id="oAFH8x" name="ConfirmClearDialog.cpp" compile="1" resource="0"
+            file="Source/ConfirmClearDialog.cpp"/>
+      <FILE id="zjg8J7" name="ConfirmClearDialog.h" compile="0" resource="0"
+            file="Source/ConfirmClearDialog.h"/>
+      <FILE id="zOe9VV" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="Mkx8vP" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="LcVwF5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="u9nZ51" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="zOe9VV" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="Mkx8vP" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="ZNMvRC" name="TextEditorParameter.h" compile="0" resource="0"
+            file="Source/TextEditorParameter.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

@@ -2282,6 +2282,12 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/ConfirmClearDialog.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Source/PluginEditor.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/PluginEditor.cpp" isTestSource="false" />
     </content>
@@ -2293,6 +2299,12 @@
     </content>
     <content url="file://$MODULE_DIR$/../../Source/PluginProcessor.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/PluginProcessor.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/TextEditorParameter.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/TextEditorParameter.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/TextEditorParameter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/TextEditorParameter.h" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h" isTestSource="false" />

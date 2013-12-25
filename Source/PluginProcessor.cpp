@@ -11,15 +11,17 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "Resources.h"
+#include "TextEditorParameter.h"
 
 static const char *kEditorTextAttributeName = "EditorText";
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
-AudioProcessor(), TextEditor::Listener(), PluginParameterObserver() {
-    editorText = new StringParameter("Text", "Click here to start a new note");
+AudioProcessor(), PluginParameterObserver() {
+    editorText = new TextEditorParameter("Text", "Click here to start a new note");
     editorText->addObserver(this);
     parameters.add(editorText);
 
+    // TODO: Remove this parameter
     parameters.add(new BooleanParameter("Modified"));
 
     editText = new BooleanParameter("Edit Text", true);
@@ -32,6 +34,8 @@ AudioProcessor(), TextEditor::Listener(), PluginParameterObserver() {
 
     parameters.add(new VoidParameter("Load Item"));
     parameters.add(new VoidParameter("Clear Item"));
+    parameters.add(new VoidParameter("Clear Cancelled"));
+    parameters.add(new VoidParameter("Clear Confirmed"));
 
     ParameterString version = ProjectInfo::projectName;
     version.append(" version ").append(ProjectInfo::versionString);
@@ -50,14 +54,7 @@ void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffe
 }
 
 AudioProcessorEditor *ExtraNotesAudioProcessor::createEditor() {
-    ExtraNotesAudioProcessorEditor *editor = new ExtraNotesAudioProcessorEditor(this, parameters, Resources::getCache());
-    editor->setEditorListener(this);
-    editor->setEditorText(editorText->getDisplayText());
-    return editor;
-}
-
-void ExtraNotesAudioProcessor::textEditorTextChanged(TextEditor &textEditor) {
-    parameters.set(editorText, textEditor.getText().getCharPointer().getAddress(), this);
+    return new ExtraNotesAudioProcessorEditor(this, parameters, Resources::getCache());
 }
 
 float ExtraNotesAudioProcessor::getParameter(int index) {
@@ -82,8 +79,10 @@ const String ExtraNotesAudioProcessor::getParameterText(int index) {
 
 void ExtraNotesAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
     if(parameter->getName() == "Text") {
+        printf("Text updated! %s\n", parameter->getDisplayText().c_str());
     }
-    else if(parameter->getName() == "Edit Text") {
+
+    if(parameter->getName() == "Edit Text") {
         parameters.set("Edit Image", !parameter->getValue(), this);
     }
     else if(parameter->getName() == "Edit Image") {
@@ -102,7 +101,7 @@ void ExtraNotesAudioProcessor::setStateInformation(const void *data, int sizeInB
     if(xmlState != 0 && xmlState->hasTagName(getName())) {
         if(xmlState->hasAttribute(kEditorTextAttributeName)) {
             juce::String value = xmlState->getStringAttribute(kEditorTextAttributeName);
-            parameters.set(editorText, value.getCharPointer().getAddress());
+            parameters.set(editorText, value.toStdString());
             parameters.processRealtimeEvents();
         }
     }

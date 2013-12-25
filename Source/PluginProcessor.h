@@ -16,8 +16,7 @@
 
 using namespace teragon;
 
-class ExtraNotesAudioProcessor : public AudioProcessor, public TextEditor::Listener,
-public PluginParameterObserver {
+class ExtraNotesAudioProcessor : public AudioProcessor, public PluginParameterObserver {
 public:
     ExtraNotesAudioProcessor();
     ~ExtraNotesAudioProcessor() {}
@@ -30,7 +29,6 @@ public:
     // Editor
     AudioProcessorEditor *createEditor();
     bool hasEditor() const { return true; }
-    virtual void textEditorTextChanged(TextEditor &textEditor);
 
     // Plugin configuration and information
     const String getName() const { return JucePlugin_Name; }

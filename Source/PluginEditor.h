@@ -45,12 +45,14 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    String getEditorText() const { return textEditor->getText(); }
-    void setEditorText(const String& text) { textEditor->setText(text); }
-    void setEditorListener(TextEditor::Listener *listener) { textEditor->addListener(listener); }
+    void loadFile();
+    void setActiveTab();
+    void showClearConfirmDialog();
+    void clearActiveTab();
 
-    virtual bool isRealtimePriority() const { return false; }
-    virtual void onParameterUpdated(const teragon::PluginParameter *parameter);
+    // PluginParameterObserver methods
+    bool isRealtimePriority() const { return false; }
+    void onParameterUpdated(const teragon::PluginParameter *parameter);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -69,7 +71,6 @@ private:
 
     //==============================================================================
     ScopedPointer<TextEditor> textEditor;
-    ScopedPointer<teragon::IndicatorLight> modifiedLight;
     ScopedPointer<teragon::PushButton> editTextButton;
     ScopedPointer<teragon::PushButton> editImageButton;
     ScopedPointer<teragon::ToggleButton> loadItemButton;

@@ -45,7 +45,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void loadFile();
+    static void* importFile(void *editor);
     void setActiveTab();
     void showClearConfirmDialog();
     void clearActiveTab();
@@ -70,6 +70,7 @@ private:
     //[/UserVariables]
 
     //==============================================================================
+    ScopedPointer<ImageComponent> imageViewer;
     ScopedPointer<TextEditor> textEditor;
     ScopedPointer<teragon::PushButton> editTextButton;
     ScopedPointer<teragon::PushButton> editImageButton;
@@ -77,7 +78,6 @@ private:
     ScopedPointer<teragon::ToggleButton> clearItemButton;
     ScopedPointer<teragon::StatusBar> statusBar;
     ScopedPointer<teragon::ParameterLabel> versionLabel;
-    ScopedPointer<ImageComponent> imageViewer;
     Image cachedImage_background_png;
 
 

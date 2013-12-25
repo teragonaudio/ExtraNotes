@@ -21,6 +21,12 @@ AudioProcessor(), PluginParameterObserver() {
     editorText->addObserver(this);
     parameters.add(editorText);
 
+    editorImage = new BlobParameter("Image");
+    parameters.add(editorImage);
+
+    File defaultBrowseLocation = File::getSpecialLocation(File::userHomeDirectory);
+    parameters.add(new StringParameter("Last Browse Location", defaultBrowseLocation.getFullPathName().toStdString()));
+
     editText = new BooleanParameter("Edit Text", true);
     editText->addObserver(this);
     parameters.add(editText);

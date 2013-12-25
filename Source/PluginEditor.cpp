@@ -34,6 +34,9 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
       PluginParameterObserver(),
       parameters(p), resources(r)
 {
+    addAndMakeVisible (imageViewer = new ImageComponent());
+    imageViewer->setName ("image viewer");
+
     addAndMakeVisible (textEditor = new TextEditor ("Text Editor"));
     textEditor->setMultiLine (true);
     textEditor->setReturnKeyStartsNewLine (true);
@@ -42,7 +45,7 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     textEditor->setCaretVisible (true);
     textEditor->setPopupMenuEnabled (true);
     textEditor->setColour (TextEditor::backgroundColourId, Colour (0x00ffffff));
-    textEditor->setColour (TextEditor::highlightColourId, Colour (0xff868686));
+    textEditor->setColour (TextEditor::highlightColourId, Colour (0xffc5dcd4));
     textEditor->setText (String::empty);
 
     addAndMakeVisible (editTextButton = new teragon::PushButton (parameters,
@@ -72,9 +75,6 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     addAndMakeVisible (versionLabel = new teragon::ParameterLabel (parameters,
                                                                    "Version"));
     versionLabel->setName ("version label");
-
-    addAndMakeVisible (imageViewer = new ImageComponent());
-    imageViewer->setName ("image viewer");
 
     cachedImage_background_png = ImageCache::getFromMemory (background_png, background_pngSize);
 
@@ -108,7 +108,14 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
 
     // Configure image viewer
     RectanglePlacement placement(RectanglePlacement::onlyReduceInSize | RectanglePlacement::centred);
-    imageViewer.get()->setImagePlacement(placement);
+    imageViewer->setImagePlacement(placement);
+    teragon::BlobParameter *blobParameter = dynamic_cast<teragon::BlobParameter*>(parameters["Image"]);
+    if(blobParameter->getDataSize() > 0) {
+        MemoryInputStream inputStream(blobParameter->getData(), blobParameter->getDataSize(), false);
+        ImageFileFormat *fileFormat = ImageFileFormat::findImageFormatForStream(inputStream);
+        Image image = fileFormat->decodeImage(inputStream);
+        imageViewer->setImage(image);
+    }
 
     // Disable that godawful light blue/purple color that Juce draws on this component's border
     textEditor->setColour(TextEditor::outlineColourId, Colours::transparentBlack);
@@ -134,6 +141,7 @@ ExtraNotesAudioProcessorEditor::~ExtraNotesAudioProcessorEditor()
     parameters["Clear Confirmed"]->removeObserver(this);
     //[/Destructor_pre]
 
+    imageViewer = nullptr;
     textEditor = nullptr;
     editTextButton = nullptr;
     editImageButton = nullptr;
@@ -141,7 +149,6 @@ ExtraNotesAudioProcessorEditor::~ExtraNotesAudioProcessorEditor()
     clearItemButton = nullptr;
     statusBar = nullptr;
     versionLabel = nullptr;
-    imageViewer = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -168,6 +175,7 @@ void ExtraNotesAudioProcessorEditor::paint (Graphics& g)
 
 void ExtraNotesAudioProcessorEditor::resized()
 {
+    imageViewer->setBounds (33, 64, 522, 456);
     textEditor->setBounds (33, 64, 522, 456);
     editTextButton->setBounds (22, 9, 72, 40);
     editImageButton->setBounds (100, 9, 72, 40);
@@ -175,7 +183,6 @@ void ExtraNotesAudioProcessorEditor::resized()
     clearItemButton->setBounds (497, 8, 72, 40);
     statusBar->setBounds (33, 544, 303, 32);
     versionLabel->setBounds (344, 560, 210, 16);
-    imageViewer->setBounds (33, 64, 522, 456);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -189,7 +196,7 @@ void ExtraNotesAudioProcessorEditor::onParameterUpdated(const teragon::PluginPar
         setActiveTab();
     }
     else if(parameter->getName() == "Load Item") {
-        loadFile();
+        MessageManager::getInstance()->callFunctionOnMessageThread(ExtraNotesAudioProcessorEditor::importFile, this);
     }
     else if(parameter->getName() == "Clear Item") {
         showClearConfirmDialog();
@@ -203,15 +210,17 @@ void ExtraNotesAudioProcessorEditor::onParameterUpdated(const teragon::PluginPar
 }
 
 void ExtraNotesAudioProcessorEditor::setActiveTab() {
+    juce::MessageManagerLock lock;
     bool editTextActive = parameters["Edit Text"]->getValue() > 0.5;
     bool editImageActive = parameters["Edit Image"]->getValue() > 0.5;
     textEditor->setVisible(editTextActive);
     imageViewer->setVisible(editImageActive);
 }
 
-void ExtraNotesAudioProcessorEditor::loadFile() {
-    bool editTextActive = parameters["Edit Text"]->getValue() > 0.5;
-    bool editImageActive = parameters["Edit Image"]->getValue() > 0.5;
+void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
+    ExtraNotesAudioProcessorEditor *editor = (ExtraNotesAudioProcessorEditor*)editorPtr;
+    bool editTextActive = editor->parameters["Edit Text"]->getValue() > 0.5;
+    bool editImageActive = editor->parameters["Edit Image"]->getValue() > 0.5;
     String filePatternsAllowed = String::empty;
 
     if(editTextActive) {
@@ -221,28 +230,36 @@ void ExtraNotesAudioProcessorEditor::loadFile() {
         filePatternsAllowed = "*.jpg;*.jpeg;*.gif;*.png";
     }
     else {
-        return;
+        return nullptr;
     }
 
+    File initialLocation(editor->parameters["Last Browse Location"]->getDisplayText());
     FileChooser chooser("Open file...",
-                        // TODO: Store this value somewhere
-                        File::getSpecialLocation(File::userHomeDirectory),
-                        filePatternsAllowed);
+                        initialLocation,
+                        filePatternsAllowed,
+                        true);
     if(chooser.browseForFileToOpen()) {
         File selectedFile = chooser.getResult();
         if(editTextActive) {
             String fileContents = selectedFile.loadFileAsString();
-            parameters.set("Text", fileContents.toStdString(), this);
-            juce::MessageManagerLock lock;
-            textEditor->setText(fileContents, false);
+            editor->parameters.set("Text", fileContents.toStdString(), editor);
+            editor->textEditor->setText(fileContents, false);
         }
         else if(editImageActive) {
             ImageFileFormat *fileFormat = ImageFileFormat::findImageFormatForFileExtension(selectedFile);
             InputStream *imageInputStream = selectedFile.createInputStream();
             Image image = fileFormat->decodeImage(*imageInputStream);
-            imageViewer->setImage(image);
+            editor->imageViewer->setImage(image);
+            MemoryOutputStream outputStream;
+            fileFormat->getFormatName();
+            fileFormat->writeImageToStream(image, outputStream);
+            teragon::BlobParameter *blob = dynamic_cast<teragon::BlobParameter*>(editor->parameters["Image"]);
+            blob->setValue(outputStream.getData(), outputStream.getDataSize());
+            delete imageInputStream;
         }
     }
+
+    return nullptr;
 }
 
 void ExtraNotesAudioProcessorEditor::showClearConfirmDialog() {
@@ -286,9 +303,12 @@ BEGIN_JUCER_METADATA
   <BACKGROUND backgroundColour="fdffffff">
     <IMAGE pos="0 0 592 597" resource="background_png" opacity="1" mode="0"/>
   </BACKGROUND>
+  <GENERICCOMPONENT name="image viewer" id="ca9d0813fc2ca07b" memberName="imageViewer"
+                    virtualName="ImageComponent" explicitFocusOrder="0" pos="33 64 522 456"
+                    class="Component" params=""/>
   <TEXTEDITOR name="Text Editor" id="ad4098c5c892dabd" memberName="textEditor"
               virtualName="" explicitFocusOrder="0" pos="33 64 522 456" bkgcol="ffffff"
-              hilitecol="ff868686" initialText="" multiline="1" retKeyStartsLine="1"
+              hilitecol="ffc5dcd4" initialText="" multiline="1" retKeyStartsLine="1"
               readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
   <GENERICCOMPONENT name="edit text button" id="a152e91502b73c22" memberName="editTextButton"
                     virtualName="teragon::PushButton" explicitFocusOrder="0" pos="22 9 72 40"
@@ -308,9 +328,6 @@ BEGIN_JUCER_METADATA
   <GENERICCOMPONENT name="version label" id="a73a0de5d2d9a720" memberName="versionLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
                     pos="344 560 210 16" class="Component" params="parameters,&#10;&quot;Version&quot;"/>
-  <GENERICCOMPONENT name="image viewer" id="ca9d0813fc2ca07b" memberName="imageViewer"
-                    virtualName="ImageComponent" explicitFocusOrder="0" pos="33 64 522 456"
-                    class="Component" params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

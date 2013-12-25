@@ -21,9 +21,6 @@ AudioProcessor(), PluginParameterObserver() {
     editorText->addObserver(this);
     parameters.add(editorText);
 
-    // TODO: Remove this parameter
-    parameters.add(new BooleanParameter("Modified"));
-
     editText = new BooleanParameter("Edit Text", true);
     editText->addObserver(this);
     parameters.add(editText);

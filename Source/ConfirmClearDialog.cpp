@@ -27,8 +27,9 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ConfirmClearDialog::ConfirmClearDialog (teragon::ThreadsafePluginParameterSet &p, teragon::ResourceCache *r)
-    : parameters(p), resources(r)
+ConfirmClearDialog::ConfirmClearDialog (teragon::ConcurrentParameterSet &p, teragon::ResourceCache *r)
+    : Component(), ParameterObserver(),
+      parameters(p), resources(r)
 {
     addAndMakeVisible (cancelButton = new teragon::ToggleButton (parameters,
                                                                  "Clear Cancelled",
@@ -97,7 +98,7 @@ void ConfirmClearDialog::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-void ConfirmClearDialog::onParameterUpdated(const teragon::PluginParameter *parameter) {
+void ConfirmClearDialog::onParameterUpdated(const teragon::Parameter *parameter) {
     DialogWindow *dialogWindow = findParentComponentOfClass<DialogWindow>();
     if(dialogWindow != nullptr) {
         dialogWindow->exitModalState(0);
@@ -116,11 +117,11 @@ void ConfirmClearDialog::onParameterUpdated(const teragon::PluginParameter *para
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ConfirmClearDialog" componentName=""
-                 parentClasses="public Component, public teragon::PluginParameterObserver"
-                 constructorParams="teragon::ThreadsafePluginParameterSet &amp;p, teragon::ResourceCache *r"
-                 variableInitialisers="parameters(p), resources(r)" snapPixels="8"
-                 snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="1"
-                 initialWidth="312" initialHeight="125">
+                 parentClasses="public Component, public teragon::ParameterObserver"
+                 constructorParams="teragon::ConcurrentParameterSet &amp;p, teragon::ResourceCache *r"
+                 variableInitialisers="Component(), ParameterObserver(),&#10;parameters(p), resources(r)"
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="1" initialWidth="312" initialHeight="125">
   <BACKGROUND backgroundColour="ff383838">
     <IMAGE pos="0 0 312 125" resource="confirmcleardialog_png" opacity="1"
            mode="0"/>

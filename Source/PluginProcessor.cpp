@@ -16,7 +16,7 @@
 static const char *kEditorTextAttributeName = "EditorText";
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
-AudioProcessor(), PluginParameterObserver() {
+AudioProcessor(), ParameterObserver() {
     editorText = new TextEditorParameter("Text", "Click here to start a new note");
     editorText->addObserver(this);
     parameters.add(editorText);
@@ -80,7 +80,7 @@ const String ExtraNotesAudioProcessor::getParameterText(int index) {
     return parameters[index]->getDisplayText();
 }
 
-void ExtraNotesAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
+void ExtraNotesAudioProcessor::onParameterUpdated(const Parameter *parameter) {
     if(parameter->getName() == "Text") {
         printf("Text updated! %s\n", parameter->getDisplayText().c_str());
     }
@@ -104,7 +104,7 @@ void ExtraNotesAudioProcessor::setStateInformation(const void *data, int sizeInB
     if(xmlState != 0 && xmlState->hasTagName(getName())) {
         if(xmlState->hasAttribute(kEditorTextAttributeName)) {
             juce::String value = xmlState->getStringAttribute(kEditorTextAttributeName);
-            parameters.set(editorText, value.toStdString());
+            parameters.setData(editorText, value.toStdString().c_str(), (const size_t)value.length());
             parameters.processRealtimeEvents();
         }
     }

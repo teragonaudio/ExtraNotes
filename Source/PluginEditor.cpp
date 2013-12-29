@@ -29,9 +29,9 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *ownerFilter, teragon::ThreadsafePluginParameterSet &p, teragon::ResourceCache *r)
+ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *ownerFilter, teragon::ConcurrentParameterSet &p, teragon::ResourceCache *r)
     : AudioProcessorEditor(ownerFilter),
-      PluginParameterObserver(),
+      ParameterObserver(),
       parameters(p), resources(r)
 {
     addAndMakeVisible (imageViewer = new ImageComponent());
@@ -190,7 +190,7 @@ void ExtraNotesAudioProcessorEditor::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-void ExtraNotesAudioProcessorEditor::onParameterUpdated(const teragon::PluginParameter *parameter) {
+void ExtraNotesAudioProcessorEditor::onParameterUpdated(const teragon::Parameter *parameter) {
     if(parameter->getName() == "Edit Text" ||
        parameter->getName() == "Edit Image") {
         setActiveTab();
@@ -242,7 +242,7 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
         File selectedFile = chooser.getResult();
         if(editTextActive) {
             String fileContents = selectedFile.loadFileAsString();
-            editor->parameters.set("Text", fileContents.toStdString(), editor);
+            editor->parameters.setData("Text", fileContents.toStdString().c_str(), (const size_t)fileContents.length());
             editor->textEditor->setText(fileContents, false);
         }
         else if(editImageActive) {
@@ -253,8 +253,7 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
             MemoryOutputStream outputStream;
             fileFormat->getFormatName();
             fileFormat->writeImageToStream(image, outputStream);
-            teragon::BlobParameter *blob = dynamic_cast<teragon::BlobParameter*>(editor->parameters["Image"]);
-            blob->setValue(outputStream.getData(), outputStream.getDataSize());
+            editor->parameters.setData("Image", outputStream.getData(), outputStream.getDataSize());
             delete imageInputStream;
         }
     }
@@ -273,7 +272,8 @@ void ExtraNotesAudioProcessorEditor::clearActiveTab() {
     bool editImageActive = parameters["Edit Image"]->getValue() > 0.5;
 
     if(editTextActive) {
-        parameters.set("Text", "", this);
+        // Cannot set NULL or 0-length data, or else DataEvent will not schedule
+        parameters.setData("Text", " ", 1);
         juce::MessageManagerLock lock;
         textEditor->setText(String::empty, false);
     }
@@ -295,9 +295,9 @@ void ExtraNotesAudioProcessorEditor::clearActiveTab() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ExtraNotesAudioProcessorEditor"
-                 componentName="" parentClasses="public AudioProcessorEditor, public teragon::PluginParameterObserver"
-                 constructorParams="AudioProcessor *ownerFilter, teragon::ThreadsafePluginParameterSet &amp;p, teragon::ResourceCache *r"
-                 variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;PluginParameterObserver(),&#10;parameters(p), resources(r)"
+                 componentName="" parentClasses="public AudioProcessorEditor, public teragon::ParameterObserver"
+                 constructorParams="AudioProcessor *ownerFilter, teragon::ConcurrentParameterSet &amp;p, teragon::ResourceCache *r"
+                 variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;ParameterObserver(),&#10;parameters(p), resources(r)"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="592" initialHeight="597">
   <BACKGROUND backgroundColour="fdffffff">

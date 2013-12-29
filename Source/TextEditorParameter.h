@@ -24,7 +24,8 @@ public:
     virtual ~TextEditorParameter() {}
 
     virtual void textEditorTextChanged(TextEditor &textEditor) {
-        StringParameter::setValue(textEditor.getText().toStdString());
+        // Warning: may cause priority inversion, bypasses the normal event queues
+        StringParameter::setValue(textEditor.getText().toStdString().c_str());
     }
 };
 

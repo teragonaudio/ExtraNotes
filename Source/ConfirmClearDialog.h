@@ -36,18 +36,18 @@
                                                                     //[/Comments]
 */
 class ConfirmClearDialog  : public Component,
-                            public teragon::PluginParameterObserver
+                            public teragon::ParameterObserver
 {
 public:
     //==============================================================================
-    ConfirmClearDialog (teragon::ThreadsafePluginParameterSet &p, teragon::ResourceCache *r);
+    ConfirmClearDialog (teragon::ConcurrentParameterSet &p, teragon::ResourceCache *r);
     ~ConfirmClearDialog();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     // PluginParameterObserver methods
     bool isRealtimePriority() const { return false; }
-    void onParameterUpdated(const teragon::PluginParameter *parameter);
+    void onParameterUpdated(const teragon::Parameter *parameter);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -60,7 +60,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    teragon::ThreadsafePluginParameterSet &parameters;
+    teragon::ConcurrentParameterSet &parameters;
     teragon::ResourceCache *resources;
     //[/UserVariables]
 

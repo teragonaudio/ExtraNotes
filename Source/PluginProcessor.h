@@ -16,7 +16,7 @@
 
 using namespace teragon;
 
-class ExtraNotesAudioProcessor : public AudioProcessor, public PluginParameterObserver {
+class ExtraNotesAudioProcessor : public AudioProcessor, public ParameterObserver {
 public:
     ExtraNotesAudioProcessor();
     ~ExtraNotesAudioProcessor() {}
@@ -61,10 +61,10 @@ public:
 
     // PluginParameterObserver methods
     virtual bool isRealtimePriority() const { return true; }
-    virtual void onParameterUpdated(const PluginParameter *parameter);
+    virtual void onParameterUpdated(const Parameter *parameter);
 
 private:
-    ThreadsafePluginParameterSet parameters;
+    ConcurrentParameterSet parameters;
     StringParameter *editorText;
     BlobParameter *editorImage;
     BooleanParameter *editText;

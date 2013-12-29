@@ -3,25 +3,8 @@
 *~
 *.o
 *.so
-
-# Build products
-Builds/Linux/build
-Builds/MacOSX/build
-Builds/VisualStudio2012/Debug
-Builds/VisualStudio2012/Release
-
-# Stuff from various IDE's
-*.perspectivev3
-*.pbxuser
-*.user
-*.sdf
-*.opensdf
-*.suo
-cscope.out
-Builds/MacOSX/.idea/workspace.xml
-
-# Third-party libraries
-Third-Party/vstsdk2.4/*
+*.obj
+Builds/*
 
 # Vim helpers
 tags
@@ -30,6 +13,7 @@ cscope.out
 # CMake
 CMakeCache.txt
 CMakeFiles
+CMakeScripts
 Makefile
 Makefile.in
 *.cmake

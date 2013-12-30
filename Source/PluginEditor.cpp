@@ -105,6 +105,8 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     textEditor->setFont(teragon::StatusBar::getFont());
     textEditor->setText(textParameter->getDisplayText(), false);
     textEditor->addListener(textParameter);
+    textParameter->setTextEditor(textEditor.get());
+    textEditor->addMouseListener(textParameter, true);
 
     // Configure image viewer
     RectanglePlacement placement(RectanglePlacement::onlyReduceInSize | RectanglePlacement::centred);
@@ -132,6 +134,7 @@ ExtraNotesAudioProcessorEditor::~ExtraNotesAudioProcessorEditor()
     teragon::TextEditorParameter *textParameter = dynamic_cast<teragon::TextEditorParameter*>(parameters["Text"]);
     textEditor->removeListener(textParameter);
     textParameter->removeObserver(this);
+    textParameter->setTextEditor(nullptr);
 
     parameters["Edit Text"]->removeObserver(this);
     parameters["Edit Image"]->removeObserver(this);
@@ -215,6 +218,9 @@ void ExtraNotesAudioProcessorEditor::setActiveTab() {
     bool editImageActive = parameters["Edit Image"]->getValue() > 0.5;
     textEditor->setVisible(editTextActive);
     imageViewer->setVisible(editImageActive);
+    if(editTextActive) {
+        textEditor->setText(parameters["Text"]->getDisplayText());
+    }
 }
 
 void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {

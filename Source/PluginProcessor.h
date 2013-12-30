@@ -64,6 +64,9 @@ public:
     virtual void onParameterUpdated(const Parameter *parameter);
 
 private:
+    const String getDefaultText();
+
+private:
     ConcurrentParameterSet parameters;
     StringParameter *editorText;
     BlobParameter *editorImage;

@@ -17,7 +17,7 @@ static const char *kEditorTextAttributeName = "EditorText";
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
 AudioProcessor(), ParameterObserver() {
-    editorText = new TextEditorParameter("Text", "Click here to start a new note");
+    editorText = new TextEditorParameter("Text", getDefaultText().toStdString().c_str());
     editorText->addObserver(this);
     parameters.add(editorText);
 
@@ -45,6 +45,84 @@ AudioProcessor(), ParameterObserver() {
     parameters.add(new StringParameter("Version", version));
     // Start paused (should be done by default in PluginParameters?)
     parameters.pause();
+}
+
+const String ExtraNotesAudioProcessor::getDefaultText() {
+    String result = "Click here to start a new note";
+    PluginHostType hostType;
+    bool testedHost = false;
+    bool supportedOs = false;
+    bool testedOs = false;
+    bool knownProblemHost = false;
+
+    switch(SystemStats::getOperatingSystemType()) {
+        case SystemStats::OperatingSystemType::Linux:
+            supportedOs = true;
+            testedHost = false;
+            testedOs = true;
+            break;
+
+        case SystemStats::OperatingSystemType::MacOSX_10_4:
+        case SystemStats::OperatingSystemType::MacOSX_10_5:
+        case SystemStats::OperatingSystemType::MacOSX_10_6:
+            supportedOs = false;
+            break;
+        case SystemStats::OperatingSystemType::MacOSX_10_7:
+            supportedOs = true;
+            testedOs = false;
+            break;
+        case SystemStats::OperatingSystemType::MacOSX_10_8:
+            supportedOs = true;
+            testedOs = true;
+            switch(hostType.type) {
+                case PluginHostType::HostType::AbletonLiveGeneric:
+                    testedHost = true;
+                    break;
+                default:
+                    testedHost = false;
+                    break;
+            }
+            break;
+
+        case SystemStats::OperatingSystemType::Win2000:
+        case SystemStats::OperatingSystemType::WinXP:
+        case SystemStats::OperatingSystemType::WinVista:
+            supportedOs = false;
+            break;
+        case SystemStats::OperatingSystemType::Windows7:
+            supportedOs = true;
+            switch(hostType.type) {
+                case PluginHostType::HostType::AbletonLiveGeneric:
+                    testedHost = true;
+                    break;
+                default:
+                    testedHost = false;
+                    break;
+            }
+            break;
+        case SystemStats::OperatingSystemType::Windows8:
+            supportedOs = true;
+            testedOs = false;
+            break;
+        default:
+            supportedOs = false;
+            break;
+    }
+
+    if(knownProblemHost) {
+        result += "\n\nSorry! This host is known to not work with ExtraNotes. :( We're working on a solution.";
+    }
+    else if(!supportedOs) {
+        result += "\n\nThis operating system is not supported! You might experience problems with text input.";
+    }
+    else if(!testedHost) {
+        result += "\n\nThis host is untested! Please email support@teragonaudio.com with your system stats to report success or failure with text input.";
+    }
+    else if(!testedOs) {
+        result += "\n\nThis operating system is untested! Please email support@teragonaudio.com with your system stats to report success or failure with text input.";
+    }
+
+    return result;
 }
 
 void ExtraNotesAudioProcessor::prepareToPlay(double, int) {

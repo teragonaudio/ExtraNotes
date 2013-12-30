@@ -43,6 +43,12 @@ AudioProcessor(), ParameterObserver() {
     ParameterString version = ProjectInfo::projectName;
     version.append(" version ").append(ProjectInfo::versionString);
     parameters.add(new StringParameter("Version", version));
+    // Start paused (should be done by default in PluginParameters?)
+    parameters.pause();
+}
+
+void ExtraNotesAudioProcessor::prepareToPlay(double, int) {
+    parameters.resume();
 }
 
 void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
@@ -54,6 +60,10 @@ void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffe
     for(int i = getNumInputChannels(); i < getNumOutputChannels(); ++i) {
         buffer.clear(i, 0, buffer.getNumSamples());
     }
+}
+
+void ExtraNotesAudioProcessor::releaseResources() {
+    parameters.pause();
 }
 
 AudioProcessorEditor *ExtraNotesAudioProcessor::createEditor() {

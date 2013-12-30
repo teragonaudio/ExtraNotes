@@ -22,9 +22,9 @@ public:
     ~ExtraNotesAudioProcessor() {}
 
     // Playback
-    void prepareToPlay(double sampleRate, int samplesPerBlock) {}
-    void releaseResources() {}
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages);
+    void releaseResources();
 
     // Editor
     AudioProcessorEditor *createEditor();

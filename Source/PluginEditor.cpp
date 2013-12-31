@@ -46,6 +46,7 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     textEditor->setPopupMenuEnabled (true);
     textEditor->setColour (TextEditor::backgroundColourId, Colour (0x00ffffff));
     textEditor->setColour (TextEditor::highlightColourId, Colour (0xffc5dcd4));
+    textEditor->setColour (TextEditor::shadowColourId, Colour (0x00000000));
     textEditor->setText (String::empty);
 
     addAndMakeVisible (editTextButton = new teragon::PushButton (parameters,

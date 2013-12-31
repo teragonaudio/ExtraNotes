@@ -11,6 +11,10 @@
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
               companyName="Teragon Audio" includeBinaryInAppConfig="1">
   <MAINGROUP id="lxfuaC" name="ExtraNotes">
+    <GROUP id="{72B81451-55C5-3A23-FE29-773162B323B6}" name="arduino-base64">
+      <FILE id="auRzxm" name="Base64.cpp" compile="1" resource="0" file="Third-Party/arduino-base64/Base64.cpp"/>
+      <FILE id="gXwhQ8" name="Base64.h" compile="0" resource="0" file="Third-Party/arduino-base64/Base64.h"/>
+    </GROUP>
     <GROUP id="{0C2B0AD7-04BA-A020-B1B2-E1D325501EF1}" name="Components">
       <GROUP id="{9AE2C9A6-B7B4-A498-7A99-1509641BFF14}" name="PluginParameters">
         <GROUP id="{5AACEF9D-42C0-A2ED-642A-F9D671337AB9}" name="include">

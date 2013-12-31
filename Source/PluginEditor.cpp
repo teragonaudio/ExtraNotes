@@ -230,7 +230,7 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
     ExtraNotesAudioProcessorEditor *editor = (ExtraNotesAudioProcessorEditor*)editorPtr;
     bool editTextActive = editor->parameters["Edit Text"]->getValue() > 0.5;
     bool editImageActive = editor->parameters["Edit Image"]->getValue() > 0.5;
-    String filePatternsAllowed = String::empty;
+    String filePatternsAllowed;
 
     if(editTextActive) {
         filePatternsAllowed = "*.txt";
@@ -326,8 +326,8 @@ BEGIN_JUCER_METADATA
                     class="Component" params=""/>
   <TEXTEDITOR name="Text Editor" id="ad4098c5c892dabd" memberName="textEditor"
               virtualName="" explicitFocusOrder="0" pos="33 64 522 456" bkgcol="ffffff"
-              hilitecol="ffc5dcd4" initialText="" multiline="1" retKeyStartsLine="1"
-              readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
+              hilitecol="ffc5dcd4" shadowcol="0" initialText="" multiline="1"
+              retKeyStartsLine="1" readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
   <GENERICCOMPONENT name="edit text button" id="a152e91502b73c22" memberName="editTextButton"
                     virtualName="teragon::PushButton" explicitFocusOrder="0" pos="22 9 72 40"
                     class="Component" params="parameters,&#10;&quot;Edit Text&quot;,&#10;resources"/>

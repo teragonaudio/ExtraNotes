@@ -89,6 +89,8 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     statusBar->subscribeToParameters();
     statusBar->ignoreParameter("Edit Text");
     statusBar->ignoreParameter("Edit Image");
+    statusBar->ignoreParameter("Text");
+    statusBar->ignoreParameter("Image");
 
     // Subscribe to parameters
     teragon::TextEditorParameter *textParameter = dynamic_cast<teragon::TextEditorParameter*>(parameters["Text"]);

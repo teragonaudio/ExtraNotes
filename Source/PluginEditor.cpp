@@ -242,13 +242,21 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
         return nullptr;
     }
 
-    File initialLocation(editor->parameters["Last Browse Location"]->getDisplayText());
+    teragon::Parameter *lastBrowseLocation = editor->parameters["Last Browse Location"];
+    File initialLocation(lastBrowseLocation->getDisplayText());
+    if(!initialLocation.exists()) {
+        initialLocation = File::getSpecialLocation(File::userHomeDirectory);
+    }
+
     FileChooser chooser("Open file...",
                         initialLocation,
                         filePatternsAllowed,
                         true);
     if(chooser.browseForFileToOpen()) {
         File selectedFile = chooser.getResult();
+        String selectedFileParent = selectedFile.getParentDirectory().getFullPathName();
+        editor->parameters.setData(lastBrowseLocation, selectedFileParent.toRawUTF8(), (const size_t)selectedFileParent.length());
+
         if(editTextActive) {
             String fileContents = selectedFile.loadFileAsString();
             editor->parameters.setData("Text", fileContents.toStdString().c_str(), (const size_t)fileContents.length());

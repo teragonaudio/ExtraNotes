@@ -50,6 +50,7 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
     String result = "Click here to start a new note";
     PluginHostType hostType;
     bool testedHost = false;
+    bool supportedHost = true;
     bool supportedOs = false;
     bool testedOs = false;
     bool knownProblemHost = false;
@@ -74,6 +75,10 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
             supportedOs = true;
             testedOs = true;
             switch(hostType.type) {
+                case PluginHostType::HostType::AbletonLive6:
+                case PluginHostType::HostType::AbletonLive7:
+                    supportedHost = false;
+                    break;
                 case PluginHostType::HostType::AppleLogic:
                 case PluginHostType::HostType::AbletonLiveGeneric:
                     testedHost = true;
@@ -95,6 +100,10 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
         case SystemStats::OperatingSystemType::Windows7:
             supportedOs = true;
             switch(hostType.type) {
+                case PluginHostType::HostType::AbletonLive6:
+                case PluginHostType::HostType::AbletonLive7:
+                    supportedHost = false;
+                    break;
                 case PluginHostType::HostType::AbletonLiveGeneric:
                     testedHost = true;
                     break;
@@ -117,6 +126,9 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
     }
     else if(!supportedOs) {
         result += "\n\nThis operating system is not supported! You might experience problems with text input.";
+    }
+    else if(!supportedHost) {
+        result += "\n\nThis host is not supported! You might experience problems with text input.";
     }
     else if(!testedHost) {
         result += "\n\nThis host is untested! Please email support@teragonaudio.com with your system stats to report success or failure with text input.";

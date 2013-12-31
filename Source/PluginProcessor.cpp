@@ -156,7 +156,7 @@ int ExtraNotesAudioProcessor::getNumParameters() {
 }
 
 void ExtraNotesAudioProcessor::setParameter(int index, float newValue) {
-    parameters.setScaled(index, newValue);
+    parameters.setScaled((const size_t)index, newValue);
 }
 
 const String ExtraNotesAudioProcessor::getParameterName(int index) {
@@ -168,10 +168,7 @@ const String ExtraNotesAudioProcessor::getParameterText(int index) {
 }
 
 void ExtraNotesAudioProcessor::onParameterUpdated(const Parameter *parameter) {
-    if(parameter->getName() == "Text") {
-        printf("Text updated! %s\n", parameter->getDisplayText().c_str());
-    }
-
+    // Switch tabs
     if(parameter->getName() == "Edit Text") {
         parameters.set("Edit Image", !parameter->getValue(), this);
     }

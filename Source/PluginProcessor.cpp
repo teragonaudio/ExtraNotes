@@ -12,8 +12,7 @@
 #include "PluginEditor.h"
 #include "Resources.h"
 #include "TextEditorParameter.h"
-
-static const char *kEditorTextAttributeName = "EditorText";
+#include "Base64.h"
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
 AudioProcessor(), ParameterObserver() {
@@ -183,18 +182,65 @@ void ExtraNotesAudioProcessor::onParameterUpdated(const Parameter *parameter) {
 
 void ExtraNotesAudioProcessor::getStateInformation(MemoryBlock &destData) {
     XmlElement xml(getName());
-    xml.setAttribute(kEditorTextAttributeName, editorText->getDisplayText());
+    for(size_t i = 0; i < parameters.size(); ++i) {
+        Parameter *parameter = parameters[i];
+        const String attributeName = parameter->getSafeName();
+        // Do not serialize the version parameter, it must be set by the plugin and not overridden
+        if(attributeName == "Version") {
+            continue;
+        }
+
+        if(dynamic_cast<StringParameter *>(parameter) != nullptr) {
+            const String value = parameter->getDisplayText();
+            xml.setAttribute(attributeName, value);
+        }
+        else if(dynamic_cast<BlobParameter *>(parameter) != nullptr) {
+            BlobParameter *blobParameter = dynamic_cast<BlobParameter *>(parameter);
+            size_t blobSize = blobParameter->getDataSize();
+            char *encodedBlob = new char[base64_enc_len(blobSize)];
+            base64_encode(encodedBlob, (char*)blobParameter->getData(), blobSize);
+            xml.setAttribute(attributeName, encodedBlob);
+            delete [] encodedBlob;
+        }
+        else if(dynamic_cast<IntegerParameter *>(parameter) != nullptr) {
+            xml.setAttribute(attributeName, (int)parameter->getValue());
+        }
+        else {
+            xml.setAttribute(attributeName, (double)parameter->getValue());
+        }
+    }
+
     copyXmlToBinary(xml, destData);
 }
 
 void ExtraNotesAudioProcessor::setStateInformation(const void *data, int sizeInBytes) {
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if(xmlState != 0 && xmlState->hasTagName(getName())) {
-        if(xmlState->hasAttribute(kEditorTextAttributeName)) {
-            juce::String value = xmlState->getStringAttribute(kEditorTextAttributeName);
-            parameters.setData(editorText, value.toStdString().c_str(), (const size_t)value.length());
-            parameters.processRealtimeEvents();
+        for(size_t i = 0; i < parameters.size(); i++) {
+            Parameter *parameter = parameters[i];
+            const String attributeName = parameter->getSafeName();
+            if(xmlState->hasAttribute(attributeName)) {
+                if(dynamic_cast<StringParameter *>(parameter) != nullptr) {
+                    juce::String value = xmlState->getStringAttribute(attributeName);
+                    parameters.setData(parameter, value.toStdString().c_str(), (const size_t)value.length());
+                }
+                else if(dynamic_cast<BlobParameter *>(parameter) != nullptr) {
+                    juce::String value = xmlState->getStringAttribute(attributeName);
+                    char *rawValue = const_cast<char *>(value.toRawUTF8());
+                    char *blob = new char[base64_dec_len(rawValue, value.length())];
+                    int blobSize = base64_decode(blob, rawValue, value.length());
+                    parameters.setData(parameter, blob, (const size_t)blobSize);
+                    delete [] blob;
+                }
+                else if(dynamic_cast<IntegerParameter *>(parameter) != nullptr) {
+                    parameters.set(parameter, xmlState->getIntAttribute(attributeName));
+                }
+                else {
+                    parameters.set(parameter, xmlState->getDoubleAttribute(attributeName));
+                }
+            }
         }
+        parameters.processRealtimeEvents();
     }
 }
 

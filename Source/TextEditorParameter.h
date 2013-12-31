@@ -36,8 +36,19 @@ public:
     }
 
     virtual void textEditorTextChanged(TextEditor &textEditor) {
+        syncParameterValue(textEditor);
+    }
+
+    virtual void textEditorEscapeKeyPressed(TextEditor &textEditor) {
+        syncParameterValue(textEditor);
+        textEditor.unfocusAllComponents();
+    }
+
+protected:
+    virtual void syncParameterValue(TextEditor &textEditor) {
+        String text = textEditor.getText();
         // Warning: may cause priority inversion, bypasses the normal event queues
-        StringParameter::setValue(textEditor.getText().toStdString().c_str());
+        StringParameter::setValue(text.toRawUTF8(), (const size_t)text.length());
     }
 
 private:

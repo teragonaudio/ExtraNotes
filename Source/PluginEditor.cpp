@@ -115,12 +115,8 @@ ExtraNotesAudioProcessorEditor::ExtraNotesAudioProcessorEditor (AudioProcessor *
     RectanglePlacement placement(RectanglePlacement::onlyReduceInSize | RectanglePlacement::centred);
     imageViewer->setImagePlacement(placement);
     teragon::BlobParameter *blobParameter = dynamic_cast<teragon::BlobParameter*>(parameters["Image"]);
-    if(blobParameter->getDataSize() > 0) {
-        MemoryInputStream inputStream(blobParameter->getData(), blobParameter->getDataSize(), false);
-        ImageFileFormat *fileFormat = ImageFileFormat::findImageFormatForStream(inputStream);
-        Image image = fileFormat->decodeImage(inputStream);
-        imageViewer->setImage(image);
-    }
+    blobParameter->addObserver(this);
+    showImage(blobParameter);
 
     // Disable that godawful light blue/purple color that Juce draws on this component's border
     textEditor->setColour(TextEditor::outlineColourId, Colours::transparentBlack);
@@ -139,6 +135,7 @@ ExtraNotesAudioProcessorEditor::~ExtraNotesAudioProcessorEditor()
     textParameter->removeObserver(this);
     textParameter->setTextEditor(nullptr);
 
+    parameters["Image"]->removeObserver(this);
     parameters["Edit Text"]->removeObserver(this);
     parameters["Edit Image"]->removeObserver(this);
     parameters["Load Item"]->removeObserver(this);
@@ -201,6 +198,9 @@ void ExtraNotesAudioProcessorEditor::onParameterUpdated(const teragon::Parameter
        parameter->getName() == "Edit Image") {
         setActiveTab();
     }
+    else if(parameter->getName() == "Image") {
+        showImage(dynamic_cast<const teragon::BlobParameter *>(parameter));
+    }
     else if(parameter->getName() == "Load Item") {
         MessageManager::getInstance()->callFunctionOnMessageThread(ExtraNotesAudioProcessorEditor::importFile, this);
     }
@@ -258,7 +258,6 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
             ImageFileFormat *fileFormat = ImageFileFormat::findImageFormatForFileExtension(selectedFile);
             InputStream *imageInputStream = selectedFile.createInputStream();
             Image image = fileFormat->decodeImage(*imageInputStream);
-            editor->imageViewer->setImage(image);
             MemoryOutputStream outputStream;
             fileFormat->getFormatName();
             fileFormat->writeImageToStream(image, outputStream);
@@ -268,6 +267,16 @@ void* ExtraNotesAudioProcessorEditor::importFile(void *editorPtr) {
     }
 
     return nullptr;
+}
+
+void ExtraNotesAudioProcessorEditor::showImage(const teragon::BlobParameter *blobParameter) {
+    juce::MessageManagerLock lock;
+    if(blobParameter->getDataSize() > 0) {
+        MemoryInputStream inputStream(blobParameter->getData(), blobParameter->getDataSize(), false);
+        ImageFileFormat *fileFormat = ImageFileFormat::findImageFormatForStream(inputStream);
+        Image image = fileFormat->decodeImage(inputStream);
+        imageViewer->setImage(image);
+    }
 }
 
 void ExtraNotesAudioProcessorEditor::showClearConfirmDialog() {

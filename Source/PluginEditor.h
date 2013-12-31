@@ -53,6 +53,7 @@ public:
     // PluginParameterObserver methods
     bool isRealtimePriority() const { return false; }
     void onParameterUpdated(const teragon::Parameter *parameter);
+    void showImage(const teragon::BlobParameter *blobParameter);
     //[/UserMethods]
 
     void paint (Graphics& g);

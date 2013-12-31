@@ -74,8 +74,12 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
             supportedOs = true;
             testedOs = true;
             switch(hostType.type) {
+                case PluginHostType::HostType::AppleLogic:
                 case PluginHostType::HostType::AbletonLiveGeneric:
                     testedHost = true;
+                    break;
+                case PluginHostType::HostType::Reaper:
+                    knownProblemHost = true;
                     break;
                 default:
                     testedHost = false;
@@ -109,7 +113,7 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
     }
 
     if(knownProblemHost) {
-        result += "\n\nSorry! This host is known to not work with ExtraNotes. :( We're working on a solution.";
+        result += "\n\nSorry! This host is known to have problems with ExtraNotes. :( We're working on a solution.";
     }
     else if(!supportedOs) {
         result += "\n\nThis operating system is not supported! You might experience problems with text input.";

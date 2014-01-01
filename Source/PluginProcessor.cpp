@@ -15,7 +15,7 @@
 #include "Base64.h"
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
-AudioProcessor(), ParameterObserver() {
+TeragonPluginBase(), ParameterObserver() {
     editorText = new TextEditorParameter("Text", getDefaultText().toStdString().c_str());
     editorText->addObserver(this);
     parameters.add(editorText);
@@ -140,47 +140,8 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
     return result;
 }
 
-void ExtraNotesAudioProcessor::prepareToPlay(double, int) {
-    parameters.resume();
-}
-
-void ExtraNotesAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
-    parameters.processRealtimeEvents();
-
-    // In case we have more outputs than inputs, we'll clear any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    for(int i = getNumInputChannels(); i < getNumOutputChannels(); ++i) {
-        buffer.clear(i, 0, buffer.getNumSamples());
-    }
-}
-
-void ExtraNotesAudioProcessor::releaseResources() {
-    parameters.pause();
-}
-
 AudioProcessorEditor *ExtraNotesAudioProcessor::createEditor() {
     return new ExtraNotesAudioProcessorEditor(this, parameters, Resources::getCache());
-}
-
-float ExtraNotesAudioProcessor::getParameter(int index) {
-    return (float)parameters[index]->getScaledValue();
-}
-
-int ExtraNotesAudioProcessor::getNumParameters() {
-    return parameters.size();
-}
-
-void ExtraNotesAudioProcessor::setParameter(int index, float newValue) {
-    parameters.setScaled((const size_t)index, newValue);
-}
-
-const String ExtraNotesAudioProcessor::getParameterName(int index) {
-    return parameters[index]->getName();
-}
-
-const String ExtraNotesAudioProcessor::getParameterText(int index) {
-    return parameters[index]->getDisplayText();
 }
 
 void ExtraNotesAudioProcessor::onParameterUpdated(const Parameter *parameter) {
@@ -190,70 +151,6 @@ void ExtraNotesAudioProcessor::onParameterUpdated(const Parameter *parameter) {
     }
     else if(parameter->getName() == "Edit Image") {
         parameters.set("Edit Text", !parameter->getValue(), this);
-    }
-}
-
-void ExtraNotesAudioProcessor::getStateInformation(MemoryBlock &destData) {
-    XmlElement xml(getName());
-    for(size_t i = 0; i < parameters.size(); ++i) {
-        Parameter *parameter = parameters[i];
-        const String attributeName = parameter->getSafeName();
-        // Do not serialize the version parameter, it must be set by the plugin and not overridden
-        if(attributeName == "Version") {
-            continue;
-        }
-
-        if(dynamic_cast<StringParameter *>(parameter) != nullptr) {
-            const String value = parameter->getDisplayText();
-            xml.setAttribute(attributeName, value);
-        }
-        else if(dynamic_cast<BlobParameter *>(parameter) != nullptr) {
-            BlobParameter *blobParameter = dynamic_cast<BlobParameter *>(parameter);
-            size_t blobSize = blobParameter->getDataSize();
-            char *encodedBlob = new char[base64_enc_len(blobSize)];
-            base64_encode(encodedBlob, (char*)blobParameter->getData(), blobSize);
-            xml.setAttribute(attributeName, encodedBlob);
-            delete [] encodedBlob;
-        }
-        else if(dynamic_cast<IntegerParameter *>(parameter) != nullptr) {
-            xml.setAttribute(attributeName, (int)parameter->getValue());
-        }
-        else {
-            xml.setAttribute(attributeName, (double)parameter->getValue());
-        }
-    }
-
-    copyXmlToBinary(xml, destData);
-}
-
-void ExtraNotesAudioProcessor::setStateInformation(const void *data, int sizeInBytes) {
-    ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-    if(xmlState != 0 && xmlState->hasTagName(getName())) {
-        for(size_t i = 0; i < parameters.size(); i++) {
-            Parameter *parameter = parameters[i];
-            const String attributeName = parameter->getSafeName();
-            if(xmlState->hasAttribute(attributeName)) {
-                if(dynamic_cast<StringParameter *>(parameter) != nullptr) {
-                    juce::String value = xmlState->getStringAttribute(attributeName);
-                    parameters.setData(parameter, value.toStdString().c_str(), (const size_t)value.length());
-                }
-                else if(dynamic_cast<BlobParameter *>(parameter) != nullptr) {
-                    juce::String value = xmlState->getStringAttribute(attributeName);
-                    char *rawValue = const_cast<char *>(value.toRawUTF8());
-                    char *blob = new char[base64_dec_len(rawValue, value.length())];
-                    int blobSize = base64_decode(blob, rawValue, value.length());
-                    parameters.setData(parameter, blob, (const size_t)blobSize);
-                    delete [] blob;
-                }
-                else if(dynamic_cast<IntegerParameter *>(parameter) != nullptr) {
-                    parameters.set(parameter, xmlState->getIntAttribute(attributeName));
-                }
-                else {
-                    parameters.set(parameter, xmlState->getDoubleAttribute(attributeName));
-                }
-            }
-        }
-        parameters.processRealtimeEvents();
     }
 }
 

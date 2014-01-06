@@ -132,13 +132,26 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
         case SystemStats::OperatingSystemType::Windows8:
             supportedOs = true;
             testedOs = false;
+            switch(hostType.type) {
+                case PluginHostType::Reaper:
+                    testedHost = true;
+                    break;
+                default:
+                    testedHost = false;
+                    break;
+            }
             break;
         default:
             supportedOs = false;
             break;
     }
 
-    if(knownProblemHost) {
+    if(testedHost) {
+        // Thanks to user reporting, we can mark some hosts as being tested even if the OS itself
+        // hasn't been well-tested. In such cases we should return right away.
+        return result;
+    }
+    else if(knownProblemHost) {
         result += "\n\nSorry! This host is known to have problems with ExtraNotes. :( We're working on a solution.";
     }
     else if(!supportedOs) {

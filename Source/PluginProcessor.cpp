@@ -122,6 +122,7 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
                     break;
                 case PluginHostType::HostType::AbletonLiveGeneric:
                     testedHost = true;
+                    knownProblemHost = false;
                     break;
                 default:
                     testedHost = false;

@@ -69,8 +69,14 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
     switch(SystemStats::getOperatingSystemType()) {
         case SystemStats::OperatingSystemType::Linux:
             supportedOs = true;
-            testedHost = false;
             testedOs = true;
+
+            if(hostType.getHostPath().endsWith("renoise")) {
+                testedHost = true;
+            }
+            else {
+                testedHost = false;
+            }
             break;
 
         case SystemStats::OperatingSystemType::MacOSX_10_4:

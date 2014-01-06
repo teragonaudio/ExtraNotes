@@ -40,6 +40,9 @@ Unfortunately, text input in plugins is still problematic for many sequencers.
 When starting a new instance of ExtraNotes, the default text may contain
 details about an unsupported sequencer or operating system.
 
+On Windows, this seems to be particularly problematic, and is a [known issue
+in the underlying Juce framework][1] which powers ExtraNotes.
+
 I have tried to test the plug-in on as many sequencers as possible, however if
 you discover one which does not work, please email support (at) teragonaudio
 (dot) com with your system information. Likewise, if ExtraNotes warns you
@@ -63,3 +66,5 @@ License
 ExtraNotes is licensed under the GPL2. Please see the LICENSE.txt file
 distributed with the software for more details.
 
+
+[1]: http://www.juce.com/forum/topic/vst-plugin-still-not-getting-keystrokes

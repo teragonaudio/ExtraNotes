@@ -70,7 +70,7 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
             supportedOs = true;
             testedOs = true;
 
-            if(hostType.getHostPath().endsWith("renoise")) {
+            if(hostType.getHostPath().contains("renoise")) {
                 testedHost = true;
             }
             else {

@@ -128,7 +128,7 @@
   <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="Builds/Linux" vstFolder="Third-Party/vstsdk2.4"
-                extraDefs="" extraCompilerFlags="-std=c++11 -I../../Third-Party/TeragonGuiComponents/Components/Source -I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include">
+                extraDefs="" extraCompilerFlags="-std=c++11 -I../../Third-Party/TeragonGuiComponents/Components/Source -I../../Third-Party/TeragonGuiComponents/Components/Plugin -I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug-i386" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="ExtraNotes" linuxArchitecture="-m32" binaryPath="Builds/Linux/Debug-i386"/>
@@ -177,32 +177,8 @@
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2012 targetFolder="Builds/VisualStudio2012" libraryType="1" vstFolder="Third-Party\vstsdk2.4"
-            extraDefs="">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ExtraNotes"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ExtraNotes"/>
-        <CONFIGURATION name="Debug-x64" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="ExtraNotes"/>
-        <CONFIGURATION name="Release-x64" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="2" targetName="ExtraNotes"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_gui_audio" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_graphics" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_events" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_core" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="JuceLibraryCode/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
-      </MODULEPATHS>
-    </VS2012>
-    <VS2013 targetFolder="Builds/VisualStudio2013" vstFolder="Third-Party\vstsdk2.4">
+    <VS2013 targetFolder="Builds/VisualStudio2013" vstFolder="Third-Party\vstsdk2.4"
+            extraCompilerFlags="/I ../../Third-Party/TeragonGuiComponents/Components/Source /I ../../Third-Party/TeragonGuiComponents/Components/Plugin /I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ExtraNotes"/>

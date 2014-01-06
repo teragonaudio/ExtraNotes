@@ -23,7 +23,6 @@
 #include "PluginEditor.h"
 #include "Resources.h"
 #include "TextEditorParameter.h"
-#include "Base64.h"
 
 ExtraNotesAudioProcessor::ExtraNotesAudioProcessor() :
 TeragonPluginBase(), ParameterObserver() {

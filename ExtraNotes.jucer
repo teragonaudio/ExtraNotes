@@ -8,8 +8,9 @@
               pluginSilenceInIsSilenceOut="1" pluginEditorRequiresKeys="1"
               pluginAUExportPrefix="ExtraNotesAU" pluginAUViewClass="ExtraNotesAU_V1"
               pluginRTASCategory="" aaxIdentifier="com.yourcompany.ExtraNotes"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
-              companyName="Teragon Audio" includeBinaryInAppConfig="1">
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
+              companyName="Teragon Audio" includeBinaryInAppConfig="1" buildVST3="0"
+              buildRTAS="0" buildAAX="0">
   <MAINGROUP id="lxfuaC" name="ExtraNotes">
     <GROUP id="{0C2B0AD7-04BA-A020-B1B2-E1D325501EF1}" name="Components">
       <GROUP id="{9487B653-AC2B-7C77-D3FD-F46D3BB8E6FF}" name="Plugin">

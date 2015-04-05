@@ -134,9 +134,14 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
                     break;
             }
             break;
-        case SystemStats::OperatingSystemType::Windows8:
-            supportedOs = true;
+        case SystemStats::OperatingSystemType::Windows8_0:
+            supportedOs = false;
             testedOs = false;
+            break;
+        case SystemStats::OperatingSystemType::Windows8_1:
+            supportedOs = true;
+            testedOs = true;
+
             switch(hostType.type) {
                 case PluginHostType::Reaper:
                     testedHost = true;

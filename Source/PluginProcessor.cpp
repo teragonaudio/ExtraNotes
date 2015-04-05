@@ -118,6 +118,8 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
             break;
         case SystemStats::OperatingSystemType::Windows7:
             supportedOs = true;
+            testedOs = false;
+
             switch(hostType.type) {
                 case PluginHostType::HostType::AbletonLive6:
                 case PluginHostType::HostType::AbletonLive7:

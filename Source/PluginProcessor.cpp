@@ -102,6 +102,9 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
                 case PluginHostType::HostType::Reaper:
                     knownProblemHost = true;
                     break;
+                case PluginHostType::StudioOne:
+                    testedHost = true;
+                    break;
                 default:
                     testedHost = false;
                     break;
@@ -134,6 +137,9 @@ const String ExtraNotesAudioProcessor::getDefaultText() {
             testedOs = false;
             switch(hostType.type) {
                 case PluginHostType::Reaper:
+                    testedHost = true;
+                    break;
+                case PluginHostType::StudioOne:
                     testedHost = true;
                     break;
                 default:
